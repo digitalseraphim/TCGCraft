@@ -32,17 +32,44 @@ public class TESRCardTable extends TileEntitySpecialRenderer {
 		bindTexture(new ResourceLocation("tcgc:textures/blocks/anim_strip.png"));
 //		RenderUtils.setGLColorFromInt(color);
 
-		GL11.glTranslatef((float) x + 0.125F, (float) y + 0.5F, (float) z + 0.125F);
+		//GL11.glTranslatef((float) x + 0.125F, (float) y + 0.5F, (float) z + 0.125F);
 //		GL11.glScalef(0.75F, 0.999F, 0.75F);
 		GL11.glTranslatef(0, -0.5F, 0);
 
 		Tessellator tess = Tessellator.instance;
-		
+		tess.setColorOpaque(255, 255, 255);
 		tess.startDrawingQuads();
+
+		tess.addVertexWithUV(0,1,0, 0,1);
+		tess.addVertexWithUV(1,1,0, 1,1);
+		tess.addVertexWithUV(1,0,0, 0,1);
+		tess.addVertexWithUV(0,0,0, 0,0);
 		
-		tess.addVertexWithUV(par1, par3, par5, par7, par9)
-		
-		
+		tess.addVertexWithUV(1,1,0, 0,1);
+		tess.addVertexWithUV(1,1,1, 1,1);
+		tess.addVertexWithUV(1,0,1, 0,1);
+		tess.addVertexWithUV(1,0,0, 0,0);
+
+		tess.addVertexWithUV(1,1,1, 0,1);
+		tess.addVertexWithUV(0,1,1, 1,1);
+		tess.addVertexWithUV(0,0,1, 0,1);
+		tess.addVertexWithUV(1,0,1, 0,0);
+
+		tess.addVertexWithUV(0,1,1, 0,1);
+		tess.addVertexWithUV(0,1,0, 1,1);
+		tess.addVertexWithUV(0,0,0, 0,1);
+		tess.addVertexWithUV(0,0,1, 0,0);
+
+		tess.addVertexWithUV(0,1,1, 0,1);
+		tess.addVertexWithUV(1,1,1, 1,1);
+		tess.addVertexWithUV(1,1,0, 0,1);
+		tess.addVertexWithUV(0,1,0, 0,0);
+
+		tess.addVertexWithUV(0,0,0, 0,1);
+		tess.addVertexWithUV(1,0,0, 1,1);
+		tess.addVertexWithUV(1,0,1, 0,1);
+		tess.addVertexWithUV(0,0,1, 0,0);
+
 		tess.draw();
 
 		GL11.glPopAttrib();
