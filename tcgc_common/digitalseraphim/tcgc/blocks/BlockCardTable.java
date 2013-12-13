@@ -13,6 +13,7 @@ import digitalseraphim.tcgc.tile.TECardTable;
 
 public class BlockCardTable extends BlockContainer {
 	Icon sideIcon;
+	Icon animIcon;
 	
 	public BlockCardTable(int id) {
 		super(id, Material.rock);
@@ -28,7 +29,8 @@ public class BlockCardTable extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		sideIcon = iconRegister.registerIcon("tcgc:anim_strip");
+		sideIcon = iconRegister.registerIcon("tcgc:cardtable_block");
+		animIcon = iconRegister.registerIcon("tcgc:anim_strip");
 	}
 
 	@Override
