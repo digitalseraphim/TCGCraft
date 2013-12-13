@@ -37,5 +37,4 @@ public class TCGCraft {
 		proxy.initItems();
 	}
 	
-	
 }
