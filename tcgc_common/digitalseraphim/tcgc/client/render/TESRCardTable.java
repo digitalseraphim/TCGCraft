@@ -27,26 +27,24 @@ public class TESRCardTable extends TileEntitySpecialRenderer {
 		GL11.glPushAttrib(GL11.GL_ENABLE_BIT);
 		GL11.glEnable(GL11.GL_CULL_FACE);
 		GL11.glDisable(GL11.GL_LIGHTING);
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
 
-		bindTexture(new ResourceLocation("tcgc:textures/blocks/anim_strip.png"));
-//		RenderUtils.setGLColorFromInt(color);
+		//bindTexture(new ResourceLocation("tcgc:textures/blocks/anim_strip.png"));
+		bindTexture(new ResourceLocation("minecraft:textures/blocks/water_flow.png"));
 
 		GL11.glTranslatef((float) x , (float) y + 0.5F, (float) z );
 		GL11.glScalef(0.99F, 0.99F, 0.99F);
 		GL11.glTranslatef(0, -0.5F, 0);
 
 		Tessellator tess = Tessellator.instance;
-		tess.setColorOpaque_I(0xffffff);// par1Block.getBlockColor()
 		
-		tess.setBrightness(Block.obsidian.getMixedBrightnessForBlock(te.worldObj, (int) x,
+		tess.setBrightness(Block.grass.getMixedBrightnessForBlock(te.worldObj, (int) x,
 				(int) y, (int) z));
+		tess.setColorOpaque_I(0xffffff);
 		
 		tess.startDrawingQuads();
 
-		tess.addVertexWithUV(0,1,0, 0,.0625);
-		tess.addVertexWithUV(1,1,0, 1,.0625);
+		tess.addVertexWithUV(0,1,0, 0,1);
+		tess.addVertexWithUV(1,1,0, 1,1);
 		tess.addVertexWithUV(1,0,0, 1,0);
 		tess.addVertexWithUV(0,0,0, 0,0);
 		

@@ -37,4 +37,14 @@ public class BlockCardTable extends BlockContainer {
 	public TileEntity createNewTileEntity(World world) {
 		return new TECardTable();
 	}
+	
+	@Override
+	public boolean renderAsNormalBlock() {
+		return false;
+	}
+	
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
 }
