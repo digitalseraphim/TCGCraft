@@ -6,7 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
 public class ItemCard extends ItemMap {
-
+	//can potentially represent a number of cards
+	
+	
 	public ItemCard(int id) {
 		super(id);
 	}
@@ -34,6 +36,11 @@ public class ItemCard extends ItemMap {
 		System.out.println("ItemCard.onItemUse()");
 		return super.onItemUse(par1ItemStack, par2EntityPlayer, par3World, par4, par5,
 				par6, par7, par8, par9, par10);
+	}
+	
+	@Override
+	public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
+		return super.onDroppedByPlayer(item, player);
 	}
 	
 }
