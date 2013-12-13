@@ -1,5 +1,6 @@
 package digitalseraphim.tcgc.client.render;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
@@ -32,12 +33,16 @@ public class TESRCardTable extends TileEntitySpecialRenderer {
 		bindTexture(new ResourceLocation("tcgc:textures/blocks/anim_strip.png"));
 //		RenderUtils.setGLColorFromInt(color);
 
-		//GL11.glTranslatef((float) x + 0.125F, (float) y + 0.5F, (float) z + 0.125F);
-//		GL11.glScalef(0.75F, 0.999F, 0.75F);
+		GL11.glTranslatef((float) x , (float) y + 0.5F, (float) z );
+		GL11.glScalef(0.99F, 0.99F, 0.99F);
 		GL11.glTranslatef(0, -0.5F, 0);
 
 		Tessellator tess = Tessellator.instance;
-		tess.setColorOpaque(255, 255, 255);
+		tess.setColorOpaque_I(0xffffff);// par1Block.getBlockColor()
+		
+		tess.setBrightness(Block.obsidian.getMixedBrightnessForBlock(te.worldObj, (int) x,
+				(int) y, (int) z));
+		
 		tess.startDrawingQuads();
 
 		tess.addVertexWithUV(0,1,0, 0,1);

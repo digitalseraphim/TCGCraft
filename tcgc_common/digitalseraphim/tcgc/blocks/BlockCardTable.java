@@ -28,7 +28,7 @@ public class BlockCardTable extends BlockContainer {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		sideIcon = iconRegister.registerIcon("tcgc:cardtable_block");
+		sideIcon = iconRegister.registerIcon("tcgc:anim_strip");
 	}
 
 	@Override
