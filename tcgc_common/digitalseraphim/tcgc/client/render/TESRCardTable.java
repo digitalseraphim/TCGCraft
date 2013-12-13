@@ -45,34 +45,34 @@ public class TESRCardTable extends TileEntitySpecialRenderer {
 		
 		tess.startDrawingQuads();
 
-		tess.addVertexWithUV(0,1,0, 0,1);
-		tess.addVertexWithUV(1,1,0, 1,1);
-		tess.addVertexWithUV(1,0,0, 0,1);
+		tess.addVertexWithUV(0,1,0, 0,.0625);
+		tess.addVertexWithUV(1,1,0, 1,.0625);
+		tess.addVertexWithUV(1,0,0, 1,0);
 		tess.addVertexWithUV(0,0,0, 0,0);
 		
-		tess.addVertexWithUV(1,1,0, 0,1);
-		tess.addVertexWithUV(1,1,1, 1,1);
-		tess.addVertexWithUV(1,0,1, 0,1);
+		tess.addVertexWithUV(1,1,0, 0,.0625);
+		tess.addVertexWithUV(1,1,1, 1,.0625);
+		tess.addVertexWithUV(1,0,1, 1,0);
 		tess.addVertexWithUV(1,0,0, 0,0);
 
-		tess.addVertexWithUV(1,1,1, 0,1);
-		tess.addVertexWithUV(0,1,1, 1,1);
-		tess.addVertexWithUV(0,0,1, 0,1);
+		tess.addVertexWithUV(1,1,1, 0,.0625);
+		tess.addVertexWithUV(0,1,1, 1,.0625);
+		tess.addVertexWithUV(0,0,1, 1,0);
 		tess.addVertexWithUV(1,0,1, 0,0);
 
-		tess.addVertexWithUV(0,1,1, 0,1);
-		tess.addVertexWithUV(0,1,0, 1,1);
-		tess.addVertexWithUV(0,0,0, 0,1);
+		tess.addVertexWithUV(0,1,1, 0,.0625);
+		tess.addVertexWithUV(0,1,0, 1,.0625);
+		tess.addVertexWithUV(0,0,0, 1,0);
 		tess.addVertexWithUV(0,0,1, 0,0);
 
-		tess.addVertexWithUV(0,1,1, 0,1);
-		tess.addVertexWithUV(1,1,1, 1,1);
-		tess.addVertexWithUV(1,1,0, 0,1);
+		tess.addVertexWithUV(0,1,1, 0,.0625);
+		tess.addVertexWithUV(1,1,1, 1,.0625);
+		tess.addVertexWithUV(1,1,0, 1,0);
 		tess.addVertexWithUV(0,1,0, 0,0);
 
-		tess.addVertexWithUV(0,0,0, 0,1);
-		tess.addVertexWithUV(1,0,0, 1,1);
-		tess.addVertexWithUV(1,0,1, 0,1);
+		tess.addVertexWithUV(0,0,0, 0,.0625);
+		tess.addVertexWithUV(1,0,0, 1,.0625);
+		tess.addVertexWithUV(1,0,1, 1,0);
 		tess.addVertexWithUV(0,0,1, 0,0);
 
 		tess.draw();
