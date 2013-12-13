@@ -16,12 +16,12 @@ import digitalseraphim.tcgc.creativetab.CreativeTabTCGC;
 public class TCGCraft {
 
 	@Instance(Strings.MOD_ID)
-	TCGCraft instance;
+	public static TCGCraft instance;
 	
 	@SidedProxy(clientSide="digitalseraphim.tcgc.core.proxy.ClientProxy", serverSide="digitalseraphim.tcgc.core.proxy.ClientProxy")
-	CommonProxy proxy;
+	public static CommonProxy proxy;
 	
-	public static CreativeTabs tabsHC = new CreativeTabTCGC();
+	public static CreativeTabs tabsTCGC = new CreativeTabTCGC();
 	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event){

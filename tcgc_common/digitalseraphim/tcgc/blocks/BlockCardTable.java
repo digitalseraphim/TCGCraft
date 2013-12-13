@@ -2,6 +2,7 @@ package digitalseraphim.tcgc.blocks;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import digitalseraphim.tcgc.TCGCraft;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IconRegister;
@@ -12,6 +13,7 @@ public class BlockCardTable extends Block {
 	
 	public BlockCardTable(int id) {
 		super(id, Material.rock);
+		setCreativeTab(TCGCraft.tabsTCGC);
 	}
 	
 	
@@ -25,6 +27,6 @@ public class BlockCardTable extends Block {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		sideIcon = iconRegister.registerIcon("tcgc:cardtable_block.png");
+		sideIcon = iconRegister.registerIcon("tcgc:cardtable_block");
 	}
 }
