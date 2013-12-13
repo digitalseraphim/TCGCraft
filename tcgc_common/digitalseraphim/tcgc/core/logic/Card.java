@@ -1,11 +1,13 @@
 package digitalseraphim.tcgc.core.logic;
 
+import java.util.Collections;
 import java.util.HashMap;
-
-import net.minecraft.nbt.NBTTagCompound;
+import java.util.Map;
+import java.util.Random;
 
 public class Card {
-	public final static HashMap<String,Card> manaCards = new HashMap<>();
+	private final static HashMap<String,Card> manaCards = new HashMap<>();
+	private final static HashMap<String,Card> allCards = new HashMap<>();
 	
 	static{
 		//                                      E F A W O N
@@ -24,20 +26,26 @@ public class Card {
 		new Card("Cloud",            Type.MANA, 0,0,1,1,0,0);
 	}
 	
-	String name;
-	Type type;
+	private final String name;
+	private final Type type;
 	
 	//for mana cards this is how much mana is provided by the card
-	final int cost[] = new int[6];
+	private final int earthCost;
+	private final int fireCost;
+	private final int airCost;
+	private final int waterCost;
+	private final int orderCost;
+	private final int entropyCost;
 	
 	public Card(String name, Type t, int earthCost, int fireCost, int airCost, int waterCost, int orderCost, int entropyCost) {
+		this.name = name;
 		this.type = t;
-		cost[0] = earthCost;
-		cost[1] = fireCost;
-		cost[2] = airCost;
-		cost[3] = waterCost;
-		cost[4] = orderCost;
-		cost[5] = entropyCost;
+		this.earthCost = earthCost;
+		this.fireCost = fireCost;
+		this.airCost = airCost;
+		this.waterCost = waterCost;
+		this.orderCost = orderCost;
+		this.entropyCost = entropyCost;
 		
 		switch(type){
 		case CARD_MODIFIER:
@@ -53,9 +61,61 @@ public class Card {
 			break;
 		default:
 			break;
-		
 		}
 		
+		allCards.put(name, this);
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
+	public static Map<String, Card> getAllCards() {
+		return Collections.unmodifiableMap(allCards);
+	}
+
+	public static Card getRandomCard(Random r){
+		return allCards.values().toArray(new Card[0])[r.nextInt(allCards.size())]; 
+	}
+
+	public static Map<String, Card> getManaCards() {
+		return Collections.unmodifiableMap(manaCards);
+	}
+	
+	public static Card getRandomManaCard(Random r){
+		return manaCards.values().toArray(new Card[0])[r.nextInt(manaCards.size())]; 
+	}
+	
+	public Type getType() {
+		return type;
+	}
+
+	public int getEarthCost() {
+		return earthCost;
+	}
+
+	public int getFireCost() {
+		return fireCost;
+	}
+
+	public int getAirCost() {
+		return airCost;
+	}
+
+	public int getWaterCost() {
+		return waterCost;
+	}
+
+	public int getOrderCost() {
+		return orderCost;
+	}
+
+	public int getEntropyCost() {
+		return entropyCost;
+	}
+
+	public Card fromName(String n){
+		return allCards.get(n);
 	}
 	
 	public static enum Type {
@@ -67,10 +127,5 @@ public class Card {
 		EARTH, FIRE, AIR, WATER, ORDER, ENTROPY
 	}
 	
-	public void toNBT(NBTTagCompound tagCompound){
-		NBTTagCompound card = new NBTTagCompound("card");
-		card.setString("cardName", name);
-		
-	}
 	
 }
