@@ -1,5 +1,6 @@
 package digitalseraphim.tcgc.client.render;
 
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
@@ -35,7 +36,14 @@ public class TESRCardTable extends TileEntitySpecialRenderer {
 //		GL11.glScalef(0.75F, 0.999F, 0.75F);
 		GL11.glTranslatef(0, -0.5F, 0);
 
-		Render.renderAABB(AxisAlignedBB.getAABBPool().getAABB(0,0,0,1,1,1));
+		Tessellator tess = Tessellator.instance;
+		
+		tess.startDrawingQuads();
+		
+		tess.addVertexWithUV(par1, par3, par5, par7, par9)
+		
+		
+		tess.draw();
 
 		GL11.glPopAttrib();
 		GL11.glPopMatrix();
