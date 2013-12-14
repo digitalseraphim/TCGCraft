@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import net.minecraft.item.EnumRarity;
+
 public class Card {
 	private final static HashMap<String, Card> allCards = new HashMap<>();
 	private final static HashMap<String, Card> manaCards = new HashMap<>();
@@ -14,20 +16,19 @@ public class Card {
 	private final static HashMap<String, Card> summonCards = new HashMap<>();
 
 	static {
-		// E F A W O N
-		new Card(Mana.EARTH.name(), Type.MANA, 1, 0, 0, 0, 0, 0);
-		new Card(Mana.FIRE.name(), Type.MANA, 0, 1, 0, 0, 0, 0);
-		new Card(Mana.AIR.name(), Type.MANA, 0, 0, 1, 0, 0, 0);
-		new Card(Mana.WATER.name(), Type.MANA, 0, 0, 0, 1, 0, 0);
-		new Card(Mana.ORDER.name(), Type.MANA, 0, 0, 0, 0, 1, 0);
-		new Card(Mana.ENTROPY.name(), Type.MANA, 0, 0, 0, 0, 0, 1);
+		new Card(Mana.EARTH.name(), Type.MANA, 1, 0, 0, 0, 0, 0, EnumRarity.common);
+		new Card(Mana.FIRE.name(), Type.MANA, 0, 1, 0, 0, 0, 0, EnumRarity.common);
+		new Card(Mana.AIR.name(), Type.MANA, 0, 0, 1, 0, 0, 0, EnumRarity.common);
+		new Card(Mana.WATER.name(), Type.MANA, 0, 0, 0, 1, 0, 0, EnumRarity.common);
+		new Card(Mana.ORDER.name(), Type.MANA, 0, 0, 0, 0, 1, 0, EnumRarity.common);
+		new Card(Mana.ENTROPY.name(), Type.MANA, 0, 0, 0, 0, 0, 1, EnumRarity.common);
 
-		new Card("Volcano", Type.MANA, 1, 1, 0, 0, 0, 0);
-		new Card("Flying Island", Type.MANA, 1, 0, 1, 0, 0, 0);
-		new Card("Island", Type.MANA, 1, 0, 0, 1, 0, 0);
-		new Card("Fire Vortex", Type.MANA, 0, 1, 1, 0, 0, 0);
-		new Card("Newborn Island", Type.MANA, 0, 1, 0, 1, 0, 0);
-		new Card("Cloud", Type.MANA, 0, 0, 1, 1, 0, 0);
+		new Card("Volcano", Type.MANA, 1, 1, 0, 0, 0, 0, EnumRarity.rare);
+		new Card("Flying Island", Type.MANA, 1, 0, 1, 0, 0, 0, EnumRarity.rare);
+		new Card("Island", Type.MANA, 1, 0, 0, 1, 0, 0, EnumRarity.rare);
+		new Card("Fire Vortex", Type.MANA, 0, 1, 1, 0, 0, 0, EnumRarity.rare);
+		new Card("Newborn Island", Type.MANA, 0, 1, 0, 1, 0, 0, EnumRarity.rare);
+		new Card("Cloud", Type.MANA, 0, 0, 1, 1, 0, 0, EnumRarity.rare);
 
 		new Card("FireBolt", Type.SPELL, 0, 1, 0, 0, 0, 0);
 		new Card("FireBall", Type.SPELL, 0, 3, 0, 0, 0, 0);
@@ -38,7 +39,6 @@ public class Card {
 		new Card("Haste", Type.SELF_MODIFIER, 0, 0, 3, 1, 0, 0);
 
 		new Card("Haste", Type.CARD_MODIFIER, 0, 0, 3, 1, 0, 0);
-		new Card("Haste", Type.CARD_MODIFIER, 0, 0, 3, 1, 0, 0);
 
 		new Card("SnowGolem", Type.SUMMON, 0, 0, 2, 2, 2, 0);
 		new Card("IronGolem", Type.SUMMON, 2, 2, 0, 0, 2, 0);
@@ -46,28 +46,17 @@ public class Card {
 
 	private final String name;
 	private final Type type;
+	private final EnumRarity rarity;
 
 	// for mana cards this is how much mana is provided by the card
-//	private final int earthCost;
-//	private final int fireCost;
-//	private final int airCost;
-//	private final int waterCost;
-//	private final int orderCost;
-//	private final int entropyCost;
-
 	private final int[] cost;
-	
+
 	public Card(String name, Type t, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
-			int entropyCost) {
+			int entropyCost, EnumRarity rarity) {
 		this.name = name;
 		this.type = t;
-		cost = new int[]{earthCost, fireCost, airCost, waterCost, orderCost, entropyCost};
-//		this.earthCost = earthCost;
-//		this.fireCost = fireCost;
-//		this.airCost = airCost;
-//		this.waterCost = waterCost;
-//		this.orderCost = orderCost;
-//		this.entropyCost = entropyCost;
+		this.rarity = rarity;
+		cost = new int[] { earthCost, fireCost, airCost, waterCost, orderCost, entropyCost };
 
 		switch (type) {
 		case CARD_MODIFIER:
@@ -177,14 +166,14 @@ public class Card {
 		return cost[Mana.ENTROPY.ordinal()];
 	}
 
-	public int getTotalCost(){
+	public int getTotalCost() {
 		int tot = 0;
-		for(int i: cost){
+		for (int i : cost) {
 			tot += i;
 		}
 		return tot;
 	}
-	
+
 	public Card fromName(String n) {
 		return allCards.get(n);
 	}
@@ -193,23 +182,34 @@ public class Card {
 		MANA("Mana"), SPELL("Spell"), SELF_MODIFIER("Self Mod"), CARD_MODIFIER("Card Mod"), SUMMON("Summon");
 
 		private String name;
-		private Type(String name){
+
+		private Type(String name) {
 			this.name = name;
 		}
-		
+
 		public String getName() {
 			return name;
 		}
-		
+
 	}
 
 	// yes, planning for future Thaumcraft integration
 	public static enum Mana {
-		EARTH, FIRE, AIR, WATER, ORDER, ENTROPY
+		EARTH("Earth"), FIRE("Fire"), AIR("Air"), WATER("Water"), ORDER("Order"), ENTROPY("Entropy");
+
+		private String name;
+
+		private Mana(String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
 	}
 
 	public void addCost(int[] totalMana) {
-		for(int i = 0; i < cost.length; i++){
+		for (int i = 0; i < cost.length; i++) {
 			totalMana[i] += cost[i];
 		}
 	}

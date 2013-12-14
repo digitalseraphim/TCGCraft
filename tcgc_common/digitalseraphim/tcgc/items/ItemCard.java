@@ -109,6 +109,7 @@ public class ItemCard extends ItemMap {
 							card.setLocked(true);
 						} else {
 							card.setActivated(true);
+							card.setLocked(true);
 						}
 					}
 					itemStack = ItemCard.createItemStack(TCGCraft.proxy.cardItem, cards);
@@ -149,6 +150,11 @@ public class ItemCard extends ItemMap {
 		} else {
 			Vector<CardInstance> cards = new Vector<>(Arrays.asList(cardsFromItemStack(item)));
 			int sel = getSelectedCardIndex(item);
+			CardInstance selCard = getSelectedCard(item);
+			if(selCard.isLocked()){
+				return false;
+			}
+			
 			CardInstance drop = cards.remove(sel);
 			boolean collapsed = getCollapsed(item);
 
@@ -203,7 +209,8 @@ public class ItemCard extends ItemMap {
 					c.isActivated() ? " (Active)" : (c.isUsed() ? (c.isLocked() ? " (Used&Locked)" : "(Used)") : ""),
 					count - 1);
 		}
-		return String.format("%s:%s", c.getBaseCard().getName(), c.getBaseCard().getType().getName());
+		return String.format("%s:%s%s", c.getBaseCard().getName(), c.getBaseCard().getType().getName(),
+				c.isActivated() ? " (Active)" : (c.isUsed() ? (c.isLocked() ? " (Used&Locked)" : "(Used)") : ""));
 	}
 
 	public static CardInstance getCard(ItemStack is, int i) {
