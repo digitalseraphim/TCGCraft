@@ -79,7 +79,6 @@ public class IIRCard implements IItemRenderer {
 
 	}
 
-	float partialTicks = 0;
 
 	public void renderFirstPerson(TextureManager texMan, ItemStack item) {
 		CardInstance[] cards = ItemCard.cardsFromItemStack(item);
@@ -214,9 +213,31 @@ public class IIRCard implements IItemRenderer {
 			}
 		}
 
-
-		
 		Minecraft.getMinecraft().fontRenderer.drawString(card.getBaseCard().getName(), 0, 0, 0);
+
+		if(card.isUsed()){
+			zz = -0.02f;
+			
+			tess.startDrawingQuads();
+			tess.setColorRGBA_I(0x0, 128);
+			tess.addVertex((double) (0 - b0), (double) (128 + b0), zz);
+			tess.addVertex((double) (128 + b0), (double) (128 + b0), zz);
+			tess.addVertex((double) (128 + b0), (double) (0 - b0),zz);
+			tess.addVertex((double) (0 - b0), (double) (0 - b0), zz);
+			tess.draw();
+		}
+		
+		if(card.isActivated()){
+			texMan.bindTexture(new ResourceLocation("minecraft:textures/misc/enchanted_item_glint.png"));
+			tess.startDrawingQuads();
+			tess.setColorOpaque_I(0xffffff);
+			tess.addVertexWithUV((double) (0 - b0), (double) (128 + b0), 0.0D, 0.0D, 1.0D);
+			tess.addVertexWithUV((double) (128 + b0), (double) (128 + b0), 0.0D, 1.0D, 1.0D);
+			tess.addVertexWithUV((double) (128 + b0), (double) (0 - b0), 0.0D, 1.0D, 0.0D);
+			tess.addVertexWithUV((double) (0 - b0), (double) (0 - b0), 0.0D, 0.0D, 0.0D);
+			tess.draw();
+		}
+		
 		GL11.glPopMatrix();
 	}
 
