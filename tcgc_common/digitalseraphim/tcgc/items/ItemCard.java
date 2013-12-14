@@ -61,4 +61,16 @@ public class ItemCard extends ItemMap {
 		return is;
 	}
 
+	public static Card[] cardsFromItemStack(ItemStack is){
+		NBTTagCompound tagCompound = is.getTagCompound();
+		int count = tagCompound.getInteger("count");
+		Card[] cards = new Card[count];
+		
+		for(int i = 0; i < count; i++){
+			cards[i] = Card.getAllCards().get(tagCompound.getString("card"+i));
+		}
+		
+		return cards;
+	}
+	
 }
