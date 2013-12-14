@@ -65,10 +65,11 @@ public class IIRCard implements IItemRenderer {
 
 	public void renderFirstPerson(TextureManager texMan, ItemStack item) {
 		Card[] cards = ItemCard.cardsFromItemStack(item);
-		
+		int sel = item.getTagCompound().getInteger("selected");
+		System.out.println("sel = " + sel);
 		for(int i = 0; i < cards.length; i++ ){
 			GL11.glPushMatrix();
-			GL11.glTranslatef(-10*cards.length + (i*20) , 0, 0);
+			GL11.glTranslatef(-5f*cards.length + (i*10f) , (i==sel)?-20f:0f, -.05f*Math.abs(i-sel));
 			renderCardFront(texMan);
 			GL11.glPopMatrix();
 		}
