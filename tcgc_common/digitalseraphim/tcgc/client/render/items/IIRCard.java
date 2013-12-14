@@ -1,15 +1,15 @@
 package digitalseraphim.tcgc.client.render.items;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
+
+import org.lwjgl.opengl.GL11;
+
 import digitalseraphim.tcgc.core.logic.Card;
 import digitalseraphim.tcgc.items.ItemCard;
 
@@ -41,8 +41,11 @@ public class IIRCard implements IItemRenderer {
 		case ENTITY: {
 			RenderBlocks render = (RenderBlocks) data[0];
 			// EntityItem entity = (EntityItem) data[1];
-
-			renderCardBack(render);
+			GL11.glPushMatrix();
+			GL11.glScalef(1.f/128.f, -1.f/128.f, -1.f);
+			GL11.glTranslatef(-64f, 0f, 0f);
+			renderCardFront(render.minecraftRB.getTextureManager(), item, ItemCard.getSelectedCardIndex(item));
+			GL11.glPopMatrix();
 		}
 			break;
 		case EQUIPPED: {
@@ -56,14 +59,13 @@ public class IIRCard implements IItemRenderer {
 			renderFirstPerson(texMan, item);
 			break;
 		}
-		case EQUIPPED_FIRST_PERSON: {
-
-		}
+		case EQUIPPED_FIRST_PERSON:
+			//this shouldn't happen
 			break;
 		case INVENTORY: {
 			RenderBlocks render = (RenderBlocks) data[0];
 			GL11.glPushMatrix();
-			GL11.glScalef(1.f/8.f, 1.f/8.f, 1.f/8.f);
+			GL11.glScalef(1.f/8.f, 1.f/8.f, -1.f);
 			renderCardFront(render.minecraftRB.getTextureManager(), item, ItemCard.getSelectedCardIndex(item));
 			GL11.glPopMatrix();
 		}
@@ -79,12 +81,19 @@ public class IIRCard implements IItemRenderer {
 
 	public void renderFirstPerson(TextureManager texMan, ItemStack item) {
 		Card[] cards = ItemCard.cardsFromItemStack(item);
-		int sel = item.getTagCompound().getInteger("selected");
-		for (int i = 0; i < cards.length; i++) {
+		int sel = ItemCard.getSelectedCardIndex(item);
+		boolean collapsed = item.getTagCompound().getBoolean("collapsed");
+		if(collapsed){
 			GL11.glPushMatrix();
-			GL11.glTranslatef(-5f * cards.length + (i * 10f), (i == sel) ? -20f : 0f, -1 + .05f * Math.abs(i - sel) + ((i>sel)?.025f:0));
-			renderCardFront(texMan, item, i);
+			renderCardFront(texMan, item, sel);
 			GL11.glPopMatrix();
+		}else{
+			for (int i = 0; i < cards.length; i++) {
+				GL11.glPushMatrix();
+				GL11.glTranslatef(-5f * cards.length + (i * 10f), (i == sel) ? -20f : 0f, -1 + .05f * Math.abs(i - sel) + ((i>sel)?.025f:0));
+				renderCardFront(texMan, item, i);
+				GL11.glPopMatrix();
+			}	
 		}
 	}
 
