@@ -11,6 +11,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import digitalseraphim.tcgc.TCGCraft;
 import digitalseraphim.tcgc.core.logic.Card;
+import digitalseraphim.tcgc.core.logic.Card.Mana;
+import digitalseraphim.tcgc.core.logic.Card.Type;
 
 public class ItemCard extends ItemMap {
 	//can potentially represent a number of cards
@@ -30,6 +32,43 @@ public class ItemCard extends ItemMap {
 		if(player.isSneaking()){
 			toggleCollapsed(itemStack);
 			return itemStack;
+		}else{
+			int sel = getSelectedCardIndex(itemStack);
+			Card[] cards = cardsFromItemStack(itemStack);
+			Card cardSel = cards[sel];
+			int toModIdx = -1;
+			Card toMod = null;
+			Type t = cardSel.getType();
+			int[] totalMana = new int[]{0,0,0,0,0,0};
+			int[] castCost = cardSel.getCost();
+			
+			if(t == Type.MANA){
+				return super.onItemRightClick(itemStack, world, player);
+			}
+			
+			if(t == Type.CARD_MODIFIER){
+				//look for card to modify
+				
+			}
+			
+			for(int i = 0; i < cards.length; i++){
+				if(i != sel && i != toModIdx && cards[i].getType() != Type.MANA){
+					return super.onItemRightClick(itemStack, world, player);
+				}
+				cards[i].addCost(totalMana);
+			}
+			
+			//check if enough to cast
+			boolean canCast = true;
+			for(int i=0; i < castCost.length; i++){
+				if(totalMana[i] < castCost[i]){
+					canCast = false;
+					break;
+				}
+			}
+			
+			
+			
 		}
 		
 		return super.onItemRightClick(itemStack, world, player);

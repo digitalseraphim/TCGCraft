@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.IFMLLoadingPlugin.Name;
-
 public class Card {
 	private final static HashMap<String, Card> allCards = new HashMap<>();
 	private final static HashMap<String, Card> manaCards = new HashMap<>();
@@ -50,23 +48,26 @@ public class Card {
 	private final Type type;
 
 	// for mana cards this is how much mana is provided by the card
-	private final int earthCost;
-	private final int fireCost;
-	private final int airCost;
-	private final int waterCost;
-	private final int orderCost;
-	private final int entropyCost;
+//	private final int earthCost;
+//	private final int fireCost;
+//	private final int airCost;
+//	private final int waterCost;
+//	private final int orderCost;
+//	private final int entropyCost;
 
+	private final int[] cost;
+	
 	public Card(String name, Type t, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
 			int entropyCost) {
 		this.name = name;
 		this.type = t;
-		this.earthCost = earthCost;
-		this.fireCost = fireCost;
-		this.airCost = airCost;
-		this.waterCost = waterCost;
-		this.orderCost = orderCost;
-		this.entropyCost = entropyCost;
+		cost = new int[]{earthCost, fireCost, airCost, waterCost, orderCost, entropyCost};
+//		this.earthCost = earthCost;
+//		this.fireCost = fireCost;
+//		this.airCost = airCost;
+//		this.waterCost = waterCost;
+//		this.orderCost = orderCost;
+//		this.entropyCost = entropyCost;
 
 		switch (type) {
 		case CARD_MODIFIER:
@@ -153,31 +154,35 @@ public class Card {
 	}
 
 	public int getEarthCost() {
-		return earthCost;
+		return cost[Mana.EARTH.ordinal()];
 	}
 
 	public int getFireCost() {
-		return fireCost;
+		return cost[Mana.FIRE.ordinal()];
 	}
 
 	public int getAirCost() {
-		return airCost;
+		return cost[Mana.AIR.ordinal()];
 	}
 
 	public int getWaterCost() {
-		return waterCost;
+		return cost[Mana.WATER.ordinal()];
 	}
 
 	public int getOrderCost() {
-		return orderCost;
+		return cost[Mana.ORDER.ordinal()];
 	}
 
 	public int getEntropyCost() {
-		return entropyCost;
+		return cost[Mana.ENTROPY.ordinal()];
 	}
 
 	public int getTotalCost(){
-		return earthCost + fireCost + airCost + waterCost + orderCost + entropyCost;
+		int tot = 0;
+		for(int i: cost){
+			tot += i;
+		}
+		return tot;
 	}
 	
 	public Card fromName(String n) {
@@ -203,4 +208,13 @@ public class Card {
 		EARTH, FIRE, AIR, WATER, ORDER, ENTROPY
 	}
 
+	public void addCost(int[] totalMana) {
+		for(int i = 0; i < cost.length; i++){
+			totalMana[i] += cost[i];
+		}
+	}
+
+	public int[] getCost() {
+		return cost;
+	}
 }
