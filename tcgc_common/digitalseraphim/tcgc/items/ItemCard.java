@@ -51,7 +51,7 @@ public class ItemCard extends ItemMap {
 		NBTTagCompound tagCompound = new NBTTagCompound("cards");
 		
 		tagCompound.setInteger("count", cards.length);
-		
+		tagCompound.setInteger("selected", 0);
 		for(int i = 0; i < cards.length; i++){
 			tagCompound.setString("card"+i, cards[i].getFullName());
 		}

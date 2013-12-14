@@ -63,7 +63,15 @@ public class ItemCardBooster extends Item {
 			cards[i] = Card.getRandomSummonCard(r);
 		}
 		
-		return ItemCard.createItemStack(cards);
+		itemStack.stackSize--;
+		
+		player.dropPlayerItem(ItemCard.createItemStack(cards));
+		
+		if(itemStack.stackSize > 0){
+			return itemStack;
+		}
+		
+		return null;
 	}
 	
 	@Override
