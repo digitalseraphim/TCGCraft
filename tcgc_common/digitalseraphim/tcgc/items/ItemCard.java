@@ -20,7 +20,6 @@ public class ItemCard extends ItemMap {
 	public static final String NBT_COUNT = "count";
 	public static final String NBT_CARD_BASE = "card";
 	
-	
 	public ItemCard(int id) {
 		super(id);
 	}
@@ -107,7 +106,7 @@ public class ItemCard extends ItemMap {
 	@Override
 	public String getItemDisplayName(ItemStack itemStack) {
 		Card c = getSelectedCard(itemStack);
-		return c.getFullName();
+		return String.format("%s:%s (%d others)", c.getName(), c.getType().name(), getCardCount(itemStack));
 	}
 
 	public static Card getCard(ItemStack is, int i){
