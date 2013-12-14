@@ -9,9 +9,11 @@ import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.event.ForgeSubscribe;
 
 public class MouseHandler {
-
+	public static int dwheel = 0;
+	
 	@ForgeSubscribe
 	public void mouseEvent(MouseEvent me){
+		dwheel = me.dwheel;
 		if(me.dwheel != 0){
 			EntityClientPlayerMP p = Minecraft.getMinecraft().thePlayer;
 			if(p.isSneaking()){
