@@ -21,6 +21,7 @@ public class ItemCard extends ItemMap {
 	public static final String NBT_COUNT = "count";
 	public static final String NBT_CARD_BASE = "card";
 	public static final String NBT_ACTIVATED_BASE = "activated";
+	public static final String NBT_USED_BASE = "used";
 	
 	public ItemCard(int id) {
 		super(id);
@@ -52,10 +53,15 @@ public class ItemCard extends ItemMap {
 			}
 			
 			for(int i = 0; i < cards.length; i++){
-				if(i != sel && i != toModIdx && cards[i].getType() != Type.MANA){
+				if(i == sel || i == toModIdx){
+					continue;
+				}
+				if(!getActivated(itemStack, i) && cards[i].getType() != Type.MANA){
 					return super.onItemRightClick(itemStack, world, player);
 				}
-				cards[i].addCost(totalMana);
+				if(cards[i].getType() == Type.MANA && !getUsed(itemStack, i)){
+					cards[i].addCost(totalMana);
+				}
 			}
 			
 			//check if enough to cast
@@ -69,10 +75,12 @@ public class ItemCard extends ItemMap {
 			
 			if(canCast){
 				for(int i = 0; i < cards.length; i++){
-					
+					if(cards[i].getType() == Type.MANA){
+						setUsed(itemStack, i, true);
+					}
+					setActivated(itemStack, i, true);
 				}
 			}
-			
 		}
 		
 		return super.onItemRightClick(itemStack, world, player);
@@ -214,6 +222,16 @@ public class ItemCard extends ItemMap {
 	public static boolean getActivated(ItemStack is, int idx){
 		NBTTagCompound tag = is.getTagCompound();
 		return tag.getBoolean(NBT_ACTIVATED_BASE + idx);
+	}
+	
+	public static void setUsed(ItemStack is, int idx, boolean used){
+		NBTTagCompound tag = is.getTagCompound();
+		tag.setBoolean(NBT_USED_BASE + idx, used);
+	}
+
+	public static boolean getUsed(ItemStack is, int idx){
+		NBTTagCompound tag = is.getTagCompound();
+		return tag.getBoolean(NBT_USED_BASE + idx);		
 	}
 	
 	public static void scrollSelected(ItemStack is, int amnt){
