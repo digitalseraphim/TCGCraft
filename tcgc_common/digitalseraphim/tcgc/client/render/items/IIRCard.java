@@ -50,7 +50,7 @@ public class IIRCard implements IItemRenderer {
 		case EQUIPPED_FIRST_PERSON: {
 			RenderBlocks render = (RenderBlocks) data[0];
 			EntityPlayer entity = (EntityPlayer) data[1];
-			System.out.println("IIRCard.renderItem() - EQUIPPED_FIRST_PERSON");
+			//System.out.println("IIRCard.renderItem() - EQUIPPED_FIRST_PERSON");
 			renderFirstPerson(entity, render);
 		}
 			break;
@@ -72,7 +72,7 @@ public class IIRCard implements IItemRenderer {
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 		GL11.glPushMatrix();
-		partialTicks=5;
+		partialTicks=0.1957066f;
 		float f12 = 0.8F;
 		float f1 = 0;
 		float f2 = player.prevRotationPitch;
@@ -140,7 +140,6 @@ public class IIRCard implements IItemRenderer {
 		GL11.glPopMatrix();
 		GL11.glPushMatrix();
 		GL11.glPushMatrix();
-
 	}
 
 	public void renderCardFront() {
