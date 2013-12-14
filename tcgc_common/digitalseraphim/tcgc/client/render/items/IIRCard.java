@@ -70,7 +70,7 @@ public class IIRCard implements IItemRenderer {
 		int sel = item.getTagCompound().getInteger("selected");
 		for (int i = 0; i < cards.length; i++) {
 			GL11.glPushMatrix();
-			GL11.glTranslatef(-5f * cards.length + (i * 10f), (i == sel) ? -20f : 0f, -1 + .05f * Math.abs(i - sel));
+			GL11.glTranslatef(-5f * cards.length + (i * 10f), (i == sel) ? -20f : 0f, -1 + .05f * Math.abs(i - sel) + ((i>sel)?.025f:0));
 			renderCardFront(texMan, item, i);
 			GL11.glPopMatrix();
 		}
