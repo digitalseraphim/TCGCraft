@@ -58,7 +58,6 @@ public class ItemCard extends ItemMap {
 	public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
 		System.out.println("ItemCard.onDroppedByPlayer()");
 		
-		
 		return super.onDroppedByPlayer(item, player);
 	}
 	
@@ -137,6 +136,29 @@ public class ItemCard extends ItemMap {
 		sel = sel % count;
 		
 		tag.setInteger(NBT_SELECTED, sel);
+	}
+	
+	public static ItemStack mergeItemStacks(ItemStack dest, ItemStack src){
+		if(dest == null){
+			if(src == null){
+				return null;
+			}
+			
+			return src;			
+		}
+		if(src == null){
+			return dest;
+		}
+		
+		Card[] dstArr = cardsFromItemStack(dest);
+		Card[] srcArr = cardsFromItemStack(src);
+		
+		Card[] newArray = new Card[dstArr.length + srcArr.length];
+		
+		System.arraycopy(dstArr, 0, newArray, 0, dstArr.length);
+		System.arraycopy(srcArr, 0, newArray, dstArr.length, srcArr.length);
+		
+		return createItemStack(newArray);
 	}
 	
 }
