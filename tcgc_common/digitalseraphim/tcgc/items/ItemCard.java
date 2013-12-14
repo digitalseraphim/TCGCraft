@@ -10,6 +10,11 @@ import digitalseraphim.tcgc.core.logic.Card;
 
 public class ItemCard extends ItemMap {
 	//can potentially represent a number of cards
+	public static final String NBT_SELECTED = "selected";
+	public static final String NBT_COLLAPSED = "collapsed";
+	public static final String NBT_COUNT = "count";
+	public static final String NBT_CARD_BASE = "card";
+	
 	
 	public ItemCard(int id) {
 		super(id);
@@ -59,6 +64,8 @@ public class ItemCard extends ItemMap {
 	@Override
 	public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
 		System.out.println("ItemCard.onDroppedByPlayer()");
+		
+		
 		return super.onDroppedByPlayer(item, player);
 	}
 	

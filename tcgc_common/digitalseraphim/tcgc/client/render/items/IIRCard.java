@@ -43,9 +43,11 @@ public class IIRCard implements IItemRenderer {
 			// EntityItem entity = (EntityItem) data[1];
 			GL11.glPushMatrix();
 			GL11.glScalef(1.f/128.f, -1.f/128.f, -1.f);
-			GL11.glTranslatef(-64f, 0f, 0f);
+			GL11.glTranslatef(-64f, -128f, 0f);
 			renderCardFront(render.minecraftRB.getTextureManager(), item, ItemCard.getSelectedCardIndex(item));
+			renderCardBack(render.minecraftRB.getTextureManager(), item, ItemCard.getSelectedCardIndex(item));
 			GL11.glPopMatrix();
+
 		}
 			break;
 		case EQUIPPED: {
@@ -97,11 +99,25 @@ public class IIRCard implements IItemRenderer {
 		}
 	}
 
+	public void renderCardBack(TextureManager texMan, ItemStack item, int i) {
+		texMan.bindTexture(new ResourceLocation("tcgc:textures/items/card_back.png"));
+		Tessellator tess = Tessellator.instance;
+		byte b0 = 7;
+		
+		tess.startDrawingQuads();
+		tess.setColorOpaque_I(0xffffff);
+		tess.addVertexWithUV((double) (0 - b0), (double) (0 - b0), 0.0D, 0.0D, 0.0D);
+		tess.addVertexWithUV((double) (128 + b0), (double) (0 - b0), 0.0D, 1.0D, 0.0D);
+		tess.addVertexWithUV((double) (128 + b0), (double) (128 + b0), 0.0D, 1.0D, 1.0D);
+		tess.addVertexWithUV((double) (0 - b0), (double) (128 + b0), 0.0D, 0.0D, 1.0D);
+		tess.draw();
+	}
+	
+	
 	public void renderCardFront(TextureManager texMan, ItemStack item, int i) {
 		texMan.bindTexture(new ResourceLocation("tcgc:textures/items/card_front_base.png"));
 		Tessellator tess = Tessellator.instance;
 		Card c = ItemCard.getCard(item, i);
-		float x = 1.F / 32.F;
 		byte b0 = 7;
 		
 		tess.startDrawingQuads();
