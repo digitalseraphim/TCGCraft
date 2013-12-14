@@ -13,6 +13,7 @@ public class IIRCard implements IItemRenderer {
 
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
+		System.out.println("IIRCard.handleRenderType() - " + item.getItem().itemID + " / " + item.getItem().getClass().getName() + " / "  + type.name());
 		return item.getItem() instanceof ItemCard;
 	}
 
