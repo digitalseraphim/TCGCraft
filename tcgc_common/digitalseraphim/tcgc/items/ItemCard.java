@@ -3,11 +3,13 @@ package digitalseraphim.tcgc.items;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
+import digitalseraphim.tcgc.TCGCraft;
+import digitalseraphim.tcgc.core.logic.Card;
 
 public class ItemCard extends ItemMap {
 	//can potentially represent a number of cards
-	
 	
 	public ItemCard(int id) {
 		super(id);
@@ -44,6 +46,19 @@ public class ItemCard extends ItemMap {
 		return super.onDroppedByPlayer(item, player);
 	}
 	
-	
+	public static ItemStack createItemStack(Card[] cards){
+		ItemStack is = new ItemStack(TCGCraft.proxy.cardItem);
+		NBTTagCompound tagCompound = new NBTTagCompound("cards");
+		
+		tagCompound.setInteger("count", cards.length);
+		
+		for(int i = 0; i < cards.length; i++){
+			tagCompound.setString("card"+i, cards[i].getFullName());
+		}
+		
+		is.setTagCompound(tagCompound);
+		
+		return is;
+	}
 	
 }

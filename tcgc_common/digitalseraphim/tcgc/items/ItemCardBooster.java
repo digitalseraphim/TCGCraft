@@ -2,13 +2,19 @@ package digitalseraphim.tcgc.items;
 
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
+
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemMap;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import digitalseraphim.tcgc.TCGCraft;
 import digitalseraphim.tcgc.core.logic.Card;
 
-public class ItemCardBooster extends ItemMap {
+public class ItemCardBooster extends Item {
 	private int numCards = 15;
 
 	private int manaProb = 10;
@@ -17,15 +23,15 @@ public class ItemCardBooster extends ItemMap {
 	private int cardModProb = 10;
 	private int summonProb = 10;
 	
-	
-	protected ItemCardBooster(int id) {
+	public ItemCardBooster(int id) {
 		super(id);
+		setCreativeTab(TCGCraft.tabsTCGC);
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World,
-			EntityPlayer par3EntityPlayer) {
-		if(par2World.isRemote){
+	public ItemStack onItemRightClick(ItemStack itemStack, World world,
+			EntityPlayer player) {
+		if(world.isRemote){
 			return null;
 		}
 
@@ -57,7 +63,7 @@ public class ItemCardBooster extends ItemMap {
 			cards[i] = Card.getRandomSummonCard(r);
 		}
 		
-		return null;
+		return ItemCard.createItemStack(cards);
 	}
 	
 	@Override
@@ -69,4 +75,16 @@ public class ItemCardBooster extends ItemMap {
 		return manaProb + spellProb + selfModProb + cardModProb + summonProb;
 	}
 	
+	Icon packIcon;
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	public void registerIcons(IconRegister iconRegister) {
+		packIcon = iconRegister.registerIcon("tcgc:card_pack"); 
+	}
+	
+	@Override
+	public Icon getIcon(ItemStack stack, int pass) {
+		return packIcon;
+	}
 }
