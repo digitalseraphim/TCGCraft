@@ -32,7 +32,8 @@ public class ItemCardBooster extends Item {
 	public ItemStack onItemRightClick(ItemStack itemStack, World world,
 			EntityPlayer player) {
 		if(world.isRemote){
-			return null;
+			itemStack.stackSize --;
+			return itemStack;
 		}
 
 		Card[] cards = new Card[numCards];
@@ -65,13 +66,9 @@ public class ItemCardBooster extends Item {
 		
 		itemStack.stackSize--;
 		
-		player.dropPlayerItem(ItemCard.createItemStack(cards));
+		player.dropPlayerItemWithRandomChoice(ItemCard.createItemStack(cards), true);
 		
-		if(itemStack.stackSize > 0){
-			return itemStack;
-		}
-		
-		return null;
+		return itemStack;
 	}
 	
 	@Override
