@@ -1,11 +1,9 @@
 package digitalseraphim.tcgc.client.render.items;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
@@ -16,7 +14,6 @@ import digitalseraphim.tcgc.core.logic.CardInstance;
 import digitalseraphim.tcgc.items.ItemCard;
 
 public class IIRCard implements IItemRenderer {
-    private static final ResourceLocation RES_ITEM_GLINT = new ResourceLocation("textures/misc/enchanted_item_glint.png");
 
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
@@ -218,8 +215,8 @@ public class IIRCard implements IItemRenderer {
 
 		Minecraft.getMinecraft().fontRenderer.drawString(card.getBaseCard().getName(), 0, 0, 0);
 
+		zz = -0.02f;
 		if(card.isUsed()){
-			zz = -0.02f;
 			
 			tess.startDrawingQuads();
 			tess.setColorRGBA_I(0x0, 128);
@@ -235,57 +232,21 @@ public class IIRCard implements IItemRenderer {
 			int t = (int)((tick/3)+1)%16;
 			int s = (int)((tick/3))%16;
 
-            GL11.glDepthFunc(GL11.GL_EQUAL);
-            GL11.glDisable(GL11.GL_LIGHTING);
-            texMan.bindTexture(RES_ITEM_GLINT);
-            GL11.glEnable(GL11.GL_BLEND);
-            GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
-            float f7 = 0.76F;
-            GL11.glColor4f(0.5F * f7, 0.25F * f7, 0.8F * f7, 1.0F);
-            GL11.glMatrixMode(GL11.GL_TEXTURE);
-            GL11.glPushMatrix();
-            float f8 = 0.125F;
-            //GL11.glScalef(f8, f8, f8);
-            float f9 = (float)(Minecraft.getSystemTime() % 3000L) / 3000.0F * 8.0F;
-            //GL11.glTranslatef(f9, 0.0F, 0.0F);
-            //GL11.glRotatef(-50.0F, 0.0F, 0.0F, 1.0F);
+			tess.addVertexWithUV(0,1,0, 0,.0625*t);
+			tess.addVertexWithUV(1,1,0, 1,.0625*t);
+			tess.addVertexWithUV(1,0,0, 1,.0625*s);
+			tess.addVertexWithUV(0,0,0, 0,.0625*s);
 
+			texMan.bindTexture(new ResourceLocation("minecraft:textures/misc/enchanted_item_glint.png"));
 			tess.startDrawingQuads();
-			//tess.setColorOpaque_I(0xffffff);
-			tess.addVertexWithUV((double) (0 - b0), (double) (128 + b0), 0.0D, 0,.0625*t);
-			tess.addVertexWithUV((double) (128 + b0), (double) (128 + b0), 0.0D,  1,.0625*t);
-			tess.addVertexWithUV((double) (128 + b0), (double) (0 - b0), 0.0D, 1,.0625*s);
-			tess.addVertexWithUV((double) (0 - b0), (double) (0 - b0), 0.0D, 0,.0625*s);
-			tess.draw();          
-            
-            
-            GL11.glPopMatrix();
-            GL11.glPushMatrix();
-            //GL11.glScalef(f8, f8, f8);
-            f9 = (float)(Minecraft.getSystemTime() % 4873L) / 4873.0F * 8.0F;
-            //GL11.glTranslatef(-f9, 0.0F, 0.0F);
-            //GL11.glRotatef(10.0F, 0.0F, 0.0F, 1.0F);
-
-			tess.startDrawingQuads();
-			//tess.setColorOpaque_I(0xffffff);
-			tess.addVertexWithUV((double) (0 - b0), (double) (128 + b0), 0.0D, 0,.0625*t);
-			tess.addVertexWithUV((double) (128 + b0), (double) (128 + b0), 0.0D,  1,.0625*t);
-			tess.addVertexWithUV((double) (128 + b0), (double) (0 - b0), 0.0D, 1,.0625*s);
-			tess.addVertexWithUV((double) (0 - b0), (double) (0 - b0), 0.0D, 0,.0625*s);
-			tess.draw();           
-            
-            
-            GL11.glPopMatrix();
-            GL11.glMatrixMode(GL11.GL_MODELVIEW);
-            GL11.glDisable(GL11.GL_BLEND);
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glDepthFunc(GL11.GL_LEQUAL);
-			
-			
-
+			tess.setColorOpaque_I(0xffffff);
+			tess.addVertexWithUV((double) (0 - b0), (double) (128 + b0), zz, .0625*t, 0);
+			tess.addVertexWithUV((double) (128 + b0), (double) (128 + b0), zz,.0625*t,  1);
+			tess.addVertexWithUV((double) (128 + b0), (double) (0 - b0), zz,.0625*s, 1);
+			tess.addVertexWithUV((double) (0 - b0), (double) (0 - b0),zz,.0625*s, 0);
+			tess.draw();
 		//}
-
-			
+		
 		GL11.glPopMatrix();
 	}
 
