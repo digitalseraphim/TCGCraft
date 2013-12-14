@@ -137,6 +137,12 @@ public class ItemCard extends ItemMap {
 		tag.setBoolean(NBT_COLLAPSED, !collapsed);
 	}
 	
+	public static void setSelected(ItemStack is, int sel){
+		NBTTagCompound tag = is.getTagCompound();
+		int count = tag.getInteger(NBT_COUNT);
+		tag.setInteger(NBT_SELECTED, sel%count);		
+	}
+	
 	public static void scrollSelected(ItemStack is, int amnt){
 		NBTTagCompound tag = is.getTagCompound();
 		int sel = tag.getInteger(NBT_SELECTED);
