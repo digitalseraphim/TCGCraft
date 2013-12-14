@@ -227,7 +227,7 @@ public class IIRCard implements IItemRenderer {
 		}
 
 		// if(card.isActivated()){
-		long tick = (Minecraft.getSystemTime() / 200)%15;
+		long tick = (Minecraft.getSystemTime() / 50)%15;
 		int t = (int) ((tick / 3) + 1) % 16;
 		int s = (int) ((tick / 3)) % 16;
 
@@ -238,8 +238,9 @@ public class IIRCard implements IItemRenderer {
 
 		texMan.bindTexture(new ResourceLocation("tcgc:textures/misc/anim2.png"));
 		tess.startDrawingQuads();
-//		GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
-//		tess.setColorRGBA_I(0xffffff, 150);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+		tess.setColorRGBA_I(0xffffff, 150);
 		tess.addVertexWithUV((double) (0 - b0), (double) (128 + b0), zz, 0, .0625 * t);
 		tess.addVertexWithUV((double) (128 + b0), (double) (128 + b0), zz, 1, .0625 * t);
 		tess.addVertexWithUV((double) (128 + b0), (double) (0 - b0), zz, 1, .0625 * s);
