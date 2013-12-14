@@ -1,6 +1,7 @@
 package digitalseraphim.tcgc.items;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -61,8 +62,8 @@ public class ItemCard extends ItemMap {
 		return super.onDroppedByPlayer(item, player);
 	}
 	
-	public static ItemStack createItemStack(Card[] cards){
-		ItemStack is = new ItemStack(TCGCraft.proxy.cardItem);
+	public static ItemStack createItemStack(Item item, Card[] cards){
+		ItemStack is = new ItemStack(item);
 		NBTTagCompound tagCompound = new NBTTagCompound(NBT_CARDS_ROOT);
 		
 		tagCompound.setInteger(NBT_COUNT, cards.length);
@@ -136,29 +137,5 @@ public class ItemCard extends ItemMap {
 		sel = sel % count;
 		
 		tag.setInteger(NBT_SELECTED, sel);
-	}
-	
-	public static ItemStack mergeItemStacks(ItemStack dest, ItemStack src){
-		if(dest == null){
-			if(src == null){
-				return null;
-			}
-			
-			return src;			
-		}
-		if(src == null){
-			return dest;
-		}
-		
-		Card[] dstArr = cardsFromItemStack(dest);
-		Card[] srcArr = cardsFromItemStack(src);
-		
-		Card[] newArray = new Card[dstArr.length + srcArr.length];
-		
-		System.arraycopy(dstArr, 0, newArray, 0, dstArr.length);
-		System.arraycopy(srcArr, 0, newArray, dstArr.length, srcArr.length);
-		
-		return createItemStack(newArray);
-	}
-	
+	}	
 }

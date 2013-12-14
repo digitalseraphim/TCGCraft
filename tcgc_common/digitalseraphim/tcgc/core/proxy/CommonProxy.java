@@ -1,7 +1,10 @@
 package digitalseraphim.tcgc.core.proxy;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.registry.GameRegistry;
 import digitalseraphim.tcgc.core.helpers.ItemIds;
+import digitalseraphim.tcgc.core.recipes.StorageBoxRecipes;
 import digitalseraphim.tcgc.items.ItemCard;
 import digitalseraphim.tcgc.items.ItemCardBooster;
 import digitalseraphim.tcgc.items.ItemStorageBox;
@@ -16,6 +19,7 @@ public class CommonProxy {
 	}
 
 	public void initRenderingAndTextures() {
+		
 	}
 
 	public void initEntities() {
@@ -33,6 +37,7 @@ public class CommonProxy {
 	}
 	
 	public void initRecipes(){
-		
+		GameRegistry.addRecipe(new StorageBoxRecipes());
+		GameRegistry.addShapedRecipe(new ItemStack(storageBoxItem), "xxx","x x","xxx", 'x', Item.paper);
 	}
 }

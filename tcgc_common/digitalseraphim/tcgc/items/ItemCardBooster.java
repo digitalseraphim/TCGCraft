@@ -66,7 +66,7 @@ public class ItemCardBooster extends Item {
 		
 		itemStack.stackSize--;
 		
-		player.dropPlayerItemWithRandomChoice(ItemCard.createItemStack(cards), true);
+		player.dropPlayerItemWithRandomChoice(ItemCard.createItemStack(TCGCraft.proxy.cardItem, cards), true);
 		
 		return itemStack;
 	}

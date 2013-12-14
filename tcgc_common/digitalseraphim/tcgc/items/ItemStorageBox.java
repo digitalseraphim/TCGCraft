@@ -3,10 +3,8 @@ package digitalseraphim.tcgc.items;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import digitalseraphim.tcgc.TCGCraft;
-import digitalseraphim.tcgc.core.logic.Card;
 
 public class ItemStorageBox extends Item {
 	
@@ -29,5 +27,12 @@ public class ItemStorageBox extends Item {
 		return String.format("Deck Box (%d cards)\n", count);
 	}
 
+	@Override
+	public ItemStack getContainerItemStack(ItemStack itemStack) {
+		if(itemStack.getTagCompound().getBoolean("actAsContainer")){
+			return new ItemStack(TCGCraft.proxy.storageBoxItem);
+		}
+		return null;
+	}
 
 }

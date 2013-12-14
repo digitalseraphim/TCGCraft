@@ -36,6 +36,7 @@ public class TCGCraft {
 		proxy.initRenderingAndTextures();
 		proxy.initEntities();
 		proxy.initItems();
+		proxy.initRecipes();
 	}
 	
 }

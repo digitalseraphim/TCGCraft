@@ -12,37 +12,29 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
 
-public class StorageBoxRecipes implements IRecipe {
+public class CardStackRecipes implements IRecipe {
 
 	ItemStack output = new ItemStack(TCGCraft.proxy.storageBoxItem);
 	
 	@Override
 	public boolean matches(InventoryCrafting inventorycrafting, World world) {
 		int stacksFound = 0;
-		int boxesFound = 0;
 		
 		for(int row = 0; row < 3; row++){
 			for(int col = 0; col < 3; col++){
 				ItemStack is = inventorycrafting.getStackInRowAndColumn(row, col);
 				if(is != null){
-					if(!isStorageBox(is) && !isCardStack(is)){
+					if(!isCardStack(is)){
 						return false;
-					}
-					if(isStorageBox(is)){
-						boxesFound++;
 					}
 					stacksFound++;
 				}
 			}
 		}
 		
-		return boxesFound > 0 && stacksFound > 1;
+		return stacksFound > 1;
 	}
 	
-	private boolean isStorageBox(ItemStack is){
-		return is.getItem() instanceof ItemStorageBox;
-	}
-
 	private boolean isCardStack(ItemStack is){
 		return is.getItem() instanceof ItemCard;
 	}
@@ -50,7 +42,6 @@ public class StorageBoxRecipes implements IRecipe {
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
 		Vector<Card> cards = new Vector<>();
-		boolean foundFirstBox = false;
 
 		for(int row = 0; row < 3; row++){
 			for(int col = 0; col < 3; col++){
@@ -60,19 +51,11 @@ public class StorageBoxRecipes implements IRecipe {
 					continue;
 				}
 				
-				if(isStorageBox(is)){
-					if(!foundFirstBox){
-						foundFirstBox = true;
-					}else{
-						is.getTagCompound().setBoolean("actAsContainer", true);
-					}
-				}
-				
 				cards.addAll(Arrays.asList(ItemCard.cardsFromItemStack(is)));
 			}
 		}
 		
-		return ItemCard.createItemStack(TCGCraft.proxy.storageBoxItem, cards.toArray(new Card[0]));
+		return ItemCard.createItemStack(TCGCraft.proxy.cardItem, cards.toArray(new Card[0]));
 	}
 
 	@Override
