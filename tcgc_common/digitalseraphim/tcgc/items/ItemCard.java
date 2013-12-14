@@ -93,4 +93,21 @@ public class ItemCard extends ItemMap {
 		return cards;
 	}
 	
+	@Override
+	public String getItemDisplayName(ItemStack itemStack) {
+		NBTTagCompound tag = itemStack.getTagCompound();
+		int sel = tag.getInteger("selected");
+		String name = tag.getString("card"+sel);
+		Card c = Card.getAllCards().get(name);
+		
+		return c.getFullName();
+	}
+
+	public static Card getSelectedCard(ItemStack is){
+		NBTTagCompound tag = is.getTagCompound();
+		int sel = tag.getInteger("selected");
+		String name = tag.getString("card"+sel);
+		return Card.getAllCards().get(name);
+	}
+	
 }

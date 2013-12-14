@@ -2,6 +2,8 @@ package digitalseraphim.tcgc.client.render.items;
 
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -66,27 +68,32 @@ public class IIRCard implements IItemRenderer {
 	public void renderFirstPerson(TextureManager texMan, ItemStack item) {
 		Card[] cards = ItemCard.cardsFromItemStack(item);
 		int sel = item.getTagCompound().getInteger("selected");
-		System.out.println("sel = " + sel);
 		for(int i = 0; i < cards.length; i++ ){
 			GL11.glPushMatrix();
-			GL11.glTranslatef(-5f*cards.length + (i*10f) , (i==sel)?-20f:0f, -.05f*Math.abs(i-sel));
-			renderCardFront(texMan);
+			GL11.glTranslatef(-5f*cards.length + (i*10f) , (i==sel)?-20f:0f, -1+.05f*Math.abs(i-sel));
+			renderCardFront(texMan, item);
 			GL11.glPopMatrix();
 		}
 	}
 
-	public void renderCardFront(TextureManager texMan) {
+	public void renderCardFront(TextureManager texMan, ItemStack item) {
 		texMan.bindTexture(new ResourceLocation("tcgc:textures/items/card_front_base.png"));
 		Tessellator tess = Tessellator.instance;
 		tess.startDrawingQuads();
+		tess.setColorOpaque_I(0xffffff);
 		float x = 1.F / 32.F;
 		byte b0 = 7;
 		tess.addVertexWithUV((double) (0 - b0), (double) (128 + b0), 0.0D, 0.0D, 1.0D);
 		tess.addVertexWithUV((double) (128 + b0), (double) (128 + b0), 0.0D, x*24., 1.0D);
 		tess.addVertexWithUV((double) (128 + b0), (double) (0 - b0), 0.0D, x*24., 0.0D);
 		tess.addVertexWithUV((double) (0 - b0), (double) (0 - b0), 0.0D, 0.0D, 0.0D);
-
 		tess.draw();
+		
+		FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
+		
+		Card c = ItemCard.getSelectedCard(item);
+		
+		fr.drawString(c.getFullName(), 0,0, 0);
 	}
 
 	public void renderCardBack(RenderBlocks render) {
