@@ -4,6 +4,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.registry.GameRegistry;
 import digitalseraphim.tcgc.core.helpers.ItemIds;
+import digitalseraphim.tcgc.core.recipes.CardStackRecipes;
 import digitalseraphim.tcgc.core.recipes.StorageBoxRecipes;
 import digitalseraphim.tcgc.items.ItemCard;
 import digitalseraphim.tcgc.items.ItemCardBooster;
@@ -38,6 +39,7 @@ public class CommonProxy {
 	
 	public void initRecipes(){
 		GameRegistry.addRecipe(new StorageBoxRecipes());
+		GameRegistry.addRecipe(new CardStackRecipes());
 		GameRegistry.addShapedRecipe(new ItemStack(storageBoxItem), "xxx","x x","xxx", 'x', Item.paper);
 	}
 }

@@ -1,5 +1,8 @@
 package digitalseraphim.tcgc.items;
 
+import java.util.Arrays;
+import java.util.Vector;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemMap;
@@ -59,7 +62,19 @@ public class ItemCard extends ItemMap {
 	public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
 		System.out.println("ItemCard.onDroppedByPlayer()");
 		
-		return super.onDroppedByPlayer(item, player);
+		if(ItemCard.getCardCount(item) == 1){
+			return super.onDroppedByPlayer(item, player);
+		}else{
+			Vector<Card> cards = new Vector<>(Arrays.asList(cardsFromItemStack(item))); 
+			Card drop = cards.remove(getSelectedCardIndex(item));
+			System.out.println("dropping " + drop.getFullName());
+			ItemStack newIS = createItemStack(TCGCraft.proxy.cardItem, cards.toArray(new Card[0]));
+			item.setTagCompound(newIS.getTagCompound());
+			
+			player.dropPlayerItem(createItemStack(TCGCraft.proxy.cardItem, new Card[]{drop}));
+
+			return false;
+		}
 	}
 	
 	public static ItemStack createItemStack(Item item, Card[] cards){

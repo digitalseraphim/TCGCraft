@@ -85,7 +85,7 @@ public class ItemCardBooster extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		packIcon = iconRegister.registerIcon("tcgc:card_pack"); 
+		packIcon = iconRegister.registerIcon("tcgc:textures/items/card_pack.png"); 
 	}
 	
 	@Override
