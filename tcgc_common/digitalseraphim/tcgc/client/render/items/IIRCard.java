@@ -2,7 +2,9 @@ package digitalseraphim.tcgc.client.render.items;
 
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.storage.MapData;
@@ -30,13 +32,13 @@ public class IIRCard implements IItemRenderer {
 			RenderBlocks render = (RenderBlocks) data[0];
 //			EntityItem entity = (EntityItem) data[1];
 			
-			renderCardBack(render);
+			renderCardBack(render.minecraftRB.getTextureManager());
 		}
 			break;
 		case EQUIPPED: {
 			RenderBlocks render = (RenderBlocks) data[0];
 			EntityLiving entity = (EntityLiving) data[1];
-			renderCardBack(render);
+			renderCardBack(render.minecraftRB.getTextureManager());
 		}
 			break;
 		case EQUIPPED_FIRST_PERSON: {
@@ -46,15 +48,15 @@ public class IIRCard implements IItemRenderer {
 		}
 			break;
 		case FIRST_PERSON_MAP: {
-			RenderBlocks render = (RenderBlocks) data[0];
-			EntityLiving entity = (EntityLiving) data[1];
+			EntityPlayer player  = (EntityPlayer) data[0];
+			TextureManager texMan = (TextureManager) data[1];
 			MapData mapData = (MapData) data[2];
-			renderCardBack(render);
+			renderCardBack(texMan);
 		}
 			break;
 		case INVENTORY: {
 			RenderBlocks render = (RenderBlocks) data[0];
-			renderCardBack(render);
+			renderCardBack(render.minecraftRB.getTextureManager());
 		}
 			break;
 		default:
@@ -68,9 +70,9 @@ public class IIRCard implements IItemRenderer {
 
 	}
 
-	public void renderCardBack(RenderBlocks render){
+	public void renderCardBack(TextureManager texMan){
 		Tessellator tess = Tessellator.instance;
-		bindTexture(render, new ResourceLocation("tcgc:textures/items/card_back"));
+		bindTexture(texMan, new ResourceLocation("tcgc:textures/items/card_back"));
 		float x = 1.F/32.F;
 		
 		tess.startDrawingQuads();
@@ -83,8 +85,8 @@ public class IIRCard implements IItemRenderer {
 		tess.draw();
 	}
 	
-    protected void bindTexture(RenderBlocks render, ResourceLocation res)
+    protected void bindTexture(TextureManager texMan, ResourceLocation res)
     {
-    	render.minecraftRB.getTextureManager().bindTexture(res);
+    	texMan.bindTexture(res);
     }
 }

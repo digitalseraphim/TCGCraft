@@ -17,7 +17,8 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void initRenderingAndTextures() {
 		super.initRenderingAndTextures();
-		MinecraftForgeClient.registerItemRenderer(ItemIds.CARD_ID, new IIRCard());
+		System.out.println("registering at id " + (ItemIds.CARD_ID+256));
+		MinecraftForgeClient.registerItemRenderer(ItemIds.CARD_ID+256, new IIRCard());
 	}
 	
 }
