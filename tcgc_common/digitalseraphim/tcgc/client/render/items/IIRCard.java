@@ -2,12 +2,9 @@ package digitalseraphim.tcgc.client.render.items;
 
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.storage.MapData;
 import net.minecraftforge.client.IItemRenderer;
 import digitalseraphim.tcgc.items.ItemCard;
 
@@ -15,7 +12,6 @@ public class IIRCard implements IItemRenderer {
 
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-		System.out.println("IIRCard.handleRenderType() - " + item.getItem().itemID + " / " + item.getItem().getClass().getName() + " / "  + type.name());
 		return item.getItem() instanceof ItemCard;
 	}
 
@@ -32,31 +28,25 @@ public class IIRCard implements IItemRenderer {
 			RenderBlocks render = (RenderBlocks) data[0];
 //			EntityItem entity = (EntityItem) data[1];
 			
-			renderCardBack(render.minecraftRB.getTextureManager());
+			renderCardBack(render);
 		}
 			break;
 		case EQUIPPED: {
 			RenderBlocks render = (RenderBlocks) data[0];
 			EntityLiving entity = (EntityLiving) data[1];
-			renderCardBack(render.minecraftRB.getTextureManager());
+			renderCardBack(render);
 		}
 			break;
 		case EQUIPPED_FIRST_PERSON: {
 			RenderBlocks render = (RenderBlocks) data[0];
 			EntityLiving entity = (EntityLiving) data[1];
 			System.out.println("IIRCard.renderItem() - EQUIPPED_FIRST_PERSON");
-		}
-			break;
-		case FIRST_PERSON_MAP: {
-			EntityPlayer player  = (EntityPlayer) data[0];
-			TextureManager texMan = (TextureManager) data[1];
-			MapData mapData = (MapData) data[2];
-			renderCardBack(texMan);
+			renderCardBack(render);
 		}
 			break;
 		case INVENTORY: {
 			RenderBlocks render = (RenderBlocks) data[0];
-			renderCardBack(render.minecraftRB.getTextureManager());
+			renderCardBack(render);
 		}
 			break;
 		default:
@@ -70,9 +60,9 @@ public class IIRCard implements IItemRenderer {
 
 	}
 
-	public void renderCardBack(TextureManager texMan){
+	public void renderCardBack(RenderBlocks render){
 		Tessellator tess = Tessellator.instance;
-		bindTexture(texMan, new ResourceLocation("tcgc:textures/items/card_back"));
+		bindTexture(render, new ResourceLocation("tcgc:textures/items/card_back.png"));
 		float x = 1.F/32.F;
 		
 		tess.startDrawingQuads();
@@ -85,8 +75,8 @@ public class IIRCard implements IItemRenderer {
 		tess.draw();
 	}
 	
-    protected void bindTexture(TextureManager texMan, ResourceLocation res)
+    protected void bindTexture(RenderBlocks render, ResourceLocation res)
     {
-    	texMan.bindTexture(res);
+    	render.minecraftRB.getTextureManager().bindTexture(res);
     }
 }

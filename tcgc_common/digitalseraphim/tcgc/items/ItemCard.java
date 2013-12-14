@@ -1,15 +1,15 @@
 package digitalseraphim.tcgc.items;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemMap;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
-import net.minecraft.world.storage.MapData;
 import digitalseraphim.tcgc.TCGCraft;
 import digitalseraphim.tcgc.core.logic.Card;
 
-public class ItemCard extends ItemMap {
+public class ItemCard extends Item {
 	//can potentially represent a number of cards
 	
 	public ItemCard(int id) {
@@ -61,9 +61,5 @@ public class ItemCard extends ItemMap {
 		
 		return is;
 	}
-	
-	@Override
-	public MapData getMapData(ItemStack par1ItemStack, World par2World) {
-		return null;
-	}
+
 }
