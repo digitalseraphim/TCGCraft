@@ -113,7 +113,7 @@ public class ItemCard extends ItemMap {
 	
 	public static int getCardCount(ItemStack is){
 		NBTTagCompound tag = is.getTagCompound();
-		return tag.getInteger(NBT_SELECTED);
+		return tag.getInteger(NBT_COUNT);
 	}
 	
 	public static void toggleCollapsed(ItemStack is){
