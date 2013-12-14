@@ -69,8 +69,9 @@ public class IIRCard implements IItemRenderer {
 	
 	float partialTicks = 0;
 	public void renderFirstPerson(EntityPlayer player, RenderBlocks render) {
+		GL11.glPopMatrix();
 		GL11.glPushMatrix();
-		partialTicks+=.01f;
+		partialTicks=5;
 		float f12 = 0.8F;
 		float f1 = 0;
 		float f2 = player.prevRotationPitch;
@@ -136,6 +137,7 @@ public class IIRCard implements IItemRenderer {
 		tessellator.addVertexWithUV((double) (0 - b0), (double) (0 - b0), 0.0D, 0.0D, 0.0D);
 		tessellator.draw();
 		GL11.glPopMatrix();
+		GL11.glPushMatrix();
 
 	}
 
