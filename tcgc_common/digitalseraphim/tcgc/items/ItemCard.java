@@ -4,7 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.world.World;
 import digitalseraphim.tcgc.TCGCraft;
 import digitalseraphim.tcgc.core.logic.Card;
 
@@ -15,51 +14,51 @@ public class ItemCard extends ItemMap {
 		super(id);
 	}
 
-	@Override
-	public ItemStack onItemRightClick(ItemStack itemStack, World world,
-			EntityPlayer player) {
-		System.out.println("ItemCard.onItemRightClick()");
-		
-		if(player.isSneaking()){
-			NBTTagCompound tag = itemStack.getTagCompound();
-			int sel = tag.getInteger("selected");
-			int count = tag.getInteger("count");
-			sel = (sel+1)%count;
-			tag.setInteger("selected", sel);
-			return itemStack;
-		}
-		
-		return super.onItemRightClick(itemStack, world, player);
-	}
-	
-	@Override
-	public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player,
-			World world, int x, int y, int z, int side, float hitX, float hitY,
-			float hitZ) {
-		System.out.println("ItemCard.onItemUseFirst()");
-		
-		if(player.isSneaking()){
-			NBTTagCompound tag = itemStack.getTagCompound();
-			int sel = tag.getInteger("selected");
-			int count = tag.getInteger("count");
-			sel = (sel+1)%count;
-			tag.setInteger("selected", sel);
-			return true;
-		}
-		
-		return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY,
-				hitZ);
-	}
-	
-	@Override
-	public boolean onItemUse(ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer, World par3World, int par4, int par5,
-			int par6, int par7, float par8, float par9, float par10) {
-		System.out.println("ItemCard.onItemUse()");
-		return super.onItemUse(par1ItemStack, par2EntityPlayer, par3World, par4, par5,
-				par6, par7, par8, par9, par10);
-	}
-	
+//	@Override
+//	public ItemStack onItemRightClick(ItemStack itemStack, World world,
+//			EntityPlayer player) {
+//		System.out.println("ItemCard.onItemRightClick()");
+//		
+//		if(player.isSneaking()){
+//			NBTTagCompound tag = itemStack.getTagCompound();
+//			int sel = tag.getInteger("selected");
+//			int count = tag.getInteger("count");
+//			sel = (sel+1)%count;
+//			tag.setInteger("selected", sel);
+//			return itemStack;
+//		}
+//		
+//		return super.onItemRightClick(itemStack, world, player);
+//	}
+//	
+//	@Override
+//	public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player,
+//			World world, int x, int y, int z, int side, float hitX, float hitY,
+//			float hitZ) {
+//		System.out.println("ItemCard.onItemUseFirst()");
+//		
+//		if(player.isSneaking()){
+//			NBTTagCompound tag = itemStack.getTagCompound();
+//			int sel = tag.getInteger("selected");
+//			int count = tag.getInteger("count");
+//			sel = (sel+1)%count;
+//			tag.setInteger("selected", sel);
+//			return true;
+//		}
+//		
+//		return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY,
+//				hitZ);
+//	}
+//	
+//	@Override
+//	public boolean onItemUse(ItemStack par1ItemStack,
+//			EntityPlayer par2EntityPlayer, World par3World, int par4, int par5,
+//			int par6, int par7, float par8, float par9, float par10) {
+//		System.out.println("ItemCard.onItemUse()");
+//		return super.onItemUse(par1ItemStack, par2EntityPlayer, par3World, par4, par5,
+//				par6, par7, par8, par9, par10);
+//	}
+//	
 	@Override
 	public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
 		System.out.println("ItemCard.onDroppedByPlayer()");
@@ -113,6 +112,22 @@ public class ItemCard extends ItemMap {
 		NBTTagCompound tag = is.getTagCompound();
 		int sel = tag.getInteger("selected");
 		return getCard(is, sel);
+	}
+	
+	public static void scrollSelected(ItemStack is, int amnt){
+		NBTTagCompound tag = is.getTagCompound();
+		int sel = tag.getInteger("selected");
+		int count = tag.getInteger("count");
+	
+		sel += amnt;
+		
+		while(sel < 0){
+			sel += count;
+		}
+		
+		sel = sel % count;
+		
+		tag.setInteger("selected", sel);
 	}
 	
 }

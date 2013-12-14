@@ -20,6 +20,10 @@ public class CommonProxy {
 	
 	}
 
+	public void initEventHandlers(){
+		
+	}
+	
 	public void initItems() {
 		GameRegistry.registerItem(cardItem = new ItemCard(ItemIds.CARD_ID), "Card");
 		GameRegistry.registerItem(boosterItem = new ItemCardBooster(ItemIds.BOOSTER_ID), "CardBooster");

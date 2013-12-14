@@ -32,6 +32,7 @@ public class TCGCraft {
 	public void load(FMLInitializationEvent event) {
 		ModBlocks.init();
 		proxy.initTileEntities();
+		proxy.initEventHandlers();
 		proxy.initRenderingAndTextures();
 		proxy.initEntities();
 		proxy.initItems();
