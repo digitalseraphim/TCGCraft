@@ -93,7 +93,7 @@ public class IIRCard implements IItemRenderer {
 
 		texMan.bindTexture(new ResourceLocation("tcgc:textures/items/manasymbols.png"));
 		
-		float xx = 128 - 16 - 32 * c.getTotalCost();
+		float xx = 128 - 8 * c.getTotalCost();
 		float yy = 4;
 		float zz = -.01f;
 		
@@ -104,9 +104,9 @@ public class IIRCard implements IItemRenderer {
 			for(int jj = 0; jj < c.getEarthCost(); jj++){
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
-				tess.addVertexWithUV(xx    , yy + 8, zz, 0.0D, 0.125D);
-				tess.addVertexWithUV(xx + 8, yy + 8, zz, 1.0D, 0.125D);
-				tess.addVertexWithUV(xx + 8, yy    , zz, 1.0D, 0.0D);
+				tess.addVertexWithUV(xx    , yy + 8, zz, 0.0D, 1D);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.125D, 1D);
+				tess.addVertexWithUV(xx + 8, yy    , zz, 0.125D, 0.0D);
 				tess.addVertexWithUV(xx    , yy    , zz, 0.0D, 0.0D);
 				tess.draw();
 				xx += 8;
@@ -117,10 +117,10 @@ public class IIRCard implements IItemRenderer {
 			for(int jj = 0; jj < c.getFireCost(); jj++){
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
-				tess.addVertexWithUV(xx    , yy + 8, zz, 0.0D, 0.25D);
-				tess.addVertexWithUV(xx + 8, yy + 8, zz, 1.0D, 0.25D);
-				tess.addVertexWithUV(xx + 8, yy    , zz, 1.0D, 0.125D);
-				tess.addVertexWithUV(xx    , yy    , zz, 0.0D, 0.125D);
+				tess.addVertexWithUV(xx    , yy + 8, zz, .125D, 1.0D);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, .25D, 1.0D);
+				tess.addVertexWithUV(xx + 8, yy    , zz, .25D, 0.D);
+				tess.addVertexWithUV(xx    , yy    , zz, .125D, 0.D);
 				tess.draw();
 				xx += 8;
 			}
@@ -130,10 +130,10 @@ public class IIRCard implements IItemRenderer {
 			for(int jj = 0; jj < c.getAirCost(); jj++){
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
-				tess.addVertexWithUV(xx    , yy + 8, zz, 0.0D, 0.375D);
-				tess.addVertexWithUV(xx + 8, yy + 8, zz, 1.0D, 0.375D);
-				tess.addVertexWithUV(xx + 8, yy    , zz, 1.0D, 0.25D);
-				tess.addVertexWithUV(xx    , yy    , zz, 0.0D, 0.25D);
+				tess.addVertexWithUV(xx    , yy + 8, zz, 0.25D,  1.0D);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.375D, 1.0D);
+				tess.addVertexWithUV(xx + 8, yy    , zz, 0.375D, 0.0D);
+				tess.addVertexWithUV(xx    , yy    , zz, 0.25D,  0.0D);
 				tess.draw();
 				xx += 8;
 			}
@@ -143,10 +143,10 @@ public class IIRCard implements IItemRenderer {
 			for(int jj = 0; jj < c.getWaterCost(); jj++){
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
-				tess.addVertexWithUV(xx    , yy + 8, zz, 0.0D, 0.5D);
-				tess.addVertexWithUV(xx + 8, yy + 8, zz, 1.0D, 0.5D);
-				tess.addVertexWithUV(xx + 8, yy    , zz, 1.0D, 0.375D);
-				tess.addVertexWithUV(xx    , yy    , zz, 0.0D, 0.375D);
+				tess.addVertexWithUV(xx    , yy + 8, zz, 0.375D, 1D);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.5D,   1D);
+				tess.addVertexWithUV(xx + 8, yy    , zz, 0.5D,   0D);
+				tess.addVertexWithUV(xx    , yy    , zz, 0.375D, 0D);
 				tess.draw();
 				xx += 8;
 			}
@@ -156,10 +156,10 @@ public class IIRCard implements IItemRenderer {
 			for(int jj = 0; jj < c.getOrderCost(); jj++){
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
-				tess.addVertexWithUV(xx    , yy + 8, zz, 0.0D, 0.625D);
-				tess.addVertexWithUV(xx + 8, yy + 8, zz, 1.0D, 0.625D);
-				tess.addVertexWithUV(xx + 8, yy    , zz, 1.0D, 0.5D);
-				tess.addVertexWithUV(xx    , yy    , zz, 0.0D, 0.5D);
+				tess.addVertexWithUV(xx    , yy + 8, zz, 0.5D,   1D);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.625D, 1D);
+				tess.addVertexWithUV(xx + 8, yy    , zz, 0.625D, 0D);
+				tess.addVertexWithUV(xx    , yy    , zz, 0.5D,   0D);
 				tess.draw();
 				xx += 8;
 			}
@@ -169,10 +169,10 @@ public class IIRCard implements IItemRenderer {
 			for(int jj = 0; jj < c.getEntropyCost(); jj++){
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
-				tess.addVertexWithUV(xx    , yy + 8, zz, 0.0D, 0.75D);
-				tess.addVertexWithUV(xx + 8, yy + 8, zz, 1.0D, 0.75D);
-				tess.addVertexWithUV(xx + 8, yy    , zz, 1.0D, 0.625D);
-				tess.addVertexWithUV(xx    , yy    , zz, 0.0D, 0.625D);
+				tess.addVertexWithUV(xx    , yy + 8, zz, 0.625D, 1D);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.75D,  1D);
+				tess.addVertexWithUV(xx + 8, yy    , zz, 0.75D,  0D);
+				tess.addVertexWithUV(xx    , yy    , zz, 0.625D, 0D);
 				tess.draw();
 				xx += 8;
 			}
