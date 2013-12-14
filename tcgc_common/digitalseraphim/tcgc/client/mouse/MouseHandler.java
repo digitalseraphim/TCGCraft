@@ -24,8 +24,7 @@ public class MouseHandler {
 				
 				if(i instanceof ItemCard){
 					System.out.println("scrolling - " + me.dwheel/120);
-					ItemCard.scrollSelected(stack, -me.dwheel/120);
-					((ClientProxy)TCGCraft.proxy).sendCardSelectionPacket(ItemCard.getSelectedCardIndex(stack));
+					((ClientProxy)TCGCraft.proxy).sendCardSelectionPacket(-me.dwheel/120);
 					me.setCanceled(true);
 				}
 			}
