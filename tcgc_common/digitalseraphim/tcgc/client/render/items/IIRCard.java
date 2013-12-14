@@ -9,6 +9,7 @@ import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -47,10 +48,29 @@ public class IIRCard implements IItemRenderer {
 			renderCardBack(render);
 		}
 			break;
+		case FIRST_PERSON_MAP: {
+			TextureManager texMan = (TextureManager) data[1];
+			texMan.bindTexture(new ResourceLocation("tcgc:textures/items/card_front_base.png"));
+			Tessellator tess = Tessellator.instance;
+			tess.startDrawingQuads();
+			float x = 128.F / 32.F;
+			 byte b0 = 7;
+			// tess.addVertexWithUV(-12 * x, .1, -.5, 0, 1);
+			// tess.addVertexWithUV(-12 * x, .1, .5, 0, 0);
+			// tess.addVertexWithUV(12 * x, .1, .5, 1, 1);
+			// tess.addVertexWithUV(12 * x, .1, -.5, 1, 0);
+			tess.addVertexWithUV((double) (0 - b0), (double) (128 + b0), 0.0D, 0.0D, 1.0D);
+			tess.addVertexWithUV((double) (128 + b0), (double) (128 + b0), 0.0D, 1.0D, 1.0D);
+			tess.addVertexWithUV((double) (128 + b0), (double) (0 - b0), 0.0D, 1.0D, 0.0D);
+			tess.addVertexWithUV((double) (0 - b0), (double) (0 - b0), 0.0D, 0.0D, 0.0D);
+
+			tess.draw();
+			break;
+		}
 		case EQUIPPED_FIRST_PERSON: {
 			RenderBlocks render = (RenderBlocks) data[0];
 			EntityPlayer entity = (EntityPlayer) data[1];
-			//System.out.println("IIRCard.renderItem() - EQUIPPED_FIRST_PERSON");
+			// System.out.println("IIRCard.renderItem() - EQUIPPED_FIRST_PERSON");
 			renderFirstPerson(entity, render);
 		}
 			break;
@@ -66,13 +86,13 @@ public class IIRCard implements IItemRenderer {
 
 	}
 
-	
 	float partialTicks = 0;
+
 	public void renderFirstPerson(EntityPlayer player, RenderBlocks render) {
 		GL11.glPopMatrix();
 		GL11.glPopMatrix();
 		GL11.glPushMatrix();
-		partialTicks=0.1957066f;
+		partialTicks = 0.1957066f;
 		float f12 = 0.8F;
 		float f1 = 0;
 		float f2 = player.prevRotationPitch;

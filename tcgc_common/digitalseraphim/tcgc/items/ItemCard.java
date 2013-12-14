@@ -1,15 +1,14 @@
 package digitalseraphim.tcgc.items;
 
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import digitalseraphim.tcgc.TCGCraft;
 import digitalseraphim.tcgc.core.logic.Card;
 
-public class ItemCard extends Item {
+public class ItemCard extends ItemMap {
 	//can potentially represent a number of cards
 	
 	public ItemCard(int id) {
