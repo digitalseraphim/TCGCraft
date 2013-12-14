@@ -2,10 +2,8 @@ package digitalseraphim.tcgc.client.render;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;

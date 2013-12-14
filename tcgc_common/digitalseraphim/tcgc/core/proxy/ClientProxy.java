@@ -3,11 +3,10 @@ package digitalseraphim.tcgc.core.proxy;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 
-import cpw.mods.fml.common.network.PacketDispatcher;
-
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.common.network.PacketDispatcher;
 import digitalseraphim.tcgc.client.mouse.MouseHandler;
 import digitalseraphim.tcgc.client.render.items.IIRCard;
 import digitalseraphim.tcgc.core.helpers.ItemIds;

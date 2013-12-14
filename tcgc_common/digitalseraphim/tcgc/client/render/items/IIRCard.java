@@ -10,7 +10,7 @@ import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
 
-import digitalseraphim.tcgc.core.logic.Card;
+import digitalseraphim.tcgc.core.logic.CardInstance;
 import digitalseraphim.tcgc.items.ItemCard;
 
 public class IIRCard implements IItemRenderer {
@@ -44,7 +44,7 @@ public class IIRCard implements IItemRenderer {
 			GL11.glPushMatrix();
 			GL11.glScalef(1.f/128.f, -1.f/128.f, -1.f);
 			GL11.glTranslatef(-64f, -128f, 0f);
-			renderCardFront(render.minecraftRB.getTextureManager(), item, ItemCard.getSelectedCardIndex(item));
+			renderCardFront(render.minecraftRB.getTextureManager(), ItemCard.getSelectedCard(item));
 			renderCardBack(render.minecraftRB.getTextureManager(), item, ItemCard.getSelectedCardIndex(item));
 			GL11.glPopMatrix();
 
@@ -68,7 +68,7 @@ public class IIRCard implements IItemRenderer {
 			RenderBlocks render = (RenderBlocks) data[0];
 			GL11.glPushMatrix();
 			GL11.glScalef(1.f/8.f, 1.f/8.f, -1.f);
-			renderCardFront(render.minecraftRB.getTextureManager(), item, ItemCard.getSelectedCardIndex(item));
+			renderCardFront(render.minecraftRB.getTextureManager(), ItemCard.getSelectedCard(item));
 			GL11.glPopMatrix();
 		}
 			break;
@@ -82,18 +82,18 @@ public class IIRCard implements IItemRenderer {
 	float partialTicks = 0;
 
 	public void renderFirstPerson(TextureManager texMan, ItemStack item) {
-		Card[] cards = ItemCard.cardsFromItemStack(item);
+		CardInstance[] cards = ItemCard.cardsFromItemStack(item);
 		int sel = ItemCard.getSelectedCardIndex(item);
 		boolean collapsed = item.getTagCompound().getBoolean("collapsed");
 		if(collapsed){
 			GL11.glPushMatrix();
-			renderCardFront(texMan, item, sel);
+			renderCardFront(texMan, ItemCard.getSelectedCard(item));
 			GL11.glPopMatrix();
 		}else{
 			for (int i = 0; i < cards.length; i++) {
 				GL11.glPushMatrix();
 				GL11.glTranslatef(-5f * cards.length + (i * 10f), (i == sel) ? -20f : 0f, -1 + .05f * Math.abs(i - sel) + ((i>sel)?.025f:0));
-				renderCardFront(texMan, item, i);
+				renderCardFront(texMan, cards[i]);
 				GL11.glPopMatrix();
 			}	
 		}
@@ -114,10 +114,9 @@ public class IIRCard implements IItemRenderer {
 	}
 	
 	
-	public void renderCardFront(TextureManager texMan, ItemStack item, int i) {
+	public void renderCardFront(TextureManager texMan, CardInstance card) {
 		texMan.bindTexture(new ResourceLocation("tcgc:textures/items/card_front_base.png"));
 		Tessellator tess = Tessellator.instance;
-		Card c = ItemCard.getCard(item, i);
 		byte b0 = 7;
 		
 		tess.startDrawingQuads();
@@ -130,15 +129,15 @@ public class IIRCard implements IItemRenderer {
 
 		texMan.bindTexture(new ResourceLocation("tcgc:textures/items/manasymbols.png"));
 		
-		float xx = 128 - 8 * c.getTotalCost();
+		float xx = 128 - 8 * card.getBaseCard().getTotalCost();
 		float yy = 4;
 		float zz = -.01f;
 		
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0, 0, -.01f);
 
-		if(c.getEarthCost() > 0){
-			for(int jj = 0; jj < c.getEarthCost(); jj++){
+		if(card.getBaseCard().getEarthCost() > 0){
+			for(int jj = 0; jj < card.getBaseCard().getEarthCost(); jj++){
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
 				tess.addVertexWithUV(xx    , yy + 8, zz, 0.0D, 1D);
@@ -150,8 +149,8 @@ public class IIRCard implements IItemRenderer {
 			}
 		}
 		
-		if(c.getFireCost() > 0){
-			for(int jj = 0; jj < c.getFireCost(); jj++){
+		if(card.getBaseCard().getFireCost() > 0){
+			for(int jj = 0; jj < card.getBaseCard().getFireCost(); jj++){
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
 				tess.addVertexWithUV(xx    , yy + 8, zz, .125D, 1.0D);
@@ -163,8 +162,8 @@ public class IIRCard implements IItemRenderer {
 			}
 		}
 		
-		if(c.getAirCost() > 0){
-			for(int jj = 0; jj < c.getAirCost(); jj++){
+		if(card.getBaseCard().getAirCost() > 0){
+			for(int jj = 0; jj < card.getBaseCard().getAirCost(); jj++){
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
 				tess.addVertexWithUV(xx    , yy + 8, zz, 0.25D,  1.0D);
@@ -176,8 +175,8 @@ public class IIRCard implements IItemRenderer {
 			}
 		}
 
-		if(c.getWaterCost() > 0){
-			for(int jj = 0; jj < c.getWaterCost(); jj++){
+		if(card.getBaseCard().getWaterCost() > 0){
+			for(int jj = 0; jj < card.getBaseCard().getWaterCost(); jj++){
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
 				tess.addVertexWithUV(xx    , yy + 8, zz, 0.375D, 1D);
@@ -189,8 +188,8 @@ public class IIRCard implements IItemRenderer {
 			}
 		}
 		
-		if(c.getOrderCost() > 0){
-			for(int jj = 0; jj < c.getOrderCost(); jj++){
+		if(card.getBaseCard().getOrderCost() > 0){
+			for(int jj = 0; jj < card.getBaseCard().getOrderCost(); jj++){
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
 				tess.addVertexWithUV(xx    , yy + 8, zz, 0.5D,   1D);
@@ -202,8 +201,8 @@ public class IIRCard implements IItemRenderer {
 			}
 		}
 
-		if(c.getEntropyCost() > 0){
-			for(int jj = 0; jj < c.getEntropyCost(); jj++){
+		if(card.getBaseCard().getEntropyCost() > 0){
+			for(int jj = 0; jj < card.getBaseCard().getEntropyCost(); jj++){
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
 				tess.addVertexWithUV(xx    , yy + 8, zz, 0.625D, 1D);
@@ -217,7 +216,7 @@ public class IIRCard implements IItemRenderer {
 
 
 		
-		Minecraft.getMinecraft().fontRenderer.drawString(c.getName(), 0, 0, 0);
+		Minecraft.getMinecraft().fontRenderer.drawString(card.getBaseCard().getName(), 0, 0, 0);
 		GL11.glPopMatrix();
 	}
 

@@ -1,14 +1,14 @@
 package digitalseraphim.tcgc.client.mouse;
 
-import digitalseraphim.tcgc.TCGCraft;
-import digitalseraphim.tcgc.core.proxy.ClientProxy;
-import digitalseraphim.tcgc.items.ItemCard;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityClientPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.event.ForgeSubscribe;
+import digitalseraphim.tcgc.TCGCraft;
+import digitalseraphim.tcgc.core.proxy.ClientProxy;
+import digitalseraphim.tcgc.items.ItemCard;
 
 public class MouseHandler {
 	public static int dwheel = 0;

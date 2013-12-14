@@ -1,6 +1,5 @@
 package digitalseraphim.tcgc.core.logic;
 
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class CardInstance {
@@ -20,6 +19,13 @@ public class CardInstance {
 		isActivated = cardNBT.getBoolean(NBT_ACTIVATED);
 		isUsed = cardNBT.getBoolean(NBT_USED);
 		isLocked = cardNBT.getBoolean(NBT_LOCKED);
+	}
+	
+	public CardInstance(Card baseCard){
+		this.baseCard = baseCard;
+		isActivated = false;
+		isUsed = false;
+		isLocked = false;
 	}
 	
 	public static CardInstance fromNBT(NBTTagCompound cardNBT){

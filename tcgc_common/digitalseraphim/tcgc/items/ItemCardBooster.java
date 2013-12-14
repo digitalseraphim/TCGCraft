@@ -2,17 +2,17 @@ package digitalseraphim.tcgc.items;
 
 import java.util.Random;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
 import net.minecraft.world.World;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 import digitalseraphim.tcgc.TCGCraft;
 import digitalseraphim.tcgc.core.logic.Card;
+import digitalseraphim.tcgc.core.logic.CardInstance;
 
 public class ItemCardBooster extends Item {
 	private int numCards = 15;
@@ -36,32 +36,32 @@ public class ItemCardBooster extends Item {
 			return itemStack;
 		}
 
-		Card[] cards = new Card[numCards];
+		CardInstance[] cards = new CardInstance[numCards];
 		Random r = new Random();
 		
 		for(int i = 0; i < numCards; i++){
 			int n = r.nextInt(getTotalProb());
 			
 			if(n < manaProb){
-				cards[i] = Card.getRandomManaCard(r);
+				cards[i] = new CardInstance(Card.getRandomManaCard(r));
 				continue;
 			}
 			n -= manaProb;
 			if(n < spellProb){
-				cards[i] = Card.getRandomSpellCard(r);
+				cards[i] = new CardInstance(Card.getRandomSpellCard(r));
 				continue;
 			}
 			n -= spellProb;
 			if(n < selfModProb){
-				cards[i] = Card.getRandomSelfModCard(r);
+				cards[i] = new CardInstance(Card.getRandomSelfModCard(r));
 				continue;
 			}
 			n -= selfModProb;
 			if(n < cardModProb){
-				cards[i] = Card.getRandomCardModCard(r);
+				cards[i] = new CardInstance(Card.getRandomCardModCard(r));
 				continue;
 			}
-			cards[i] = Card.getRandomSummonCard(r);
+			cards[i] = new CardInstance(Card.getRandomSummonCard(r));
 		}
 		
 		itemStack.stackSize--;

@@ -3,14 +3,13 @@ package digitalseraphim.tcgc.core.recipes;
 import java.util.Arrays;
 import java.util.Vector;
 
-import digitalseraphim.tcgc.TCGCraft;
-import digitalseraphim.tcgc.core.logic.Card;
-import digitalseraphim.tcgc.items.ItemCard;
-import digitalseraphim.tcgc.items.ItemStorageBox;
 import net.minecraft.inventory.InventoryCrafting;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.World;
+import digitalseraphim.tcgc.TCGCraft;
+import digitalseraphim.tcgc.core.logic.CardInstance;
+import digitalseraphim.tcgc.items.ItemCard;
 
 public class CardStackRecipes implements IRecipe {
 
@@ -41,7 +40,7 @@ public class CardStackRecipes implements IRecipe {
 
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
-		Vector<Card> cards = new Vector<>();
+		Vector<CardInstance> cards = new Vector<>();
 
 		for(int row = 0; row < 3; row++){
 			for(int col = 0; col < 3; col++){
@@ -55,7 +54,7 @@ public class CardStackRecipes implements IRecipe {
 			}
 		}
 		
-		return ItemCard.createItemStack(TCGCraft.proxy.cardItem, cards.toArray(new Card[0]));
+		return ItemCard.createItemStack(TCGCraft.proxy.cardItem, cards.toArray(new CardInstance[0]));
 	}
 
 	@Override

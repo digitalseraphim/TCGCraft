@@ -12,6 +12,7 @@ import net.minecraft.world.World;
 import digitalseraphim.tcgc.TCGCraft;
 import digitalseraphim.tcgc.core.logic.Card;
 import digitalseraphim.tcgc.core.logic.Card.Type;
+import digitalseraphim.tcgc.core.logic.CardInstance;
 
 public class ItemCard extends ItemMap {
 	//can potentially represent a number of cards
@@ -33,13 +34,13 @@ public class ItemCard extends ItemMap {
 			return itemStack;
 		}else{
 			int sel = getSelectedCardIndex(itemStack);
-			Card[] cards = cardsFromItemStack(itemStack);
-			Card cardSel = cards[sel];
+			CardInstance[] cards = cardsFromItemStack(itemStack);
+			CardInstance cardSel = cards[sel];
 			int toModIdx = -1;
 			Card toMod = null;
-			Type t = cardSel.getType();
+			Type t = cardSel.getBaseCard().getType();
 			int[] totalMana = new int[]{0,0,0,0,0,0};
-			int[] castCost = cardSel.getCost();
+			int[] castCost = cardSel.getBaseCard().getCost();
 			
 			if(t == Type.MANA){
 				return super.onItemRightClick(itemStack, world, player);
@@ -54,11 +55,15 @@ public class ItemCard extends ItemMap {
 				if(i == sel || i == toModIdx){
 					continue;
 				}
-				if(!getActivated(itemStack, i) && cards[i].getType() != Type.MANA){
+
+				CardInstance card = cards[i];
+				
+				if(!card.isActivated() && card.getBaseCard().getType() != Type.MANA){
 					return super.onItemRightClick(itemStack, world, player);
 				}
-				if(cards[i].getType() == Type.MANA && !getUsed(itemStack, i)){
-					cards[i].addCost(totalMana);
+				
+				if(card.getBaseCard().getType() == Type.MANA && !card.isUsed()){
+					card.getBaseCard().addCost(totalMana);
 				}
 			}
 			
@@ -73,10 +78,13 @@ public class ItemCard extends ItemMap {
 			
 			if(canCast){
 				for(int i = 0; i < cards.length; i++){
-					if(cards[i].getType() == Type.MANA){
-						setUsed(itemStack, i, true);
+					CardInstance card = cards[i];
+					if(card.getBaseCard().getType() == Type.MANA){
+						card.setUsed(true);
+						card.setLocked(true);
+					}else{
+						card.setActivated(true);
 					}
-					setActivated(itemStack, i, true);
 				}
 			}
 		}
@@ -113,33 +121,33 @@ public class ItemCard extends ItemMap {
 		if(ItemCard.getCardCount(item) == 1){
 			return super.onDroppedByPlayer(item, player);
 		}else{
-			Vector<Card> cards = new Vector<>(Arrays.asList(cardsFromItemStack(item)));
+			Vector<CardInstance> cards = new Vector<>(Arrays.asList(cardsFromItemStack(item)));
 			int sel = getSelectedCardIndex(item);
-			Card drop = cards.remove(sel);
+			CardInstance drop = cards.remove(sel);
 			boolean collapsed = getCollapsed(item);
 			
-			System.out.println("dropping " + drop.getFullName());
-			ItemStack newIS = createItemStack(TCGCraft.proxy.cardItem, cards.toArray(new Card[0]));
+			System.out.println("dropping " + drop.getBaseCard().getFullName());
+			ItemStack newIS = createItemStack(TCGCraft.proxy.cardItem, cards.toArray(new CardInstance[0]));
 			item.setTagCompound(newIS.getTagCompound());
 			
 			int count = getCardCount(item);
 			
 			setSelected(item, Math.max(sel-1, sel%count));
 			setCollapsed(item, collapsed);
-			player.dropPlayerItem(createItemStack(TCGCraft.proxy.cardItem, new Card[]{drop}));
+			player.dropPlayerItem(createItemStack(TCGCraft.proxy.cardItem, new CardInstance[]{drop}));
 
 			return false;
 		}
 	}
 	
-	public static ItemStack createItemStack(Item item, Card[] cards){
+	public static ItemStack createItemStack(Item item, CardInstance[] cards){
 		ItemStack is = new ItemStack(item);
 		NBTTagCompound tagCompound = new NBTTagCompound(NBT_CARDS_ROOT);
 		
 		tagCompound.setInteger(NBT_COUNT, cards.length);
 		tagCompound.setInteger(NBT_SELECTED, 0);
 		for(int i = 0; i < cards.length; i++){
-			tagCompound.setString(NBT_CARD_BASE+i, cards[i].getFullName());
+			tagCompound.setCompoundTag(NBT_CARD_BASE+i, cards[i].toTagCompound());
 		}
 		
 		is.setTagCompound(tagCompound);
@@ -147,15 +155,14 @@ public class ItemCard extends ItemMap {
 		return is;
 	}
 
-	public static Card[] cardsFromItemStack(ItemStack is){
+	public static CardInstance[] cardsFromItemStack(ItemStack is){
 		NBTTagCompound root = is.getTagCompound();
 		int count = root.getInteger(NBT_COUNT);
-		Card[] cards = new Card[count];
+		CardInstance[] cards = new CardInstance[count];
 		
 		for(int i = 0; i < count; i++){
 			NBTTagCompound card = root.getCompoundTag(NBT_CARD_BASE+i);
-			
-			cards[i] = Card.getAllCards().get(tagCompound.getString(NBT_CARD_BASE+i));
+			cards[i] = CardInstance.fromNBT(card);
 		}
 		
 		return cards;
@@ -163,21 +170,21 @@ public class ItemCard extends ItemMap {
 	
 	@Override
 	public String getItemDisplayName(ItemStack itemStack) {
-		Card c = getSelectedCard(itemStack);
+		CardInstance c = getSelectedCard(itemStack);
 		int count =  getCardCount(itemStack);
 		if(count > 1){
-			return String.format("%s:%s (%d others)", c.getName(), c.getType().getName(), count);
+			return String.format("%s:%s (%d others)", c.getBaseCard().getName(), c.getBaseCard().getType().getName(), count-1);
 		}
-		return String.format("%s:%s", c.getName(), c.getType().getName());
+		return String.format("%s:%s", c.getBaseCard().getName(), c.getBaseCard().getType().getName());
 	}
 
-	public static Card getCard(ItemStack is, int i){
+	public static CardInstance getCard(ItemStack is, int i){
 		NBTTagCompound tag = is.getTagCompound();
-		String name = tag.getString(NBT_CARD_BASE+i);
-		return Card.getAllCards().get(name);
+		NBTTagCompound cardNBT = tag.getCompoundTag(NBT_CARD_BASE+i);
+		return CardInstance.fromNBT(cardNBT);
 	}
 	
-	public static Card getSelectedCard(ItemStack is){
+	public static CardInstance getSelectedCard(ItemStack is){
 		NBTTagCompound tag = is.getTagCompound();
 		int sel = tag.getInteger(NBT_SELECTED);
 		return getCard(is, sel);
