@@ -20,8 +20,6 @@ public class ItemCard extends ItemMap {
 	public static final String NBT_COLLAPSED = "collapsed";
 	public static final String NBT_COUNT = "count";
 	public static final String NBT_CARD_BASE = "card";
-	public static final String NBT_ACTIVATED_BASE = "activated";
-	public static final String NBT_USED_BASE = "used";
 	
 	public ItemCard(int id) {
 		super(id);
@@ -150,11 +148,13 @@ public class ItemCard extends ItemMap {
 	}
 
 	public static Card[] cardsFromItemStack(ItemStack is){
-		NBTTagCompound tagCompound = is.getTagCompound();
-		int count = tagCompound.getInteger(NBT_COUNT);
+		NBTTagCompound root = is.getTagCompound();
+		int count = root.getInteger(NBT_COUNT);
 		Card[] cards = new Card[count];
 		
 		for(int i = 0; i < count; i++){
+			NBTTagCompound card = root.getCompoundTag(NBT_CARD_BASE+i);
+			
 			cards[i] = Card.getAllCards().get(tagCompound.getString(NBT_CARD_BASE+i));
 		}
 		
@@ -214,25 +214,6 @@ public class ItemCard extends ItemMap {
 		tag.setInteger(NBT_SELECTED, sel%count);		
 	}
 	
-	public static void setActivated(ItemStack is, int idx, boolean activated){
-		NBTTagCompound tag = is.getTagCompound();
-		tag.setBoolean(NBT_ACTIVATED_BASE + idx, activated);
-	}
-
-	public static boolean getActivated(ItemStack is, int idx){
-		NBTTagCompound tag = is.getTagCompound();
-		return tag.getBoolean(NBT_ACTIVATED_BASE + idx);
-	}
-	
-	public static void setUsed(ItemStack is, int idx, boolean used){
-		NBTTagCompound tag = is.getTagCompound();
-		tag.setBoolean(NBT_USED_BASE + idx, used);
-	}
-
-	public static boolean getUsed(ItemStack is, int idx){
-		NBTTagCompound tag = is.getTagCompound();
-		return tag.getBoolean(NBT_USED_BASE + idx);		
-	}
 	
 	public static void scrollSelected(ItemStack is, int amnt){
 		NBTTagCompound tag = is.getTagCompound();
