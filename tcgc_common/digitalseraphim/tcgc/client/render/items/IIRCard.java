@@ -22,7 +22,7 @@ public class IIRCard implements IItemRenderer {
 
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
-		switch(helper){
+		switch (helper) {
 		case ENTITY_BOBBING:
 		case ENTITY_ROTATION:
 			return true;
@@ -42,7 +42,7 @@ public class IIRCard implements IItemRenderer {
 			RenderBlocks render = (RenderBlocks) data[0];
 			// EntityItem entity = (EntityItem) data[1];
 			GL11.glPushMatrix();
-			GL11.glScalef(1.f/128.f, -1.f/128.f, -1.f);
+			GL11.glScalef(1.f / 128.f, -1.f / 128.f, -1.f);
 			GL11.glTranslatef(-64f, -128f, 0f);
 			renderCardFront(render.minecraftRB.getTextureManager(), ItemCard.getSelectedCard(item));
 			renderCardBack(render.minecraftRB.getTextureManager(), item, ItemCard.getSelectedCardIndex(item));
@@ -62,12 +62,12 @@ public class IIRCard implements IItemRenderer {
 			break;
 		}
 		case EQUIPPED_FIRST_PERSON:
-			//this shouldn't happen
+			// this shouldn't happen
 			break;
 		case INVENTORY: {
 			RenderBlocks render = (RenderBlocks) data[0];
 			GL11.glPushMatrix();
-			GL11.glScalef(1.f/8.f, 1.f/8.f, -1.f);
+			GL11.glScalef(1.f / 8.f, 1.f / 8.f, -1.f);
 			renderCardFront(render.minecraftRB.getTextureManager(), ItemCard.getSelectedCard(item));
 			GL11.glPopMatrix();
 		}
@@ -79,22 +79,22 @@ public class IIRCard implements IItemRenderer {
 
 	}
 
-
 	public void renderFirstPerson(TextureManager texMan, ItemStack item) {
 		CardInstance[] cards = ItemCard.cardsFromItemStack(item);
 		int sel = ItemCard.getSelectedCardIndex(item);
 		boolean collapsed = item.getTagCompound().getBoolean("collapsed");
-		if(collapsed){
+		if (collapsed) {
 			GL11.glPushMatrix();
 			renderCardFront(texMan, ItemCard.getSelectedCard(item));
 			GL11.glPopMatrix();
-		}else{
+		} else {
 			for (int i = 0; i < cards.length; i++) {
 				GL11.glPushMatrix();
-				GL11.glTranslatef(-5f * cards.length + (i * 10f), (i == sel) ? -20f : 0f, -1 + .05f * Math.abs(i - sel) + ((i>sel)?.025f:0));
+				GL11.glTranslatef(-5f * cards.length + (i * 10f), (i == sel) ? -20f : 0f, -1 + .05f * Math.abs(i - sel)
+						+ ((i > sel) ? .025f : 0));
 				renderCardFront(texMan, cards[i]);
 				GL11.glPopMatrix();
-			}	
+			}
 		}
 	}
 
@@ -102,7 +102,7 @@ public class IIRCard implements IItemRenderer {
 		texMan.bindTexture(new ResourceLocation("tcgc:textures/items/card_back.png"));
 		Tessellator tess = Tessellator.instance;
 		byte b0 = 7;
-		
+
 		tess.startDrawingQuads();
 		tess.setColorOpaque_I(0xffffff);
 		tess.addVertexWithUV((double) (0 - b0), (double) (0 - b0), 0.0D, 0.0D, 0.0D);
@@ -111,13 +111,12 @@ public class IIRCard implements IItemRenderer {
 		tess.addVertexWithUV((double) (0 - b0), (double) (128 + b0), 0.0D, 0.0D, 1.0D);
 		tess.draw();
 	}
-	
-	
+
 	public void renderCardFront(TextureManager texMan, CardInstance card) {
 		texMan.bindTexture(new ResourceLocation("tcgc:textures/items/card_front_base.png"));
 		Tessellator tess = Tessellator.instance;
 		byte b0 = 7;
-		
+
 		tess.startDrawingQuads();
 		tess.setColorOpaque_I(0xffffff);
 		tess.addVertexWithUV((double) (0 - b0), (double) (128 + b0), 0.0D, 0.0D, 1.0D);
@@ -127,87 +126,87 @@ public class IIRCard implements IItemRenderer {
 		tess.draw();
 
 		texMan.bindTexture(new ResourceLocation("tcgc:textures/items/manasymbols.png"));
-		
+
 		float xx = 128 - 8 * card.getBaseCard().getTotalCost();
 		float yy = 4;
 		float zz = -.01f;
-		
+
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0, 0, -.01f);
 
-		if(card.getBaseCard().getEarthCost() > 0){
-			for(int jj = 0; jj < card.getBaseCard().getEarthCost(); jj++){
+		if (card.getBaseCard().getEarthCost() > 0) {
+			for (int jj = 0; jj < card.getBaseCard().getEarthCost(); jj++) {
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
-				tess.addVertexWithUV(xx    , yy + 8, zz, 0.0D, 1D);
+				tess.addVertexWithUV(xx, yy + 8, zz, 0.0D, 1D);
 				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.125D, 1D);
-				tess.addVertexWithUV(xx + 8, yy    , zz, 0.125D, 0.0D);
-				tess.addVertexWithUV(xx    , yy    , zz, 0.0D, 0.0D);
+				tess.addVertexWithUV(xx + 8, yy, zz, 0.125D, 0.0D);
+				tess.addVertexWithUV(xx, yy, zz, 0.0D, 0.0D);
 				tess.draw();
 				xx += 8;
 			}
 		}
-		
-		if(card.getBaseCard().getFireCost() > 0){
-			for(int jj = 0; jj < card.getBaseCard().getFireCost(); jj++){
+
+		if (card.getBaseCard().getFireCost() > 0) {
+			for (int jj = 0; jj < card.getBaseCard().getFireCost(); jj++) {
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
-				tess.addVertexWithUV(xx    , yy + 8, zz, .125D, 1.0D);
+				tess.addVertexWithUV(xx, yy + 8, zz, .125D, 1.0D);
 				tess.addVertexWithUV(xx + 8, yy + 8, zz, .25D, 1.0D);
-				tess.addVertexWithUV(xx + 8, yy    , zz, .25D, 0.D);
-				tess.addVertexWithUV(xx    , yy    , zz, .125D, 0.D);
+				tess.addVertexWithUV(xx + 8, yy, zz, .25D, 0.D);
+				tess.addVertexWithUV(xx, yy, zz, .125D, 0.D);
 				tess.draw();
 				xx += 8;
 			}
 		}
-		
-		if(card.getBaseCard().getAirCost() > 0){
-			for(int jj = 0; jj < card.getBaseCard().getAirCost(); jj++){
+
+		if (card.getBaseCard().getAirCost() > 0) {
+			for (int jj = 0; jj < card.getBaseCard().getAirCost(); jj++) {
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
-				tess.addVertexWithUV(xx    , yy + 8, zz, 0.25D,  1.0D);
+				tess.addVertexWithUV(xx, yy + 8, zz, 0.25D, 1.0D);
 				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.375D, 1.0D);
-				tess.addVertexWithUV(xx + 8, yy    , zz, 0.375D, 0.0D);
-				tess.addVertexWithUV(xx    , yy    , zz, 0.25D,  0.0D);
+				tess.addVertexWithUV(xx + 8, yy, zz, 0.375D, 0.0D);
+				tess.addVertexWithUV(xx, yy, zz, 0.25D, 0.0D);
 				tess.draw();
 				xx += 8;
 			}
 		}
 
-		if(card.getBaseCard().getWaterCost() > 0){
-			for(int jj = 0; jj < card.getBaseCard().getWaterCost(); jj++){
+		if (card.getBaseCard().getWaterCost() > 0) {
+			for (int jj = 0; jj < card.getBaseCard().getWaterCost(); jj++) {
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
-				tess.addVertexWithUV(xx    , yy + 8, zz, 0.375D, 1D);
-				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.5D,   1D);
-				tess.addVertexWithUV(xx + 8, yy    , zz, 0.5D,   0D);
-				tess.addVertexWithUV(xx    , yy    , zz, 0.375D, 0D);
+				tess.addVertexWithUV(xx, yy + 8, zz, 0.375D, 1D);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.5D, 1D);
+				tess.addVertexWithUV(xx + 8, yy, zz, 0.5D, 0D);
+				tess.addVertexWithUV(xx, yy, zz, 0.375D, 0D);
 				tess.draw();
 				xx += 8;
 			}
 		}
-		
-		if(card.getBaseCard().getOrderCost() > 0){
-			for(int jj = 0; jj < card.getBaseCard().getOrderCost(); jj++){
+
+		if (card.getBaseCard().getOrderCost() > 0) {
+			for (int jj = 0; jj < card.getBaseCard().getOrderCost(); jj++) {
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
-				tess.addVertexWithUV(xx    , yy + 8, zz, 0.5D,   1D);
+				tess.addVertexWithUV(xx, yy + 8, zz, 0.5D, 1D);
 				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.625D, 1D);
-				tess.addVertexWithUV(xx + 8, yy    , zz, 0.625D, 0D);
-				tess.addVertexWithUV(xx    , yy    , zz, 0.5D,   0D);
+				tess.addVertexWithUV(xx + 8, yy, zz, 0.625D, 0D);
+				tess.addVertexWithUV(xx, yy, zz, 0.5D, 0D);
 				tess.draw();
 				xx += 8;
 			}
 		}
 
-		if(card.getBaseCard().getEntropyCost() > 0){
-			for(int jj = 0; jj < card.getBaseCard().getEntropyCost(); jj++){
+		if (card.getBaseCard().getEntropyCost() > 0) {
+			for (int jj = 0; jj < card.getBaseCard().getEntropyCost(); jj++) {
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
-				tess.addVertexWithUV(xx    , yy + 8, zz, 0.625D, 1D);
-				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.75D,  1D);
-				tess.addVertexWithUV(xx + 8, yy    , zz, 0.75D,  0D);
-				tess.addVertexWithUV(xx    , yy    , zz, 0.625D, 0D);
+				tess.addVertexWithUV(xx, yy + 8, zz, 0.625D, 1D);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.75D, 1D);
+				tess.addVertexWithUV(xx + 8, yy, zz, 0.75D, 0D);
+				tess.addVertexWithUV(xx, yy, zz, 0.625D, 0D);
 				tess.draw();
 				xx += 8;
 			}
@@ -216,37 +215,38 @@ public class IIRCard implements IItemRenderer {
 		Minecraft.getMinecraft().fontRenderer.drawString(card.getBaseCard().getName(), 0, 0, 0);
 
 		zz = -0.02f;
-		if(card.isUsed()){
-			
+		if (card.isUsed()) {
+
 			tess.startDrawingQuads();
 			tess.setColorRGBA_I(0x0, 128);
 			tess.addVertex((double) (0 - b0), (double) (128 + b0), zz);
 			tess.addVertex((double) (128 + b0), (double) (128 + b0), zz);
-			tess.addVertex((double) (128 + b0), (double) (0 - b0),zz);
+			tess.addVertex((double) (128 + b0), (double) (0 - b0), zz);
 			tess.addVertex((double) (0 - b0), (double) (0 - b0), zz);
 			tess.draw();
 		}
-		
-		//if(card.isActivated()){
-			long tick = Minecraft.getSystemTime()/20000;
-			int t = (int)((tick/3)+1)%16;
-			int s = (int)((tick/3))%16;
 
-			tess.addVertexWithUV(0,1,0, 0,.0625*t);
-			tess.addVertexWithUV(1,1,0, 1,.0625*t);
-			tess.addVertexWithUV(1,0,0, 1,.0625*s);
-			tess.addVertexWithUV(0,0,0, 0,.0625*s);
+		// if(card.isActivated()){
+		long tick = (Minecraft.getSystemTime() / 200)%15;
+		int t = (int) ((tick / 3) + 1) % 16;
+		int s = (int) ((tick / 3)) % 16;
 
-			texMan.bindTexture(new ResourceLocation("minecraft:textures/misc/enchanted_item_glint.png"));
-			tess.startDrawingQuads();
-			tess.setColorOpaque_I(0xffffff);
-			tess.addVertexWithUV((double) (0 - b0), (double) (128 + b0), zz, .0625*t, 0);
-			tess.addVertexWithUV((double) (128 + b0), (double) (128 + b0), zz,.0625*t,  1);
-			tess.addVertexWithUV((double) (128 + b0), (double) (0 - b0), zz,.0625*s, 1);
-			tess.addVertexWithUV((double) (0 - b0), (double) (0 - b0),zz,.0625*s, 0);
-			tess.draw();
-		//}
-		
+		tess.addVertexWithUV(0, 1, 0, 0, .0625 * t);
+		tess.addVertexWithUV(1, 1, 0, 1, .0625 * t);
+		tess.addVertexWithUV(1, 0, 0, 1, .0625 * s);
+		tess.addVertexWithUV(0, 0, 0, 0, .0625 * s);
+
+		texMan.bindTexture(new ResourceLocation("tcgc:textures/misc/anim2.png"));
+		tess.startDrawingQuads();
+//		GL11.glBlendFunc(GL11.GL_SRC_COLOR, GL11.GL_ONE);
+//		tess.setColorRGBA_I(0xffffff, 150);
+		tess.addVertexWithUV((double) (0 - b0), (double) (128 + b0), zz, 0, .0625 * t);
+		tess.addVertexWithUV((double) (128 + b0), (double) (128 + b0), zz, 1, .0625 * t);
+		tess.addVertexWithUV((double) (128 + b0), (double) (0 - b0), zz, 1, .0625 * s);
+		tess.addVertexWithUV((double) (0 - b0), (double) (0 - b0), zz, 0, .0625 * s);
+		tess.draw();
+		// }
+
 		GL11.glPopMatrix();
 	}
 
