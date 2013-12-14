@@ -3,6 +3,8 @@ package digitalseraphim.tcgc.core.proxy;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 
+import cpw.mods.fml.common.network.PacketDispatcher;
+
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.MinecraftForge;
@@ -49,6 +51,8 @@ public class ClientProxy extends CommonProxy {
 		packet.channel = Strings.MOD_ID;
 		packet.data = bos.toByteArray();
 		packet.length = bos.size();
+		
+		PacketDispatcher.sendPacketToServer(packet);
 	}
 
 }

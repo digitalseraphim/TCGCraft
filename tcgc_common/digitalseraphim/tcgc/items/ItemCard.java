@@ -64,12 +64,19 @@ public class ItemCard extends ItemMap {
 		if(ItemCard.getCardCount(item) == 1){
 			return super.onDroppedByPlayer(item, player);
 		}else{
-			Vector<Card> cards = new Vector<>(Arrays.asList(cardsFromItemStack(item))); 
-			Card drop = cards.remove(getSelectedCardIndex(item));
+			Vector<Card> cards = new Vector<>(Arrays.asList(cardsFromItemStack(item)));
+			int sel = getSelectedCardIndex(item);
+			Card drop = cards.remove(sel);
+			boolean collapsed = getCollapsed(item);
+			
 			System.out.println("dropping " + drop.getFullName());
 			ItemStack newIS = createItemStack(TCGCraft.proxy.cardItem, cards.toArray(new Card[0]));
 			item.setTagCompound(newIS.getTagCompound());
 			
+			int count = getCardCount(item);
+			
+			setSelected(item, Math.max(sel-1, sel%count));
+			setCollapsed(item, collapsed);
 			player.dropPlayerItem(createItemStack(TCGCraft.proxy.cardItem, new Card[]{drop}));
 
 			return false;
@@ -106,7 +113,11 @@ public class ItemCard extends ItemMap {
 	@Override
 	public String getItemDisplayName(ItemStack itemStack) {
 		Card c = getSelectedCard(itemStack);
-		return String.format("%s:%s (%d others)", c.getName(), c.getType().name(), getCardCount(itemStack));
+		int count =  getCardCount(itemStack);
+		if(count > 1){
+			return String.format("%s:%s (%d others)", c.getName(), c.getType().getName(), count);
+		}
+		return String.format("%s:%s", c.getName(), c.getType().getName());
 	}
 
 	public static Card getCard(ItemStack is, int i){
@@ -131,10 +142,19 @@ public class ItemCard extends ItemMap {
 		return tag.getInteger(NBT_COUNT);
 	}
 	
+	public static boolean getCollapsed(ItemStack is){
+		NBTTagCompound tag = is.getTagCompound();
+		return tag.getBoolean(NBT_COLLAPSED);
+	}
+	
+	public static void setCollapsed(ItemStack is, boolean collapsed){
+		NBTTagCompound tag = is.getTagCompound();
+		tag.setBoolean(NBT_COLLAPSED, collapsed);		
+	}
+	
 	public static void toggleCollapsed(ItemStack is){
 		NBTTagCompound tag = is.getTagCompound();
-		boolean collapsed = tag.getBoolean(NBT_COLLAPSED);
-		tag.setBoolean(NBT_COLLAPSED, !collapsed);
+		tag.setBoolean(NBT_COLLAPSED, !tag.getBoolean(NBT_COLLAPSED));
 	}
 	
 	public static void setSelected(ItemStack is, int sel){
@@ -142,6 +162,8 @@ public class ItemCard extends ItemMap {
 		int count = tag.getInteger(NBT_COUNT);
 		tag.setInteger(NBT_SELECTED, sel%count);		
 	}
+	
+	
 	
 	public static void scrollSelected(ItemStack is, int amnt){
 		NBTTagCompound tag = is.getTagCompound();

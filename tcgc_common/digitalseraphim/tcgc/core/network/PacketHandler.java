@@ -13,27 +13,27 @@ import digitalseraphim.tcgc.items.ItemCard;
 
 public class PacketHandler implements IPacketHandler {
 	public static final byte PACKET_SELECTION_UPDATE = 1;
-	
-	
+
 	@Override
 	public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player) {
 		ByteBuffer bb = ByteBuffer.wrap(packet.data);
-		
+
 		byte type = bb.get();
-		
-		switch(type){
+		System.out.println("got packet " + type);
+		switch (type) {
 		case PACKET_SELECTION_UPDATE:
-			EntityPlayer p = (EntityPlayer)player;
+			EntityPlayer p = (EntityPlayer) player;
 			ItemStack is = p.getCurrentEquippedItem();
 			int amnt = bb.getInt();
-			if(is.getItem() instanceof ItemCard){
+			System.out.println("should select " + amnt);
+			if (is.getItem() instanceof ItemCard) {
 				ItemCard.scrollSelected(is, amnt);
 			}
-			
-			default:
-				System.out.println("unknown packet type: " + type);
+			break;
+		default:
+			System.out.println("unknown packet type: " + type);
 		}
-		
+
 	}
 
 }

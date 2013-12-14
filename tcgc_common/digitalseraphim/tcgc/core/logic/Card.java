@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import cpw.mods.fml.relauncher.IFMLLoadingPlugin.Name;
+
 public class Card {
 	private final static HashMap<String, Card> allCards = new HashMap<>();
 	private final static HashMap<String, Card> manaCards = new HashMap<>();
@@ -183,7 +185,17 @@ public class Card {
 	}
 
 	public static enum Type {
-		MANA, SPELL, SELF_MODIFIER, CARD_MODIFIER, SUMMON
+		MANA("Mana"), SPELL("Spell"), SELF_MODIFIER("Self Mod"), CARD_MODIFIER("Card Mod"), SUMMON("Summon");
+
+		private String name;
+		private Type(String name){
+			this.name = name;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		
 	}
 
 	// yes, planning for future Thaumcraft integration
