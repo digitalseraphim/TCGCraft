@@ -10,6 +10,7 @@ import digitalseraphim.tcgc.core.logic.Card;
 
 public class ItemCard extends ItemMap {
 	//can potentially represent a number of cards
+	public static final String NBT_CARDS_ROOT = "cards";
 	public static final String NBT_SELECTED = "selected";
 	public static final String NBT_COLLAPSED = "collapsed";
 	public static final String NBT_COUNT = "count";
@@ -23,12 +24,8 @@ public class ItemCard extends ItemMap {
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world,
 			EntityPlayer player) {
-		System.out.println("ItemCard.onItemRightClick()");
-		
 		if(player.isSneaking()){
-			NBTTagCompound tag = itemStack.getTagCompound();
-			boolean collapsed = tag.getBoolean("collapsed");
-			tag.setBoolean("collapsed", !collapsed);
+			toggleCollapsed(itemStack);
 			return itemStack;
 		}
 		
@@ -39,12 +36,8 @@ public class ItemCard extends ItemMap {
 	public boolean onItemUseFirst(ItemStack itemStack, EntityPlayer player,
 			World world, int x, int y, int z, int side, float hitX, float hitY,
 			float hitZ) {
-		System.out.println("ItemCard.onItemUseFirst()");
-		
 		if(player.isSneaking()){
-			NBTTagCompound tag = itemStack.getTagCompound();
-			boolean collapsed = tag.getBoolean("collapsed");
-			tag.setBoolean("collapsed", !collapsed);
+			toggleCollapsed(itemStack);
 			return true;
 		}
 		
@@ -71,12 +64,12 @@ public class ItemCard extends ItemMap {
 	
 	public static ItemStack createItemStack(Card[] cards){
 		ItemStack is = new ItemStack(TCGCraft.proxy.cardItem);
-		NBTTagCompound tagCompound = new NBTTagCompound("cards");
+		NBTTagCompound tagCompound = new NBTTagCompound(NBT_CARDS_ROOT);
 		
-		tagCompound.setInteger("count", cards.length);
-		tagCompound.setInteger("selected", 0);
+		tagCompound.setInteger(NBT_COUNT, cards.length);
+		tagCompound.setInteger(NBT_SELECTED, 0);
 		for(int i = 0; i < cards.length; i++){
-			tagCompound.setString("card"+i, cards[i].getFullName());
+			tagCompound.setString(NBT_CARD_BASE+i, cards[i].getFullName());
 		}
 		
 		is.setTagCompound(tagCompound);
@@ -86,11 +79,11 @@ public class ItemCard extends ItemMap {
 
 	public static Card[] cardsFromItemStack(ItemStack is){
 		NBTTagCompound tagCompound = is.getTagCompound();
-		int count = tagCompound.getInteger("count");
+		int count = tagCompound.getInteger(NBT_COUNT);
 		Card[] cards = new Card[count];
 		
 		for(int i = 0; i < count; i++){
-			cards[i] = Card.getAllCards().get(tagCompound.getString("card"+i));
+			cards[i] = Card.getAllCards().get(tagCompound.getString(NBT_CARD_BASE+i));
 		}
 		
 		return cards;
@@ -98,35 +91,42 @@ public class ItemCard extends ItemMap {
 	
 	@Override
 	public String getItemDisplayName(ItemStack itemStack) {
-		NBTTagCompound tag = itemStack.getTagCompound();
-		int sel = tag.getInteger("selected");
-		String name = tag.getString("card"+sel);
-		Card c = Card.getAllCards().get(name);
-		
+		Card c = getSelectedCard(itemStack);
 		return c.getFullName();
 	}
 
 	public static Card getCard(ItemStack is, int i){
 		NBTTagCompound tag = is.getTagCompound();
-		String name = tag.getString("card"+i);
+		String name = tag.getString(NBT_CARD_BASE+i);
 		return Card.getAllCards().get(name);
 	}
 	
 	public static Card getSelectedCard(ItemStack is){
 		NBTTagCompound tag = is.getTagCompound();
-		int sel = tag.getInteger("selected");
+		int sel = tag.getInteger(NBT_SELECTED);
 		return getCard(is, sel);
 	}
 	
 	public static int getSelectedCardIndex(ItemStack is){
 		NBTTagCompound tag = is.getTagCompound();
-		return tag.getInteger("selected");
+		return tag.getInteger(NBT_SELECTED);
+	}
+	
+	public static int getCardCount(ItemStack is){
+		NBTTagCompound tag = is.getTagCompound();
+		return tag.getInteger(NBT_SELECTED);
+	}
+	
+	public static void toggleCollapsed(ItemStack is){
+		NBTTagCompound tag = is.getTagCompound();
+		boolean collapsed = tag.getBoolean(NBT_COLLAPSED);
+		tag.setBoolean(NBT_COLLAPSED, !collapsed);
 	}
 	
 	public static void scrollSelected(ItemStack is, int amnt){
 		NBTTagCompound tag = is.getTagCompound();
-		int sel = tag.getInteger("selected");
-		int count = tag.getInteger("count");
+		int sel = tag.getInteger(NBT_SELECTED);
+		int count = tag.getInteger(NBT_COUNT);
 	
 		sel += amnt;
 		
@@ -136,7 +136,7 @@ public class ItemCard extends ItemMap {
 		
 		sel = sel % count;
 		
-		tag.setInteger("selected", sel);
+		tag.setInteger(NBT_SELECTED, sel);
 	}
 	
 }
