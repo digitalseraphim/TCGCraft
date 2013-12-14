@@ -30,18 +30,19 @@ public class Card {
 		new Card("Newborn Island", Type.MANA, 0, 1, 0, 1, 0, 0, EnumRarity.rare);
 		new Card("Cloud", Type.MANA, 0, 0, 1, 1, 0, 0, EnumRarity.rare);
 
-		new Card("FireBolt", Type.SPELL, 0, 1, 0, 0, 0, 0);
-		new Card("FireBall", Type.SPELL, 0, 3, 0, 0, 0, 0);
-		new Card("WaterStream", Type.SPELL, 0, 0, 0, 1, 0, 0);
-		new Card("Tsunami", Type.SPELL, 0, 0, 0, 3, 0, 0);
+		new Card("FireBolt", Type.SPELL, 0, 1, 0, 0, 0, 0, EnumRarity.common);
+		new Card("FireBall", Type.SPELL, 0, 3, 0, 0, 0, 0, EnumRarity.rare);
+		new Card("WaterStream", Type.SPELL, 0, 0, 0, 1, 0, 0, EnumRarity.common);
+		new Card("Tsunami", Type.SPELL, 0, 0, 0, 3, 0, 0, EnumRarity.rare);
 
-		new Card("Heal", Type.SELF_MODIFIER, 0, 0, 1, 1, 1, 0);
-		new Card("Haste", Type.SELF_MODIFIER, 0, 0, 3, 1, 0, 0);
+		new Card("Heal", Type.SELF_MODIFIER, 0, 0, 1, 1, 1, 0, EnumRarity.rare);
+		new Card("Haste", Type.SELF_MODIFIER, 0, 0, 3, 1, 0, 0, EnumRarity.rare);
 
-		new Card("Haste", Type.CARD_MODIFIER, 0, 0, 3, 1, 0, 0);
+		new Card("Haste", Type.CARD_MODIFIER, 0, 0, 3, 1, 0, 0, EnumRarity.rare);
 
-		new Card("SnowGolem", Type.SUMMON, 0, 0, 2, 2, 2, 0);
-		new Card("IronGolem", Type.SUMMON, 2, 2, 0, 0, 2, 0);
+		new Card("SnowGolem", Type.SUMMON, 0, 0, 2, 2, 2, 0, EnumRarity.rare);
+		new Card("IronGolem", Type.SUMMON, 2, 2, 0, 0, 2, 0, EnumRarity.epic);
+		new Card("Villager", Type.SUMMON,  2, 2, 0, 0, 2, 0, EnumRarity.rare);
 	}
 
 	private final String name;
@@ -166,6 +167,10 @@ public class Card {
 		return cost[Mana.ENTROPY.ordinal()];
 	}
 
+	public EnumRarity getRarity() {
+		return rarity;
+	}
+	
 	public int getTotalCost() {
 		int tot = 0;
 		for (int i : cost) {
