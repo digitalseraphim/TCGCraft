@@ -11,7 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import digitalseraphim.tcgc.TCGCraft;
 import digitalseraphim.tcgc.core.logic.Card;
-import digitalseraphim.tcgc.core.logic.Card.Mana;
 import digitalseraphim.tcgc.core.logic.Card.Type;
 
 public class ItemCard extends ItemMap {
@@ -21,6 +20,7 @@ public class ItemCard extends ItemMap {
 	public static final String NBT_COLLAPSED = "collapsed";
 	public static final String NBT_COUNT = "count";
 	public static final String NBT_CARD_BASE = "card";
+	public static final String NBT_ACTIVATED_BASE = "activated";
 	
 	public ItemCard(int id) {
 		super(id);
@@ -67,7 +67,11 @@ public class ItemCard extends ItemMap {
 				}
 			}
 			
-			
+			if(canCast){
+				for(int i = 0; i < cards.length; i++){
+					
+				}
+			}
 			
 		}
 		
@@ -202,7 +206,15 @@ public class ItemCard extends ItemMap {
 		tag.setInteger(NBT_SELECTED, sel%count);		
 	}
 	
-	
+	public static void setActivated(ItemStack is, int idx, boolean activated){
+		NBTTagCompound tag = is.getTagCompound();
+		tag.setBoolean(NBT_ACTIVATED_BASE + idx, activated);
+	}
+
+	public static boolean getActivated(ItemStack is, int idx){
+		NBTTagCompound tag = is.getTagCompound();
+		return tag.getBoolean(NBT_ACTIVATED_BASE + idx);
+	}
 	
 	public static void scrollSelected(ItemStack is, int amnt){
 		NBTTagCompound tag = is.getTagCompound();
