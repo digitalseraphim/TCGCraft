@@ -22,7 +22,16 @@ public class IIRCard implements IItemRenderer {
 
 	@Override
 	public boolean shouldUseRenderHelper(ItemRenderType type, ItemStack item, ItemRendererHelper helper) {
-		return true;
+		switch(helper){
+		case ENTITY_BOBBING:
+		case ENTITY_ROTATION:
+			return true;
+		case BLOCK_3D:
+		case EQUIPPED_BLOCK:
+		case INVENTORY_BLOCK:
+		default:
+			return false;
+		}
 	}
 
 	@Override
@@ -53,7 +62,10 @@ public class IIRCard implements IItemRenderer {
 			break;
 		case INVENTORY: {
 			RenderBlocks render = (RenderBlocks) data[0];
-			renderCardBack(render);
+			GL11.glPushMatrix();
+			GL11.glScalef(1.f/8.f, 1.f/8.f, 1.f/8.f);
+			renderCardFront(render.minecraftRB.getTextureManager(), item, ItemCard.getSelectedCardIndex(item));
+			GL11.glPopMatrix();
 		}
 			break;
 		default:

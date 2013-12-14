@@ -114,6 +114,11 @@ public class ItemCard extends ItemMap {
 		return getCard(is, sel);
 	}
 	
+	public static int getSelectedCardIndex(ItemStack is){
+		NBTTagCompound tag = is.getTagCompound();
+		return tag.getInteger("selected");
+	}
+	
 	public static void scrollSelected(ItemStack is, int amnt){
 		NBTTagCompound tag = is.getTagCompound();
 		int sel = tag.getInteger("selected");
