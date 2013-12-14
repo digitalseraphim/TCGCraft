@@ -103,11 +103,16 @@ public class ItemCard extends ItemMap {
 		return c.getFullName();
 	}
 
+	public static Card getCard(ItemStack is, int i){
+		NBTTagCompound tag = is.getTagCompound();
+		String name = tag.getString("card"+i);
+		return Card.getAllCards().get(name);
+	}
+	
 	public static Card getSelectedCard(ItemStack is){
 		NBTTagCompound tag = is.getTagCompound();
 		int sel = tag.getInteger("selected");
-		String name = tag.getString("card"+sel);
-		return Card.getAllCards().get(name);
+		return getCard(is, sel);
 	}
 	
 }

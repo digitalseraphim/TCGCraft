@@ -38,17 +38,17 @@ public class IIRCard implements IItemRenderer {
 			break;
 		case EQUIPPED: {
 			RenderBlocks render = (RenderBlocks) data[0];
-//			EntityLiving entity = (EntityLiving) data[1];
+			// EntityLiving entity = (EntityLiving) data[1];
 			renderCardBack(render);
 		}
 			break;
 		case FIRST_PERSON_MAP: {
 			TextureManager texMan = (TextureManager) data[1];
-			renderFirstPerson(texMan,item);
+			renderFirstPerson(texMan, item);
 			break;
 		}
 		case EQUIPPED_FIRST_PERSON: {
-			
+
 		}
 			break;
 		case INVENTORY: {
@@ -68,15 +68,15 @@ public class IIRCard implements IItemRenderer {
 	public void renderFirstPerson(TextureManager texMan, ItemStack item) {
 		Card[] cards = ItemCard.cardsFromItemStack(item);
 		int sel = item.getTagCompound().getInteger("selected");
-		for(int i = 0; i < cards.length; i++ ){
+		for (int i = 0; i < cards.length; i++) {
 			GL11.glPushMatrix();
-			GL11.glTranslatef(-5f*cards.length + (i*10f) , (i==sel)?-20f:0f, -1+.05f*Math.abs(i-sel));
-			renderCardFront(texMan, item);
+			GL11.glTranslatef(-5f * cards.length + (i * 10f), (i == sel) ? -20f : 0f, -1 + .05f * Math.abs(i - sel));
+			renderCardFront(texMan, item, i);
 			GL11.glPopMatrix();
 		}
 	}
 
-	public void renderCardFront(TextureManager texMan, ItemStack item) {
+	public void renderCardFront(TextureManager texMan, ItemStack item, int i) {
 		texMan.bindTexture(new ResourceLocation("tcgc:textures/items/card_front_base.png"));
 		Tessellator tess = Tessellator.instance;
 		tess.startDrawingQuads();
@@ -84,16 +84,20 @@ public class IIRCard implements IItemRenderer {
 		float x = 1.F / 32.F;
 		byte b0 = 7;
 		tess.addVertexWithUV((double) (0 - b0), (double) (128 + b0), 0.0D, 0.0D, 1.0D);
-		tess.addVertexWithUV((double) (128 + b0), (double) (128 + b0), 0.0D, x*24., 1.0D);
-		tess.addVertexWithUV((double) (128 + b0), (double) (0 - b0), 0.0D, x*24., 0.0D);
+		tess.addVertexWithUV((double) (128 + b0), (double) (128 + b0), 0.0D, x * 24., 1.0D);
+		tess.addVertexWithUV((double) (128 + b0), (double) (0 - b0), 0.0D, x * 24., 0.0D);
 		tess.addVertexWithUV((double) (0 - b0), (double) (0 - b0), 0.0D, 0.0D, 0.0D);
 		tess.draw();
+
+		texMan.bindTexture(new ResourceLocation("tcgc:textures/items/manasymbols.png"));
 		
 		FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
-		
-		Card c = ItemCard.getSelectedCard(item);
-		
-		fr.drawString(c.getFullName(), 0,0, 0);
+
+		Card c = ItemCard.getCard(item, i);
+		GL11.glPushMatrix();
+		GL11.glTranslatef(0, 0, -.01f);
+		fr.drawString(c.getName(), 0, 0, 0);
+		GL11.glPopMatrix();
 	}
 
 	public void renderCardBack(RenderBlocks render) {
