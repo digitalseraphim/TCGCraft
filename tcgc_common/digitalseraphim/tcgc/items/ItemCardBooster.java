@@ -41,24 +41,20 @@ public class ItemCardBooster extends ItemMap {
 			}
 			n -= manaProb;
 			if(n < spellProb){
-				cards[i] = Card.getRandomManaCard(r);
-				//cards[i] = Card.getRandomSpellCard(r);
+				cards[i] = Card.getRandomSpellCard(r);
 				continue;
 			}
 			n -= spellProb;
 			if(n < selfModProb){
-				cards[i] = Card.getRandomManaCard(r);
-				//cards[i] = Card.getRandomSelfModCard(r);
+				cards[i] = Card.getRandomSelfModCard(r);
 				continue;
 			}
 			n -= selfModProb;
 			if(n < cardModProb){
-				cards[i] = Card.getRandomManaCard(r);
-				//cards[i] = Card.getRandomCardModCard(r);
+				cards[i] = Card.getRandomCardModCard(r);
 				continue;
 			}
-			cards[i] = Card.getRandomManaCard(r);
-			//cards[i] = Card.getRandomSummonCard(r);
+			cards[i] = Card.getRandomSummonCard(r);
 		}
 		
 		return null;

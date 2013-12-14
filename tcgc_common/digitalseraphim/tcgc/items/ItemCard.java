@@ -40,7 +40,10 @@ public class ItemCard extends ItemMap {
 	
 	@Override
 	public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
+		System.out.println("ItemCard.onDroppedByPlayer()");
 		return super.onDroppedByPlayer(item, player);
 	}
+	
+	
 	
 }
