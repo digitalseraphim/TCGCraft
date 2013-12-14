@@ -151,5 +151,7 @@ public class ItemCard extends ItemMap {
 		sel = sel % count;
 		
 		tag.setInteger(NBT_SELECTED, sel);
-	}	
+	}
+	
+
 }

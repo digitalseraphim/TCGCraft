@@ -7,12 +7,15 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkMod;
 import digitalseraphim.tcgc.blocks.ModBlocks;
 import digitalseraphim.tcgc.core.helpers.Strings;
+import digitalseraphim.tcgc.core.network.PacketHandler;
 import digitalseraphim.tcgc.core.proxy.CommonProxy;
 import digitalseraphim.tcgc.creativetab.CreativeTabTCGC;
 
 @Mod(modid=Strings.MOD_ID, name=Strings.MOD_NAME, version="0.0.1")
+@NetworkMod(channels={Strings.MOD_ID}, clientSideRequired=true, serverSideRequired=false, packetHandler=PacketHandler.class)
 public class TCGCraft {
 
 	@Instance(Strings.MOD_ID)
