@@ -79,24 +79,108 @@ public class IIRCard implements IItemRenderer {
 	public void renderCardFront(TextureManager texMan, ItemStack item, int i) {
 		texMan.bindTexture(new ResourceLocation("tcgc:textures/items/card_front_base.png"));
 		Tessellator tess = Tessellator.instance;
-		tess.startDrawingQuads();
-		tess.setColorOpaque_I(0xffffff);
+		Card c = ItemCard.getCard(item, i);
 		float x = 1.F / 32.F;
 		byte b0 = 7;
+		
+		tess.startDrawingQuads();
+		tess.setColorOpaque_I(0xffffff);
 		tess.addVertexWithUV((double) (0 - b0), (double) (128 + b0), 0.0D, 0.0D, 1.0D);
-		tess.addVertexWithUV((double) (128 + b0), (double) (128 + b0), 0.0D, x * 24., 1.0D);
-		tess.addVertexWithUV((double) (128 + b0), (double) (0 - b0), 0.0D, x * 24., 0.0D);
+		tess.addVertexWithUV((double) (128 + b0), (double) (128 + b0), 0.0D, 1.0D, 1.0D);
+		tess.addVertexWithUV((double) (128 + b0), (double) (0 - b0), 0.0D, 1.0D, 0.0D);
 		tess.addVertexWithUV((double) (0 - b0), (double) (0 - b0), 0.0D, 0.0D, 0.0D);
 		tess.draw();
 
 		texMan.bindTexture(new ResourceLocation("tcgc:textures/items/manasymbols.png"));
 		
-		FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
-
-		Card c = ItemCard.getCard(item, i);
+		float xx = 128 - 16 - 32 * c.getTotalCost();
+		float yy = 4;
+		float zz = -.01f;
+		
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0, 0, -.01f);
-		fr.drawString(c.getName(), 0, 0, 0);
+
+		if(c.getEarthCost() > 0){
+			for(int jj = 0; jj < c.getEarthCost(); jj++){
+				tess.startDrawingQuads();
+				tess.setColorOpaque_I(0xffffff);
+				tess.addVertexWithUV(xx    , yy + 8, zz, 0.0D, 0.125D);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 1.0D, 0.125D);
+				tess.addVertexWithUV(xx + 8, yy    , zz, 1.0D, 0.0D);
+				tess.addVertexWithUV(xx    , yy    , zz, 0.0D, 0.0D);
+				tess.draw();
+				xx += 8;
+			}
+		}
+		
+		if(c.getFireCost() > 0){
+			for(int jj = 0; jj < c.getFireCost(); jj++){
+				tess.startDrawingQuads();
+				tess.setColorOpaque_I(0xffffff);
+				tess.addVertexWithUV(xx    , yy + 8, zz, 0.0D, 0.25D);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 1.0D, 0.25D);
+				tess.addVertexWithUV(xx + 8, yy    , zz, 1.0D, 0.125D);
+				tess.addVertexWithUV(xx    , yy    , zz, 0.0D, 0.125D);
+				tess.draw();
+				xx += 8;
+			}
+		}
+		
+		if(c.getAirCost() > 0){
+			for(int jj = 0; jj < c.getAirCost(); jj++){
+				tess.startDrawingQuads();
+				tess.setColorOpaque_I(0xffffff);
+				tess.addVertexWithUV(xx    , yy + 8, zz, 0.0D, 0.375D);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 1.0D, 0.375D);
+				tess.addVertexWithUV(xx + 8, yy    , zz, 1.0D, 0.25D);
+				tess.addVertexWithUV(xx    , yy    , zz, 0.0D, 0.25D);
+				tess.draw();
+				xx += 8;
+			}
+		}
+
+		if(c.getWaterCost() > 0){
+			for(int jj = 0; jj < c.getWaterCost(); jj++){
+				tess.startDrawingQuads();
+				tess.setColorOpaque_I(0xffffff);
+				tess.addVertexWithUV(xx    , yy + 8, zz, 0.0D, 0.5D);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 1.0D, 0.5D);
+				tess.addVertexWithUV(xx + 8, yy    , zz, 1.0D, 0.375D);
+				tess.addVertexWithUV(xx    , yy    , zz, 0.0D, 0.375D);
+				tess.draw();
+				xx += 8;
+			}
+		}
+		
+		if(c.getOrderCost() > 0){
+			for(int jj = 0; jj < c.getOrderCost(); jj++){
+				tess.startDrawingQuads();
+				tess.setColorOpaque_I(0xffffff);
+				tess.addVertexWithUV(xx    , yy + 8, zz, 0.0D, 0.625D);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 1.0D, 0.625D);
+				tess.addVertexWithUV(xx + 8, yy    , zz, 1.0D, 0.5D);
+				tess.addVertexWithUV(xx    , yy    , zz, 0.0D, 0.5D);
+				tess.draw();
+				xx += 8;
+			}
+		}
+
+		if(c.getEntropyCost() > 0){
+			for(int jj = 0; jj < c.getEntropyCost(); jj++){
+				tess.startDrawingQuads();
+				tess.setColorOpaque_I(0xffffff);
+				tess.addVertexWithUV(xx    , yy + 8, zz, 0.0D, 0.75D);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 1.0D, 0.75D);
+				tess.addVertexWithUV(xx + 8, yy    , zz, 1.0D, 0.625D);
+				tess.addVertexWithUV(xx    , yy    , zz, 0.0D, 0.625D);
+				tess.draw();
+				xx += 8;
+			}
+		}
+
+
+		
+		Minecraft.getMinecraft().fontRenderer.drawString(c.getName(), 0, 0, 0);
 		GL11.glPopMatrix();
 	}
 

@@ -174,6 +174,10 @@ public class Card {
 		return entropyCost;
 	}
 
+	public int getTotalCost(){
+		return earthCost + fireCost + airCost + waterCost + orderCost + entropyCost;
+	}
+	
 	public Card fromName(String n) {
 		return allCards.get(n);
 	}
