@@ -222,4 +222,15 @@ public class Card {
 	public int[] getCost() {
 		return cost;
 	}
+	
+	public int getUseXPCost(){
+		int useXP = 10 * (rarity.ordinal() + 1);
+		return useXP;
+	}
+
+	public int getRestoreXPCost(){
+		int squaredRarity = (rarity.ordinal() + 1) * (rarity.ordinal() + 1); 
+		int restoreXP = 15 * squaredRarity;
+		return restoreXP;
+	}
 }

@@ -222,9 +222,8 @@ public class IIRCard implements IItemRenderer {
 		FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
 		fr.drawString("\u00a7" + Integer.toHexString(cardRarity.rarityColor) + card.getBaseCard().getName(), 0, 0, 0);
 
-		int squaredRarity = (cardRarity.ordinal() + 1) * (cardRarity.ordinal() + 1); 
-		int useXP = 10 * (cardRarity.ordinal() + 1);
-		int restoreXP = 15 * squaredRarity;
+		int useXP = card.getBaseCard().getUseXPCost();
+		int restoreXP = card.getBaseCard().getRestoreXPCost();
 
 		String xpString =useXP + "/" + restoreXP;
 		int width = fr.getStringWidth(xpString);
