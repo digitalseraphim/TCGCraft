@@ -3,6 +3,7 @@ package digitalseraphim.tcgc.items;
 import java.util.Arrays;
 import java.util.Vector;
 
+import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemMap;
@@ -58,6 +59,8 @@ public class ItemCard extends ItemMap {
 				Type t = cardSel.getBaseCard().getType();
 				int[] totalMana = new int[] { 0, 0, 0, 0, 0, 0 };
 				int[] castCost = cardSel.getBaseCard().getCost();
+				int xpCost = 0;
+				int playerXP = player.experienceTotal;
 
 				if (t == Type.MANA) {
 					System.out.println("activated item is mana");
@@ -70,6 +73,12 @@ public class ItemCard extends ItemMap {
 
 				}
 
+				xpCost = cardSel.getBaseCard().getUseXPCost();
+				if(xpCost > playerXP){
+					//player doesn't have enough xp
+					return super.onItemRightClick(itemStack, world, player);	
+				}
+				
 				for (int i = 0; i < cards.length; i++) {
 					if (i == sel || i == toModIdx) {
 						continue;
@@ -78,12 +87,17 @@ public class ItemCard extends ItemMap {
 					CardInstance card = cards[i];
 
 					if (!card.isActivated() && card.getBaseCard().getType() != Type.MANA) {
-						System.out.println("card is not activated and also is not mana");
-
 						return super.onItemRightClick(itemStack, world, player);
 					}
 
 					if (card.getBaseCard().getType() == Type.MANA && !card.isUsed()) {
+						xpCost += card.getBaseCard().getUseXPCost();
+
+						if(xpCost > playerXP){
+							//player doesn't have enough xp
+							return super.onItemRightClick(itemStack, world, player);	
+						}
+
 						card.getBaseCard().addCost(totalMana);
 					}
 				}
