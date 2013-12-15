@@ -11,9 +11,10 @@ import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.util.WeightedRandomItem;
 import net.minecraft.world.World;
 
-public class Card {
+public class Card extends WeightedRandomItem {
 	private final static HashMap<String, Card> allCards = new HashMap<>();
 	private final static HashMap<String, Card> manaCards = new HashMap<>();
 	private final static HashMap<String, Card> spellCards = new HashMap<>();
