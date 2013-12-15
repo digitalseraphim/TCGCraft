@@ -1,5 +1,6 @@
 package digitalseraphim.tcgc.core.logic;
 
+import java.lang.reflect.Constructor;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -14,8 +15,11 @@ import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityFireball;
+import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.Vec3;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomItem;
 import net.minecraft.world.World;
@@ -306,13 +310,24 @@ public abstract class Card extends WeightedRandomItem {
 	}
 
 	public static class SpellCard extends Card{
+		Class<? extends EntityFireball> projectileClass;
+		private double velocity;
+		private int explosionStrenth;
+		
 		public SpellCard(String name, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
-				int entropyCost, EnumRarity rarity) {
+				int entropyCost, EnumRarity rarity, Class<? extends EntityFireball> projectileClass, double velocity, int explosionStrength) {
 			super(name, Type.SPELL, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
+			this.projectileClass = projectileClass;
+			this.velocity = velocity;
+			this.explosionStrenth = explosionStrength;
 		}
 
 		@Override
 		public void cast(EntityPlayer player, float x, float y, float z) {
+			Vec3 v = player.getLookVec();
+			Constructor<? extends EntityFireball> con = projectileClass.getConstructor(World.class, EntityLivingBase.class, double.class, double.class, double.class);
+			EntityFireball proj = con.newInstance(player.worldObj, player, velocity*v.xCoord, velocity*v.yCoord, velocity*v.zCoord);
+			proj.field_92057_e = this.explosionStrenth;
 		}
 	}
 
