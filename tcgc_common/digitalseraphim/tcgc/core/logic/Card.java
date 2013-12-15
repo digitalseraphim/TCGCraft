@@ -16,7 +16,10 @@ import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFireball;
+import net.minecraft.entity.projectile.EntityLargeFireball;
+import net.minecraft.entity.projectile.EntitySmallFireball;
 import net.minecraft.entity.projectile.EntitySnowball;
+import net.minecraft.entity.projectile.EntityWitherSkull;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.Vec3;
@@ -52,10 +55,12 @@ public abstract class Card extends WeightedRandomItem {
 		new ManaCard("Newborn Island", 0, 1, 0, 1, 0, 0, EnumRarity.rare);
 		new ManaCard("Cloud", 0, 0, 1, 1, 0, 0, EnumRarity.rare);
 
-		new SpellCard("FireBolt", 0, 1, 0, 0, 0, 0, EnumRarity.common);
-		new SpellCard("FireBall", 0, 3, 0, 0, 0, 0, EnumRarity.rare);
-		new SpellCard("WaterStream", 0, 0, 0, 1, 0, 0, EnumRarity.common);
-		new SpellCard("Tsunami", 0, 0, 0, 3, 0, 0, EnumRarity.rare);
+		new BoltAttackCard("FireBolt", 0, 1, 0, 0, 0, 0, EnumRarity.common, EntitySmallFireball.class, 5);
+		new BoltAttackCard("FireBall", 0, 3, 0, 0, 0, 0, EnumRarity.rare, EntityLargeFireball.class, 5, 5);
+		new BoltAttackCard("WitherBall", 0, 3, 0, 0, 0, 0, EnumRarity.rare, EntityWitherSkull.class, 5);
+		//these need to be fixed
+		new BeamAttackCard("WaterStream", 0, 0, 0, 1, 0, 0, EnumRarity.common, EntitySmallFireball.class, 5);
+		new AOECard("Tsunami", 0, 0, 0, 3, 0, 0, EnumRarity.rare, EntitySmallFireball.class, 5);
 
 		new ModifierCard("Heal", 0, 0, 1, 1, 1, 0, EnumRarity.uncommon, new PotionEffect(6,1));
 		new ModifierCard("Haste", 1, 0, 3, 0, 0, 0, EnumRarity.rare, new PotionEffect(3,10*20));
@@ -309,12 +314,12 @@ public abstract class Card extends WeightedRandomItem {
 		}
 	}
 
-	public static class SpellCard extends Card{
+	public static class BoltAttackCard extends Card{
 		Class<? extends EntityFireball> projectileClass;
 		private double velocity;
-		private int explosionStrenth;
+		private int explosionStrenth = -1;
 		
-		public SpellCard(String name, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
+		public BoltAttackCard(String name, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
 				int entropyCost, EnumRarity rarity, Class<? extends EntityFireball> projectileClass, double velocity, int explosionStrength) {
 			super(name, Type.SPELL, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
 			this.projectileClass = projectileClass;
@@ -322,12 +327,22 @@ public abstract class Card extends WeightedRandomItem {
 			this.explosionStrenth = explosionStrength;
 		}
 
+		public BoltAttackCard(String name, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
+				int entropyCost, EnumRarity rarity, Class<? extends EntityFireball> projectileClass, double velocity) {
+			super(name, Type.SPELL, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
+			this.projectileClass = projectileClass;
+			this.velocity = velocity;
+		}
+
 		@Override
 		public void cast(EntityPlayer player, float x, float y, float z) {
 			Vec3 v = player.getLookVec();
 			Constructor<? extends EntityFireball> con = projectileClass.getConstructor(World.class, EntityLivingBase.class, double.class, double.class, double.class);
 			EntityFireball proj = con.newInstance(player.worldObj, player, velocity*v.xCoord, velocity*v.yCoord, velocity*v.zCoord);
-			proj.field_92057_e = this.explosionStrenth;
+			
+			if(proj instanceof EntityLargeFireball && this.explosionStrenth > 0){
+				((EntityLargeFireball)proj).field_92057_e = this.explosionStrenth;
+			}
 		}
 	}
 
