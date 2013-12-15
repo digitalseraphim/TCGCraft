@@ -1,14 +1,19 @@
 package digitalseraphim.tcgc;
 
+import com.google.common.eventbus.Subscribe;
+
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraftforge.server.command.ForgeCommand;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import digitalseraphim.tcgc.blocks.ModBlocks;
+import digitalseraphim.tcgc.core.commands.CardCommand;
 import digitalseraphim.tcgc.core.helpers.Strings;
 import digitalseraphim.tcgc.core.network.PacketHandler;
 import digitalseraphim.tcgc.core.proxy.CommonProxy;
@@ -42,4 +47,10 @@ public class TCGCraft {
 		proxy.initRecipes();
 	}
 	
+    @Subscribe
+    public void serverStarting(FMLServerStartingEvent evt)
+    {
+    	System.out.println("REGISTERING COMMAND!!!!");
+        evt.registerServerCommand(new CardCommand());
+    }
 }

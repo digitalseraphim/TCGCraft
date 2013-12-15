@@ -30,6 +30,7 @@ public class ItemCard extends ItemMap {
 
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
+		System.out.println("onIRC");
 		if (player.worldObj.isRemote) {
 			return itemStack;
 		}
@@ -107,6 +108,8 @@ public class ItemCard extends ItemMap {
 				}
 
 				xpCost = cardSel.getBaseCard().getUseXPCost();
+				System.out.println("xpCost = " + xpCost);
+				
 				if (!player.capabilities.isCreativeMode && xpCost > playerXP) {
 					// player doesn't have enough xp
 					return super.onItemRightClick(itemStack, world, player);
