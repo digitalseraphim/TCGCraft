@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Vector;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityIronGolem;
@@ -18,7 +19,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.entity.projectile.EntityLargeFireball;
 import net.minecraft.entity.projectile.EntitySmallFireball;
-import net.minecraft.entity.projectile.EntitySnowball;
 import net.minecraft.entity.projectile.EntityWitherSkull;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.potion.PotionEffect;
@@ -377,7 +377,24 @@ public abstract class Card extends WeightedRandomItem {
 
 		@Override
 		public void cast(EntityPlayer player, float x, float y, float z) {
-			// TODO Auto-generated method stub
+			double px = player.posX;
+			double py = player.posY;
+			double pz = player.posZ;
+			
+			for(int i = -1; i <= 1; i++){
+				for(int j = -1; j <= 1; j++){
+					if(i == 0 && j == 0){
+						continue;
+					}
+					
+					int bid = player.worldObj.getBlockId((int)px + i, (int)py, (int)pz+i);
+					
+					Block b = Block.blocksList[bid];
+					
+					b.isA
+					
+				}
+			}
 			
 		}
 		
