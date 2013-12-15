@@ -1,5 +1,6 @@
 package digitalseraphim.tcgc.core.logic;
 
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
 public class CardInstance {
@@ -70,5 +71,9 @@ public class CardInstance {
 		
 		return cardNBT;
 	}
-
+	
+	public void cast(EntityPlayer player, float x, float y, float z){
+		System.out.println("calling cast!");
+		getBaseCard().cast(player, x, y, z);
+	}
 }

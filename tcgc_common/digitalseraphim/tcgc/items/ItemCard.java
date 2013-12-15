@@ -131,14 +131,22 @@ public class ItemCard extends ItemMap {
 			toggleCollapsed(itemStack);
 			return true;
 		}
-		// cast!
 
-		// do good stuff here...
+		return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
+	}
+
+	@Override
+	public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World par3World, int x, int y, int z, int side,
+			float hitX, float hitY, float hitZ) {
+		System.out.println("ItemCard.onItemUse()");
 		int sel = getSelectedCardIndex(itemStack);
 		CardInstance[] cards = cardsFromItemStack(itemStack);
 		CardInstance cardSel = cards[sel];
 
 		if (cardSel.isActivated()) {
+			// cast!
+			cardSel.cast(player, x, y, z);
+			// do good stuff here...
 			cardSel.setUsed(true);
 			cardSel.setActivated(false);
 
@@ -150,18 +158,8 @@ public class ItemCard extends ItemMap {
 			return true;
 		}
 
-		return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
+		return super.onItemUse(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
 	}
-
-	// @Override
-	// public boolean onItemUse(ItemStack par1ItemStack,
-	// EntityPlayer par2EntityPlayer, World par3World, int par4, int par5,
-	// int par6, int par7, float par8, float par9, float par10) {
-	// System.out.println("ItemCard.onItemUse()");
-	// return super.onItemUse(par1ItemStack, par2EntityPlayer, par3World, par4,
-	// par5,
-	// par6, par7, par8, par9, par10);
-	// }
 
 	@Override
 	public boolean onDroppedByPlayer(ItemStack item, EntityPlayer player) {
