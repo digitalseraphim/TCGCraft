@@ -41,18 +41,7 @@ public class ItemCard extends ItemMap {
 			CardInstance cardSel = cards[sel];
 
 			if (cardSel.isActivated()) {
-				// cast!
-
-				// do good stuff here...
-
-				cardSel.setUsed(true);
-				cardSel.setActivated(false);
-
-				for (CardInstance c : cards) {
-					c.setLocked(false);
-				}
-
-				itemStack = ItemCard.createItemStack(TCGCraft.proxy.cardItem, cards);
+				// do nothing, this handled in onItemUse()
 			} else {
 				int toModIdx = -1;
 				Card toMod = null;
@@ -74,11 +63,11 @@ public class ItemCard extends ItemMap {
 				}
 
 				xpCost = cardSel.getBaseCard().getUseXPCost();
-				if(!player.capabilities.isCreativeMode && xpCost > playerXP){
-					//player doesn't have enough xp
-					return super.onItemRightClick(itemStack, world, player);	
+				if (!player.capabilities.isCreativeMode && xpCost > playerXP) {
+					// player doesn't have enough xp
+					return super.onItemRightClick(itemStack, world, player);
 				}
-				
+
 				for (int i = 0; i < cards.length; i++) {
 					if (i == sel || i == toModIdx) {
 						continue;
@@ -97,9 +86,9 @@ public class ItemCard extends ItemMap {
 					}
 				}
 
-				if(!player.capabilities.isCreativeMode && xpCost > playerXP){
-					//player doesn't have enough xp
-					return super.onItemRightClick(itemStack, world, player);	
+				if (!player.capabilities.isCreativeMode && xpCost > playerXP) {
+					// player doesn't have enough xp
+					return super.onItemRightClick(itemStack, world, player);
 				}
 
 				System.out.println("Total mana: " + Arrays.toString(totalMana));
@@ -142,6 +131,24 @@ public class ItemCard extends ItemMap {
 			toggleCollapsed(itemStack);
 			return true;
 		}
+		// cast!
+
+		// do good stuff here...
+		int sel = getSelectedCardIndex(itemStack);
+		CardInstance[] cards = cardsFromItemStack(itemStack);
+		CardInstance cardSel = cards[sel];
+
+		if (cardSel.isActivated()) {
+			cardSel.setUsed(true);
+			cardSel.setActivated(false);
+
+			for (CardInstance c : cards) {
+				c.setLocked(false);
+			}
+
+			itemStack = ItemCard.createItemStack(TCGCraft.proxy.cardItem, cards);
+			return true;
+		}
 
 		return super.onItemUseFirst(itemStack, player, world, x, y, z, side, hitX, hitY, hitZ);
 	}
@@ -166,10 +173,10 @@ public class ItemCard extends ItemMap {
 			Vector<CardInstance> cards = new Vector<>(Arrays.asList(cardsFromItemStack(item)));
 			int sel = getSelectedCardIndex(item);
 			CardInstance selCard = getSelectedCard(item);
-			if(selCard.isLocked()){
+			if (selCard.isLocked()) {
 				return false;
 			}
-			
+
 			CardInstance drop = cards.remove(sel);
 			boolean collapsed = getCollapsed(item);
 
