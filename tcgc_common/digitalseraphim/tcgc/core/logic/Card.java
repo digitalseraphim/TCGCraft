@@ -383,13 +383,13 @@ public abstract class Card extends WeightedRandomItem {
 			double py = player.posY;
 			double pz = player.posZ;
 			
-			for(int i = -4; i <= 4; i++){
-				for(int j = -4; j <= 4; j++){
+			for(int i = -5; i <= 5; i++){
+				for(int j = -5; j <= 5; j++){
 					if(i == 0 && j == 0){
 						continue;
 					}
 					int md = Math.abs(i) + Math.abs(j);
-					if(md > 4){
+					if(md > 5){
 						continue;
 					}
 					int bid = player.worldObj.getBlockId((int)px + i, (int)py, (int)pz+j);

@@ -27,7 +27,7 @@ public class BlockMagicFluid extends BlockFluidClassic {
 	
 	@Override
 	public int tickRate(World par1World) {
-		return 120;
+		return 520;
 	}
 	
 }

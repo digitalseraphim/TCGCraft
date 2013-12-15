@@ -14,7 +14,7 @@ public class ModBlocks {
 	public static void init(){
 		cardTable = new BlockCardTable(BlockIDs.CARD_TABLE_ID);
 		GameRegistry.registerBlock(cardTable, Strings.MOD_ID + "_cardTable");
-		magicWaterFluid = new Fluid("magicWater").setLuminosity(15);
+		magicWaterFluid = new Fluid("magicWater").setLuminosity(15).setViscosity(12000);
 		FluidRegistry.registerFluid(magicWaterFluid);
 		magicFlowingWater = new BlockMagicFluid(BlockIDs.MAGIC_FLOWING_WATER_ID, magicWaterFluid, Material.water);
 		GameRegistry.registerBlock(magicFlowingWater, Strings.MOD_ID + "_magicFlowingWater");
