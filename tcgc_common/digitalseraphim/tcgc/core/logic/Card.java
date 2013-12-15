@@ -1,7 +1,9 @@
 package digitalseraphim.tcgc.core.logic;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -11,6 +13,7 @@ import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomItem;
 import net.minecraft.world.World;
 
@@ -21,8 +24,14 @@ public class Card extends WeightedRandomItem {
 	private final static HashMap<String, Card> selfModCards = new HashMap<>();
 	private final static HashMap<String, Card> cardModCards = new HashMap<>();
 	private final static HashMap<String, Card> summonCards = new HashMap<>();
-
+	private final static HashMap<EnumRarity, List<Card>> cardsByRarity = new HashMap<>();
+	
 	static {
+		cardsByRarity.put(EnumRarity.common, new ArrayList<Card>());
+		cardsByRarity.put(EnumRarity.uncommon, new ArrayList<Card>());
+		cardsByRarity.put(EnumRarity.rare, new ArrayList<Card>());
+		cardsByRarity.put(EnumRarity.epic, new ArrayList<Card>());
+		
 		new Card(Mana.EARTH.name(), Type.MANA, 1, 0, 0, 0, 0, 0, EnumRarity.common);
 		new Card(Mana.FIRE.name(), Type.MANA, 0, 1, 0, 0, 0, 0, EnumRarity.common);
 		new Card(Mana.AIR.name(), Type.MANA, 0, 0, 1, 0, 0, 0, EnumRarity.common);
@@ -61,6 +70,7 @@ public class Card extends WeightedRandomItem {
 
 	public Card(String name, Type t, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
 			int entropyCost, EnumRarity rarity) {
+		super(rarity.ordinal()*5);
 		this.name = name;
 		this.type = t;
 		this.rarity = rarity;
@@ -88,6 +98,7 @@ public class Card extends WeightedRandomItem {
 		}
 
 		allCards.put(getFullName(), this);
+		cardsByRarity.get(rarity).add(this);
 	}
 
 	public String getName() {
@@ -103,7 +114,7 @@ public class Card extends WeightedRandomItem {
 	}
 
 	public static Card getRandomCard(Random r) {
-		return allCards.values().toArray(new Card[0])[r.nextInt(allCards.size())];
+		return (Card)WeightedRandom.getRandomItem(r,allCards.values());
 	}
 
 	public static Map<String, Card> getManaCards() {
@@ -111,7 +122,7 @@ public class Card extends WeightedRandomItem {
 	}
 
 	public static Card getRandomManaCard(Random r) {
-		return manaCards.values().toArray(new Card[0])[r.nextInt(manaCards.size())];
+		return (Card)WeightedRandom.getRandomItem(r,manaCards.values());
 	}
 
 	public static Map<String, Card> getSpellCards() {
@@ -119,7 +130,7 @@ public class Card extends WeightedRandomItem {
 	}
 
 	public static Card getRandomSpellCard(Random r) {
-		return spellCards.values().toArray(new Card[0])[r.nextInt(spellCards.size())];
+		return (Card)WeightedRandom.getRandomItem(r,spellCards.values());
 	}
 
 	public static Map<String, Card> getSelfModCards() {
@@ -127,7 +138,7 @@ public class Card extends WeightedRandomItem {
 	}
 
 	public static Card getRandomSelfModCard(Random r) {
-		return selfModCards.values().toArray(new Card[0])[r.nextInt(selfModCards.size())];
+		return (Card)WeightedRandom.getRandomItem(r,selfModCards.values());
 	}
 
 	public static Map<String, Card> getCardModCards() {
@@ -135,7 +146,7 @@ public class Card extends WeightedRandomItem {
 	}
 
 	public static Card getRandomCardModCard(Random r) {
-		return cardModCards.values().toArray(new Card[0])[r.nextInt(cardModCards.size())];
+		return (Card)WeightedRandom.getRandomItem(r,cardModCards.values());
 	}
 
 	public static Map<String, Card> getSummonCards() {
@@ -143,7 +154,7 @@ public class Card extends WeightedRandomItem {
 	}
 
 	public static Card getRandomSummonCard(Random r) {
-		return summonCards.values().toArray(new Card[0])[r.nextInt(summonCards.size())];
+		return (Card)WeightedRandom.getRandomItem(r,summonCards.values());
 	}
 
 	public Type getType() {
