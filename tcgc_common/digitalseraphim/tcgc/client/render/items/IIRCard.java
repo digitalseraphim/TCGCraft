@@ -5,6 +5,8 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderEntity;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.client.renderer.entity.RenderSnowMan;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.item.EnumRarity;
@@ -263,12 +265,14 @@ public class IIRCard implements IItemRenderer {
 			tess.draw();
 		}
 
-		GL11.glPushMatrix();
-		GL11.glScalef(10, 10, 10);
-		new RenderEntity().doRender(new EntitySnowman(Minecraft.getMinecraft().theWorld), 5, 0, -2, 0, 0);
-		
-		GL11.glPopMatrix();
-		
+//		GL11.glPushMatrix();
+//		GL11.glScalef(50f,-50,.1f);
+//		EntitySnowman snowman = new EntitySnowman(Minecraft.getMinecraft().theWorld);
+//		snowman.setRotationYawHead(180);
+//		RenderManager.instance.renderEntityWithPosYaw(snowman, 1.25,-2.5,.1,0,0);
+//		
+//		GL11.glPopMatrix();
+//		
 		GL11.glPopMatrix();
 	}
 
