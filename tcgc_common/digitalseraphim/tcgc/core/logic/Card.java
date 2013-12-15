@@ -59,8 +59,8 @@ public abstract class Card extends WeightedRandomItem {
 		new BoltAttackCard("FireBall", 0, 3, 0, 0, 0, 0, EnumRarity.rare, EntityLargeFireball.class, 5, 5);
 		new BoltAttackCard("WitherBall", 0, 3, 0, 0, 0, 0, EnumRarity.rare, EntityWitherSkull.class, 5);
 		//these need to be fixed
-		new BeamAttackCard("WaterStream", 0, 0, 0, 1, 0, 0, EnumRarity.common, EntitySmallFireball.class, 5);
-		new AOECard("Tsunami", 0, 0, 0, 3, 0, 0, EnumRarity.rare, EntitySmallFireball.class, 5);
+		new BeamAttackCard("WaterStream", 0, 0, 0, 1, 0, 0, EnumRarity.common );
+		new TsunamiCard(0, 0, 0, 3, 0, 0, EnumRarity.rare);
 
 		new ModifierCard("Heal", 0, 0, 1, 1, 1, 0, EnumRarity.uncommon, new PotionEffect(6,1));
 		new ModifierCard("Haste", 1, 0, 3, 0, 0, 0, EnumRarity.rare, new PotionEffect(3,10*20));
@@ -337,13 +337,50 @@ public abstract class Card extends WeightedRandomItem {
 		@Override
 		public void cast(EntityPlayer player, float x, float y, float z) {
 			Vec3 v = player.getLookVec();
-			Constructor<? extends EntityFireball> con = projectileClass.getConstructor(World.class, EntityLivingBase.class, double.class, double.class, double.class);
-			EntityFireball proj = con.newInstance(player.worldObj, player, velocity*v.xCoord, velocity*v.yCoord, velocity*v.zCoord);
-			
-			if(proj instanceof EntityLargeFireball && this.explosionStrenth > 0){
-				((EntityLargeFireball)proj).field_92057_e = this.explosionStrenth;
+			Constructor<? extends EntityFireball> con;
+			try {
+				con = projectileClass.getConstructor(World.class, EntityLivingBase.class, double.class, double.class, double.class);
+				EntityFireball proj = con.newInstance(player.worldObj, player, velocity*v.xCoord, velocity*v.yCoord, velocity*v.zCoord);
+				if(proj instanceof EntityLargeFireball && this.explosionStrenth > 0){
+					((EntityLargeFireball)proj).field_92057_e = this.explosionStrenth;
+				}
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
+	}
+	
+	public static class BeamAttackCard extends Card{
+
+		public BeamAttackCard(String name, int earthCost, int fireCost, int airCost, int waterCost,
+				int orderCost, int entropyCost, EnumRarity rarity) {
+			super(name, Type.SPELL, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public void cast(EntityPlayer player, float x, float y, float z) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+	
+	public static class TsunamiCard extends Card{
+
+		public TsunamiCard(int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
+				int entropyCost, EnumRarity rarity) {
+			super("Tsunami", Type.SPELL, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public void cast(EntityPlayer player, float x, float y, float z) {
+			// TODO Auto-generated method stub
+			
+		}
+		
 	}
 
 	public static class ModifierCard extends Card{
