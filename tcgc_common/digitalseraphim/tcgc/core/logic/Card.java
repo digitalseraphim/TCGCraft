@@ -79,7 +79,7 @@ public abstract class Card extends WeightedRandomItem {
 
 	public Card(String name, Type t, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
 			int entropyCost, EnumRarity rarity) {
-		super(rarity.ordinal() * 5);
+		super((rarity.ordinal()+1) * 5);
 		this.name = name;
 		this.type = t;
 		this.rarity = rarity;
@@ -283,6 +283,9 @@ public abstract class Card extends WeightedRandomItem {
 
 		@Override
 		public void cast(EntityPlayer player, float x, float y, float z) {
+			if(player.worldObj.isRemote){
+				return;
+			}
 			try {
 				EntityLiving ent = toSummon.getConstructor(World.class).newInstance(player.worldObj);
 				ent.setPosition(x, y + 1, z);
