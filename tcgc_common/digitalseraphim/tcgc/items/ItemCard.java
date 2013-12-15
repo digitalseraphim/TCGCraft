@@ -3,7 +3,6 @@ package digitalseraphim.tcgc.items;
 import java.util.Arrays;
 import java.util.Vector;
 
-import net.minecraft.entity.ai.attributes.Attribute;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemMap;
@@ -11,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import digitalseraphim.tcgc.TCGCraft;
+import digitalseraphim.tcgc.core.helpers.XPUtils;
 import digitalseraphim.tcgc.core.logic.Card;
 import digitalseraphim.tcgc.core.logic.Card.Type;
 import digitalseraphim.tcgc.core.logic.CardInstance;
@@ -74,7 +74,7 @@ public class ItemCard extends ItemMap {
 				}
 
 				xpCost = cardSel.getBaseCard().getUseXPCost();
-				if(xpCost > playerXP){
+				if(!player.capabilities.isCreativeMode && xpCost > playerXP){
 					//player doesn't have enough xp
 					return super.onItemRightClick(itemStack, world, player);	
 				}
@@ -93,13 +93,13 @@ public class ItemCard extends ItemMap {
 					if (card.getBaseCard().getType() == Type.MANA && !card.isUsed()) {
 						xpCost += card.getBaseCard().getUseXPCost();
 
-						if(xpCost > playerXP){
-							//player doesn't have enough xp
-							return super.onItemRightClick(itemStack, world, player);	
-						}
-
 						card.getBaseCard().addCost(totalMana);
 					}
+				}
+
+				if(!player.capabilities.isCreativeMode && xpCost > playerXP){
+					//player doesn't have enough xp
+					return super.onItemRightClick(itemStack, world, player);	
 				}
 
 				System.out.println("Total mana: " + Arrays.toString(totalMana));
@@ -127,6 +127,7 @@ public class ItemCard extends ItemMap {
 						}
 					}
 					itemStack = ItemCard.createItemStack(TCGCraft.proxy.cardItem, cards);
+					XPUtils.subtractXP(player, xpCost);
 				}
 			}
 		}

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 
 public class Card {
@@ -233,4 +235,26 @@ public class Card {
 		int restoreXP = 15 * squaredRarity;
 		return restoreXP;
 	}
+	
+	public void cast(EntityPlayer player, float x, float y, float z){
+		
+	}
+	
+	public static class SummonCard extends Card{
+		private EntityLiving toSummon;
+		
+		public SummonCard(String name, Type t, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
+				int entropyCost, EnumRarity rarity, EntityLiving toSummon) {
+			super(name, t, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
+			this.toSummon = toSummon;
+		}
+
+		@Override
+		public void cast(EntityPlayer player) {
+			super.cast(player);
+		}
+		
+	}
+	
+	
 }
