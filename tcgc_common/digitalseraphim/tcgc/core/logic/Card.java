@@ -9,6 +9,7 @@ import java.util.Random;
 import java.util.Vector;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityIronGolem;
 import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.entity.passive.EntityVillager;
@@ -288,9 +289,8 @@ public abstract class Card extends WeightedRandomItem {
 				player.worldObj.spawnEntityInWorld(ent);
 				
 				for(ModifierCard modCard: modCards){
-					modCard.cast(ent, 0, 0, 0)
+					modCard.cast(ent);
 				}
-				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -327,7 +327,7 @@ public abstract class Card extends WeightedRandomItem {
 			cast(player);
 		}
 		
-		public void cast(EntityLiving el){
+		public void cast(EntityLivingBase el){
 			el.addPotionEffect(eff);
 		}
 		

@@ -11,6 +11,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import digitalseraphim.tcgc.TCGCraft;
 import digitalseraphim.tcgc.core.helpers.XPUtils;
+import digitalseraphim.tcgc.core.logic.Card.ModifierCard;
+import digitalseraphim.tcgc.core.logic.Card.SummonCard;
 import digitalseraphim.tcgc.core.logic.Card.Type;
 import digitalseraphim.tcgc.core.logic.CardInstance;
 
@@ -125,11 +127,23 @@ public class ItemCard extends ItemMap {
 				}
 
 				if (canCast) {
+					if(t == Type.MODIFIER){
+						if(toMod != null){
+							ModifierCard modCard = (ModifierCard)cardSel.getBaseCard();
+							SummonCard toModCard = (SummonCard)toMod.getBaseCard();
+							toModCard.addModCard(modCard);
+							cardSel.setUsed(true);
+							cardSel.setLocked(true);
+						}
+					}
+					
 					for (int i = 0; i < cards.length; i++) {
 						CardInstance card = cards[i];
 						if (card.getBaseCard().getType() == Type.MANA) {
 							card.setUsed(true);
 							card.setLocked(true);
+						} else if (t == Type.MODIFIER && card == cardSel){
+							//skipit
 						} else {
 							card.setActivated(true);
 							card.setLocked(true);
