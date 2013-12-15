@@ -13,7 +13,9 @@ import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.potion.PotionHelper;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomItem;
 import net.minecraft.world.World;
@@ -53,13 +55,14 @@ public abstract class Card extends WeightedRandomItem {
 		new SpellCard("Tsunami", 0, 0, 0, 3, 0, 0, EnumRarity.rare);
 
 		new SelfModifierCard("Heal", 0, 0, 1, 1, 1, 0, EnumRarity.uncommon, new PotionEffect(6,1));
-		new SelfModifierCard("Haste", 0, 0, 3, 1, 0, 0, EnumRarity.rare, new PotionEffect(3,10*20));
+		new SelfModifierCard("Haste", 1, 0, 3, 0, 0, 0, EnumRarity.rare, new PotionEffect(3,10*20));
 		new SelfModifierCard("Speed", 0, 0, 3, 1, 0, 0, EnumRarity.rare, new PotionEffect(1,10*20));
-		new SelfModifierCard("Jump", 0, 0, 3, 1, 0, 0, EnumRarity.rare, new PotionEffect(8,10*20));
+		new SelfModifierCard("Jump", 1, 0, 3, 0, 0, 0, EnumRarity.rare, new PotionEffect(8,10*20));
 		new SelfModifierCard("Strength", 0, 0, 3, 1, 0, 0, EnumRarity.rare, new PotionEffect(5,10*20));
 		new SelfModifierCard("Heal", 0, 0, 1, 1, 1, 0, EnumRarity.rare, new PotionEffect(10,5*20));
-		new SelfModifierCard("Resistence", 0, 0, 1, 1, 1, 0, EnumRarity.rare, new PotionEffect(11,10*20));
-		new SelfModifierCard("Fire Resistence", 0, 0, 1, 1, 1, 0, EnumRarity.rare, new PotionEffect(12,10*20));
+		new SelfModifierCard("Resistence", 2, 0, 0, 0, 2, 0, EnumRarity.rare, new PotionEffect(11,10*20));
+		new SelfModifierCard("Fire Resistence", 0, 3, 0, 3, 0, 0, EnumRarity.rare, new PotionEffect(12,10*20));
+		new SelfModifierCard("Water Breathing", 0, 0, 3, 3, 0, 0, EnumRarity.rare, new PotionEffect(12,10*20));
 
 		new CardModifierCard("Haste", 0, 0, 3, 1, 0, 0, EnumRarity.rare);
 
