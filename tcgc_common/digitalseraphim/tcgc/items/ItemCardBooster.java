@@ -3,6 +3,7 @@ package digitalseraphim.tcgc.items;
 import java.util.Random;
 
 import net.minecraft.client.renderer.texture.IconRegister;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -66,9 +67,10 @@ public class ItemCardBooster extends Item {
 		
 		itemStack.stackSize--;
 		
-		player.dropPlayerItemWithRandomChoice(ItemCard.createItemStack(TCGCraft.proxy.cardItem, cards), true);
-		
-		return itemStack;
+		EntityItem entityItem = player.dropPlayerItem(ItemCard.createItemStack(TCGCraft.proxy.cardItem, cards));
+        entityItem.delayBeforeCanPickup = 0;
+
+        return itemStack;
 	}
 	
 	@Override
