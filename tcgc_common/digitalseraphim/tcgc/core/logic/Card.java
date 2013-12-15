@@ -381,21 +381,24 @@ public abstract class Card extends WeightedRandomItem {
 			double py = player.posY;
 			double pz = player.posZ;
 			
-			for(int i = -1; i <= 1; i++){
-				for(int j = -1; j <= 1; j++){
+			for(int i = -4; i <= 4; i++){
+				for(int j = -4; j <= 4; j++){
 					if(i == 0 && j == 0){
 						continue;
 					}
-					
+					int md = Math.abs(i) + Math.abs(j);
+					if(md > 4){
+						continue;
+					}
 					int bid = player.worldObj.getBlockId((int)px + i, (int)py, (int)pz+i);
 					
 					Block b = Block.blocksList[bid];
 					
-					b.isA
-					
+					if(b.isBlockReplaceable(player.worldObj, (int)px + i, (int)py, (int)pz+i)){
+						player.worldObj.setBlock((int)px + i, (int)py, (int)pz+i, Block.waterMoving.blockID, md, 7);
+					}
 				}
 			}
-			
 		}
 		
 	}
