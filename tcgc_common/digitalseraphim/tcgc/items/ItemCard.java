@@ -56,7 +56,7 @@ public class ItemCard extends ItemMap {
 					return super.onItemRightClick(itemStack, world, player);
 				}
 
-				if (t == Type.CARD_MODIFIER) {
+				if (t == Type.MODIFIER) {
 					// look for card to modify
 					System.out.println("activated item is card mod");
 

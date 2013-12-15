@@ -5,6 +5,7 @@ import java.util.Random;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
@@ -16,13 +17,8 @@ import digitalseraphim.tcgc.core.logic.Card;
 import digitalseraphim.tcgc.core.logic.CardInstance;
 
 public class ItemCardBooster extends Item {
-	private int numCards = 15;
-
-	private int manaProb = 10;
-	private int spellProb = 10;
-	private int selfModProb = 10;
-	private int cardModProb = 10;
-	private int summonProb = 10;
+	private int totalNumCards = 15;
+	private int[] numCards = new int[]{8,4,2,1};
 	
 	public ItemCardBooster(int id) {
 		super(id);
@@ -37,32 +33,14 @@ public class ItemCardBooster extends Item {
 			return itemStack;
 		}
 
-		CardInstance[] cards = new CardInstance[numCards];
+		CardInstance[] cards = new CardInstance[totalNumCards];
+		int k = 0;
 		Random r = new Random();
 		
-		for(int i = 0; i < numCards; i++){
-			int n = r.nextInt(getTotalProb());
-			
-			if(n < manaProb){
-				cards[i] = new CardInstance(Card.getRandomManaCard(r));
-				continue;
+		for(int i = 0; i < 4; i++){
+			for(int j = 0; j < numCards[i]; j++){
+				cards[k++] = new CardInstance(Card.getRandomCardByRarity(r, EnumRarity.values()[i]));
 			}
-			n -= manaProb;
-			if(n < spellProb){
-				cards[i] = new CardInstance(Card.getRandomSpellCard(r));
-				continue;
-			}
-			n -= spellProb;
-			if(n < selfModProb){
-				cards[i] = new CardInstance(Card.getRandomSelfModCard(r));
-				continue;
-			}
-			n -= selfModProb;
-			if(n < cardModProb){
-				cards[i] = new CardInstance(Card.getRandomCardModCard(r));
-				continue;
-			}
-			cards[i] = new CardInstance(Card.getRandomSummonCard(r));
 		}
 		
 		itemStack.stackSize--;
@@ -78,10 +56,6 @@ public class ItemCardBooster extends Item {
 		return 16;
 	}
 
-	private int getTotalProb(){
-		return manaProb + spellProb + selfModProb + cardModProb + summonProb;
-	}
-	
 	Icon packIcon;
 	
 	@Override

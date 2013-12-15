@@ -13,9 +13,7 @@ import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.potion.PotionHelper;
 import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomItem;
 import net.minecraft.world.World;
@@ -24,8 +22,7 @@ public abstract class Card extends WeightedRandomItem {
 	private final static HashMap<String, Card> allCards = new HashMap<>();
 	private final static HashMap<String, Card> manaCards = new HashMap<>();
 	private final static HashMap<String, Card> spellCards = new HashMap<>();
-	private final static HashMap<String, Card> selfModCards = new HashMap<>();
-	private final static HashMap<String, Card> cardModCards = new HashMap<>();
+	private final static HashMap<String, Card> modCards = new HashMap<>();
 	private final static HashMap<String, Card> summonCards = new HashMap<>();
 	private final static HashMap<EnumRarity, List<Card>> cardsByRarity = new HashMap<>();
 
@@ -54,17 +51,17 @@ public abstract class Card extends WeightedRandomItem {
 		new SpellCard("WaterStream", 0, 0, 0, 1, 0, 0, EnumRarity.common);
 		new SpellCard("Tsunami", 0, 0, 0, 3, 0, 0, EnumRarity.rare);
 
-		new SelfModifierCard("Heal", 0, 0, 1, 1, 1, 0, EnumRarity.uncommon, new PotionEffect(6,1));
-		new SelfModifierCard("Haste", 1, 0, 3, 0, 0, 0, EnumRarity.rare, new PotionEffect(3,10*20));
-		new SelfModifierCard("Speed", 0, 0, 3, 1, 0, 0, EnumRarity.rare, new PotionEffect(1,10*20));
-		new SelfModifierCard("Jump", 1, 0, 3, 0, 0, 0, EnumRarity.rare, new PotionEffect(8,10*20));
-		new SelfModifierCard("Strength", 0, 0, 3, 1, 0, 0, EnumRarity.rare, new PotionEffect(5,10*20));
-		new SelfModifierCard("Heal", 0, 0, 1, 1, 1, 0, EnumRarity.rare, new PotionEffect(10,5*20));
-		new SelfModifierCard("Resistence", 2, 0, 0, 0, 2, 0, EnumRarity.rare, new PotionEffect(11,10*20));
-		new SelfModifierCard("Fire Resistence", 0, 3, 0, 3, 0, 0, EnumRarity.rare, new PotionEffect(12,10*20));
-		new SelfModifierCard("Water Breathing", 0, 0, 3, 3, 0, 0, EnumRarity.rare, new PotionEffect(12,10*20));
-
-		new CardModifierCard("Haste", 0, 0, 3, 1, 0, 0, EnumRarity.rare);
+		new ModifierCard("Heal", 0, 0, 1, 1, 1, 0, EnumRarity.uncommon, new PotionEffect(6,1));
+		new ModifierCard("Haste", 1, 0, 3, 0, 0, 0, EnumRarity.rare, new PotionEffect(3,10*20));
+		new ModifierCard("Speed", 0, 0, 3, 1, 0, 0, EnumRarity.rare, new PotionEffect(1,10*20));
+		new ModifierCard("Jump", 1, 0, 3, 0, 0, 0, EnumRarity.rare, new PotionEffect(8,10*20));
+		new ModifierCard("Strength", 0, 0, 3, 1, 0, 0, EnumRarity.rare, new PotionEffect(5,10*20));
+		new ModifierCard("Heal", 0, 0, 1, 1, 1, 0, EnumRarity.rare, new PotionEffect(10,5*20));
+		new ModifierCard("Resistence", 2, 0, 0, 0, 2, 0, EnumRarity.rare, new PotionEffect(11,10*20));
+		new ModifierCard("Fire Resistence", 0, 3, 0, 3, 0, 0, EnumRarity.rare, new PotionEffect(12,10*20));
+		new ModifierCard("Water Breathing", 0, 0, 3, 3, 0, 0, EnumRarity.rare, new PotionEffect(13,10*20));
+		new ModifierCard("Invisibility", 0, 0, 3, 3, 0, 0, EnumRarity.rare, new PotionEffect(14,10*20));
+		new ModifierCard("Night Vision", 0, 0, 3, 3, 0, 0, EnumRarity.rare, new PotionEffect(16,10*20));
 
 		new SummonCard("SnowGolem", 0, 0, 2, 2, 2, 0, EnumRarity.rare, EntitySnowman.class);
 		new SummonCard("IronGolem", 2, 2, 0, 0, 2, 0, EnumRarity.epic, EntityIronGolem.class);
@@ -87,14 +84,11 @@ public abstract class Card extends WeightedRandomItem {
 		cost = new int[] { earthCost, fireCost, airCost, waterCost, orderCost, entropyCost };
 
 		switch (type) {
-		case CARD_MODIFIER:
-			cardModCards.put(name, this);
-			break;
 		case MANA:
 			manaCards.put(name, this);
 			break;
-		case SELF_MODIFIER:
-			selfModCards.put(name, this);
+		case MODIFIER:
+			modCards.put(name, this);
 			break;
 		case SPELL:
 			spellCards.put(name, this);
@@ -143,20 +137,12 @@ public abstract class Card extends WeightedRandomItem {
 		return (Card) WeightedRandom.getRandomItem(r, spellCards.values());
 	}
 
-	public static Map<String, Card> getSelfModCards() {
-		return Collections.unmodifiableMap(selfModCards);
+	public static Map<String, Card> getModCards() {
+		return Collections.unmodifiableMap(modCards);
 	}
 
-	public static Card getRandomSelfModCard(Random r) {
-		return (Card) WeightedRandom.getRandomItem(r, selfModCards.values());
-	}
-
-	public static Map<String, Card> getCardModCards() {
-		return Collections.unmodifiableMap(cardModCards);
-	}
-
-	public static Card getRandomCardModCard(Random r) {
-		return (Card) WeightedRandom.getRandomItem(r, cardModCards.values());
+	public static Card getRandomModCard(Random r) {
+		return (Card) WeightedRandom.getRandomItem(r, modCards.values());
 	}
 
 	public static Map<String, Card> getSummonCards() {
@@ -216,7 +202,7 @@ public abstract class Card extends WeightedRandomItem {
 	}
 
 	public static enum Type {
-		MANA("Mana"), SPELL("Spell"), SELF_MODIFIER("Self Mod"), CARD_MODIFIER("Card Mod"), SUMMON("Summon");
+		MANA("Mana"), SPELL("Spell"), MODIFIER("Modifier"), SUMMON("Summon");
 
 		private String name;
 
@@ -315,34 +301,18 @@ public abstract class Card extends WeightedRandomItem {
 		}
 	}
 
-	public static class SelfModifierCard extends Card{
+	public static class ModifierCard extends Card{
 		private PotionEffect eff;
 		
-		public SelfModifierCard(String name, int earthCost, int fireCost, int airCost, int waterCost,
+		public ModifierCard(String name, int earthCost, int fireCost, int airCost, int waterCost,
 				int orderCost, int entropyCost, EnumRarity rarity, PotionEffect eff) {
-			super(name, Type.SELF_MODIFIER, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
+			super(name, Type.MODIFIER, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
 			this.eff = eff;
 		}
 
 		@Override
 		public void cast(EntityPlayer player, float x, float y, float z) {
 			player.addPotionEffect(eff);
-		}
-		
-	}
-	
-	public static class CardModifierCard extends Card{
-
-		public CardModifierCard(String name, int earthCost, int fireCost, int airCost, int waterCost,
-				int orderCost, int entropyCost, EnumRarity rarity) {
-			super(name, Type.CARD_MODIFIER, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
-			// TODO Auto-generated constructor stub
-		}
-
-		@Override
-		public void cast(EntityPlayer player, float x, float y, float z) {
-			// TODO Auto-generated method stub
-			
 		}
 		
 	}
