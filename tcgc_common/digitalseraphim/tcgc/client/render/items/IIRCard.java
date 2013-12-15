@@ -4,7 +4,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderEntity;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.entity.monster.EntitySnowman;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -92,7 +94,7 @@ public class IIRCard implements IItemRenderer {
 		} else {
 			for (int i = 0; i < cards.length; i++) {
 				GL11.glPushMatrix();
-				GL11.glTranslatef(-5f * cards.length + (i * 10f), (i == sel) ? -20f : 0f, -1 + .05f * Math.abs(i - sel)
+				GL11.glTranslatef(-5f * (cards.length-1) + (i * 10f), (i == sel && cards.length != 1) ? -10f : 0f, -1 + .05f * Math.abs(i - sel)
 						+ ((i > sel) ? .025f : 0));
 				renderCardFront(texMan, cards[i]);
 				GL11.glPopMatrix();
@@ -219,8 +221,8 @@ public class IIRCard implements IItemRenderer {
 		fr.drawString("\u00a7" + Integer.toHexString(cardRarity.rarityColor) + card.getBaseCard().getName(), 0, 0, 0);
 
 		int squaredRarity = (cardRarity.ordinal() + 1) * (cardRarity.ordinal() + 1); 
-		int useXP = 50 * squaredRarity;
-		int restoreXP = 150 * squaredRarity;
+		int useXP = 10 * (cardRarity.ordinal() + 1);
+		int restoreXP = 15 * squaredRarity;
 
 		String xpString =useXP + "/" + restoreXP;
 		int width = fr.getStringWidth(xpString);
@@ -261,6 +263,12 @@ public class IIRCard implements IItemRenderer {
 			tess.draw();
 		}
 
+		GL11.glPushMatrix();
+		GL11.glScalef(10, 10, 10);
+		new RenderEntity().doRender(new EntitySnowman(Minecraft.getMinecraft().theWorld), 5, 0, -2, 0, 0);
+		
+		GL11.glPopMatrix();
+		
 		GL11.glPopMatrix();
 	}
 
