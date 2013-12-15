@@ -379,9 +379,9 @@ public abstract class Card extends WeightedRandomItem {
 
 		@Override
 		public void cast(EntityPlayer player, float x, float y, float z) {
-			double px = player.posX;
-			double py = player.posY;
-			double pz = player.posZ;
+			int px = (int)(player.posX-.5);
+			int py = (int)(player.posY);
+			int pz = (int)(player.posZ-.5);
 			
 			for(int i = -5; i <= 5; i++){
 				for(int j = -5; j <= 5; j++){
@@ -396,8 +396,8 @@ public abstract class Card extends WeightedRandomItem {
 					System.out.println("bid = " + bid);
 					Block b = Block.blocksList[bid];
 					
-					if(b==null || b.isBlockReplaceable(player.worldObj, (int)px + i, (int)py, (int)pz+j)){
-						player.worldObj.setBlock((int)px + i, (int)py, (int)pz+j, BlockIDs.MAGIC_FLOWING_WATER_ID, md, 7);
+					if(b==null || b.isBlockReplaceable(player.worldObj, px + i, py, pz+j)){
+						player.worldObj.setBlock(px + i, py, pz+j, BlockIDs.MAGIC_FLOWING_WATER_ID, md, 7);
 					}
 				}
 			}

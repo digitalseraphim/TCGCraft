@@ -22,12 +22,12 @@ public class BlockMagicFluid extends BlockFluidClassic {
 			par6Vec3.xCoord*=10;
 			par6Vec3.yCoord*=10;
 			par6Vec3.zCoord*=10;
+		}else{
+			par6Vec3.xCoord=0;
+			par6Vec3.yCoord=0;
+			par6Vec3.zCoord=0;			
 		}
 	}
 	
-	@Override
-	public int tickRate(World par1World) {
-		return 520;
-	}
 	
 }

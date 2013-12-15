@@ -43,7 +43,23 @@ public class ItemCard extends ItemMap {
 			CardInstance cardSel = cards[sel];
 
 			if (cardSel.isActivated()) {
-				// do nothing, this handled in onItemUse()
+				if(!cardSel.needsTargetBlock()){
+					if (cardSel.isActivated()) {
+						// cast!
+						cardSel.cast(player,0,0,0);
+						System.out.println("done casting... ");
+						// do good stuff here...
+						cardSel.setUsed(true);
+						cardSel.setActivated(false);
+
+						for (CardInstance c : cards) {
+							c.setLocked(false);
+						}
+						ItemStack tempItemStack =  ItemCard.createItemStack(TCGCraft.proxy.cardItem, cards);
+						itemStack.setTagCompound(tempItemStack.getTagCompound());
+						return itemStack;
+					}
+				}
 			} else if(cardSel.isUsed()){
 				int restoreXP = cardSel.getBaseCard().getRestoreXPCost();
 				int playerXP = player.experienceTotal;

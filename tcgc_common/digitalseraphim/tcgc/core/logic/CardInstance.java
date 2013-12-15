@@ -1,5 +1,6 @@
 package digitalseraphim.tcgc.core.logic;
 
+import digitalseraphim.tcgc.core.logic.Card.Type;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 
@@ -59,6 +60,10 @@ public class CardInstance {
 
 	public void setLocked(boolean isLocked) {
 		this.isLocked = isLocked;
+	}
+	
+	public boolean needsTargetBlock(){
+		return getBaseCard().getType() == Type.SUMMON;
 	}
 	
 	public NBTTagCompound toTagCompound(){
