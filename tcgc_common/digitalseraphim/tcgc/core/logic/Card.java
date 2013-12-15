@@ -273,7 +273,7 @@ public abstract class Card extends WeightedRandomItem {
 	public static class SummonCard extends Card {
 		private Class<? extends EntityLiving> toSummon;
 
-		private Vector<ModifierCard> modCards = new Vector<>();
+		private Vector<ModifierCard> modCards = new Vector<ModifierCard>();
 		
 		public SummonCard(String name, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
 				int entropyCost, EnumRarity rarity, Class<? extends EntityLiving> toSummon) {

@@ -232,7 +232,7 @@ public class ItemCard extends ItemMap {
 		if (ItemCard.getCardCount(item) == 1) {
 			return super.onDroppedByPlayer(item, player);
 		} else {
-			Vector<CardInstance> cards = new Vector<>(Arrays.asList(cardsFromItemStack(item)));
+			Vector<CardInstance> cards = new Vector<CardInstance>(Arrays.asList(cardsFromItemStack(item)));
 			int sel = getSelectedCardIndex(item);
 			CardInstance selCard = getSelectedCard(item);
 			if (selCard.isLocked()) {

@@ -49,7 +49,7 @@ public class StorageBoxRecipes implements IRecipe {
 
 	@Override
 	public ItemStack getCraftingResult(InventoryCrafting inventorycrafting) {
-		Vector<CardInstance> cards = new Vector<>();
+		Vector<CardInstance> cards = new Vector<CardInstance>();
 		boolean foundFirstBox = false;
 
 		for(int row = 0; row < 3; row++){
