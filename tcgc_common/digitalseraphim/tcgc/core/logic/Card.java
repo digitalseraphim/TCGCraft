@@ -390,7 +390,7 @@ public abstract class Card extends WeightedRandomItem {
 					}
 					int md = Math.abs(i) + Math.abs(j);
 					if(md > 4){
-						//continue;
+						continue;
 					}
 					int bid = player.worldObj.getBlockId((int)px + i, (int)py, (int)pz+j);
 					System.out.println("bid = " + bid);
