@@ -1,9 +1,11 @@
 package digitalseraphim.tcgc.client.render.items;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.IItemRenderer;
@@ -212,8 +214,19 @@ public class IIRCard implements IItemRenderer {
 			}
 		}
 
-		Minecraft.getMinecraft().fontRenderer.drawString(card.getBaseCard().getName(), 0, 0, 0);
+		EnumRarity cardRarity = card.getBaseCard().getRarity();
+		FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
+		fr.drawString("\u00a7" + Integer.toHexString(cardRarity.rarityColor) + card.getBaseCard().getName(), 0, 0, 0);
 
+		int squaredRarity = (cardRarity.ordinal() + 1) * (cardRarity.ordinal() + 1); 
+		int useXP = 50 * squaredRarity;
+		int restoreXP = 150 * squaredRarity;
+
+		String xpString =useXP + "/" + restoreXP;
+		int width = fr.getStringWidth(xpString);
+	
+		fr.drawString(xpString, 128-width, 121, 0);
+		
 		zz = -0.02f;
 		if (card.isUsed()) {
 
