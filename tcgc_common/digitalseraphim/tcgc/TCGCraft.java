@@ -1,9 +1,9 @@
 package digitalseraphim.tcgc;
 
+import net.minecraft.creativetab.CreativeTabs;
+
 import com.google.common.eventbus.Subscribe;
 
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraftforge.server.command.ForgeCommand;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;

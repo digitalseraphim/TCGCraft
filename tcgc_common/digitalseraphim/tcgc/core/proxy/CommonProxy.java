@@ -1,6 +1,5 @@
 package digitalseraphim.tcgc.core.proxy;
 
-import net.minecraft.command.ServerCommandManager;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import cpw.mods.fml.common.registry.GameRegistry;
