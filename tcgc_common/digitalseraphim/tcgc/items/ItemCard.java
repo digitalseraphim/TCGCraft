@@ -136,7 +136,7 @@ public class ItemCard extends ItemMap {
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World par3World, int x, int y, int z, int side,
+	public boolean onItemUse(ItemStack itemStack, EntityPlayer player, World world, int x, int y, int z, int side,
 			float hitX, float hitY, float hitZ) {
 		System.out.println("ItemCard.onItemUse()");
 		int sel = getSelectedCardIndex(itemStack);
@@ -146,6 +146,7 @@ public class ItemCard extends ItemMap {
 		if (cardSel.isActivated()) {
 			// cast!
 			cardSel.cast(player, x, y, z);
+			System.out.println("done casting... ");
 			// do good stuff here...
 			cardSel.setUsed(true);
 			cardSel.setActivated(false);
@@ -153,8 +154,8 @@ public class ItemCard extends ItemMap {
 			for (CardInstance c : cards) {
 				c.setLocked(false);
 			}
-
-			itemStack = ItemCard.createItemStack(TCGCraft.proxy.cardItem, cards);
+			ItemStack tempItemStack =  ItemCard.createItemStack(TCGCraft.proxy.cardItem, cards);
+			itemStack.setTagCompound(tempItemStack.getTagCompound());
 			return true;
 		}
 

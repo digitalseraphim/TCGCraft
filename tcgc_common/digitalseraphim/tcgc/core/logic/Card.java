@@ -1,6 +1,5 @@
 package digitalseraphim.tcgc.core.logic;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -258,6 +257,7 @@ public class Card {
 		public void cast(EntityPlayer player, float x, float y, float z) {
 			try {
 				EntityLiving ent = toSummon.getConstructor(World.class).newInstance(player.worldObj);
+				ent.setPosition(x, y+1, z);
 				player.worldObj.spawnEntityInWorld(ent);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
