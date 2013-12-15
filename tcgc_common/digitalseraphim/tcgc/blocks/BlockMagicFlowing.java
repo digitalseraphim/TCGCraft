@@ -1,11 +1,11 @@
 package digitalseraphim.tcgc.blocks;
 
-import cpw.mods.fml.common.network.Player;
 import net.minecraft.block.BlockFlowing;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import cpw.mods.fml.common.network.Player;
 
 public class BlockMagicFlowing extends BlockFlowing {
 

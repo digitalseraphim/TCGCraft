@@ -9,6 +9,8 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Vector;
 
+import digitalseraphim.tcgc.core.helpers.BlockIDs;
+
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -395,7 +397,7 @@ public abstract class Card extends WeightedRandomItem {
 					Block b = Block.blocksList[bid];
 					
 					if(b==null || b.isBlockReplaceable(player.worldObj, (int)px + i, (int)py, (int)pz+j)){
-						player.worldObj.setBlock((int)px + i, (int)py, (int)pz+j, Block.waterMoving.blockID, md, 7);
+						player.worldObj.setBlock((int)px + i, (int)py, (int)pz+j, BlockIDs.MAGIC_FLOWING_WATER_ID, md, 7);
 					}
 				}
 			}
