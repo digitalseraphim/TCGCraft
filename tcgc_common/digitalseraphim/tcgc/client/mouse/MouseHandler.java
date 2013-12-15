@@ -20,12 +20,14 @@ public class MouseHandler {
 			EntityClientPlayerMP p = Minecraft.getMinecraft().thePlayer;
 			if(p.isSneaking()){
 				ItemStack stack = p.getCurrentEquippedItem();
-				Item i = stack.getItem();
-				
-				if(i instanceof ItemCard){
-					System.out.println("scrolling - " + me.dwheel/120);
-					((ClientProxy)TCGCraft.proxy).sendCardSelectionPacket(-me.dwheel/120);
-					me.setCanceled(true);
+				if(stack != null){
+					Item i = stack.getItem();
+					
+					if(i instanceof ItemCard){
+						System.out.println("scrolling - " + me.dwheel/120);
+						((ClientProxy)TCGCraft.proxy).sendCardSelectionPacket(-me.dwheel/120);
+						me.setCanceled(true);
+					}
 				}
 			}
 		}
