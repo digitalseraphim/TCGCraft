@@ -17,7 +17,7 @@ import net.minecraft.util.WeightedRandom;
 import net.minecraft.util.WeightedRandomItem;
 import net.minecraft.world.World;
 
-public class Card extends WeightedRandomItem {
+public abstract class Card extends WeightedRandomItem {
 	private final static HashMap<String, Card> allCards = new HashMap<>();
 	private final static HashMap<String, Card> manaCards = new HashMap<>();
 	private final static HashMap<String, Card> spellCards = new HashMap<>();
@@ -25,40 +25,40 @@ public class Card extends WeightedRandomItem {
 	private final static HashMap<String, Card> cardModCards = new HashMap<>();
 	private final static HashMap<String, Card> summonCards = new HashMap<>();
 	private final static HashMap<EnumRarity, List<Card>> cardsByRarity = new HashMap<>();
-	
+
 	static {
 		cardsByRarity.put(EnumRarity.common, new ArrayList<Card>());
 		cardsByRarity.put(EnumRarity.uncommon, new ArrayList<Card>());
 		cardsByRarity.put(EnumRarity.rare, new ArrayList<Card>());
 		cardsByRarity.put(EnumRarity.epic, new ArrayList<Card>());
-		
-		new Card(Mana.EARTH.name(), Type.MANA, 1, 0, 0, 0, 0, 0, EnumRarity.common);
-		new Card(Mana.FIRE.name(), Type.MANA, 0, 1, 0, 0, 0, 0, EnumRarity.common);
-		new Card(Mana.AIR.name(), Type.MANA, 0, 0, 1, 0, 0, 0, EnumRarity.common);
-		new Card(Mana.WATER.name(), Type.MANA, 0, 0, 0, 1, 0, 0, EnumRarity.common);
-		new Card(Mana.ORDER.name(), Type.MANA, 0, 0, 0, 0, 1, 0, EnumRarity.common);
-		new Card(Mana.ENTROPY.name(), Type.MANA, 0, 0, 0, 0, 0, 1, EnumRarity.common);
 
-		new Card("Volcano", Type.MANA, 1, 1, 0, 0, 0, 0, EnumRarity.rare);
-		new Card("Flying Island", Type.MANA, 1, 0, 1, 0, 0, 0, EnumRarity.rare);
-		new Card("Island", Type.MANA, 1, 0, 0, 1, 0, 0, EnumRarity.rare);
-		new Card("Fire Vortex", Type.MANA, 0, 1, 1, 0, 0, 0, EnumRarity.rare);
-		new Card("Newborn Island", Type.MANA, 0, 1, 0, 1, 0, 0, EnumRarity.rare);
-		new Card("Cloud", Type.MANA, 0, 0, 1, 1, 0, 0, EnumRarity.rare);
+		new ManaCard(Mana.EARTH.getName(), 1, 0, 0, 0, 0, 0, EnumRarity.common);
+		new ManaCard(Mana.FIRE.getName(), 0, 1, 0, 0, 0, 0, EnumRarity.common);
+		new ManaCard(Mana.AIR.getName(), 0, 0, 1, 0, 0, 0, EnumRarity.common);
+		new ManaCard(Mana.WATER.getName(), 0, 0, 0, 1, 0, 0, EnumRarity.common);
+		new ManaCard(Mana.ORDER.getName(), 0, 0, 0, 0, 1, 0, EnumRarity.common);
+		new ManaCard(Mana.ENTROPY.getName(), 0, 0, 0, 0, 0, 1, EnumRarity.common);
 
-		new Card("FireBolt", Type.SPELL, 0, 1, 0, 0, 0, 0, EnumRarity.common);
-		new Card("FireBall", Type.SPELL, 0, 3, 0, 0, 0, 0, EnumRarity.rare);
-		new Card("WaterStream", Type.SPELL, 0, 0, 0, 1, 0, 0, EnumRarity.common);
-		new Card("Tsunami", Type.SPELL, 0, 0, 0, 3, 0, 0, EnumRarity.rare);
+		new ManaCard("Volcano", 1, 1, 0, 0, 0, 0, EnumRarity.rare);
+		new ManaCard("Flying Island", 1, 0, 1, 0, 0, 0, EnumRarity.rare);
+		new ManaCard("Island", 1, 0, 0, 1, 0, 0, EnumRarity.rare);
+		new ManaCard("Fire Vortex", 0, 1, 1, 0, 0, 0, EnumRarity.rare);
+		new ManaCard("Newborn Island", 0, 1, 0, 1, 0, 0, EnumRarity.rare);
+		new ManaCard("Cloud", 0, 0, 1, 1, 0, 0, EnumRarity.rare);
 
-		new Card("Heal", Type.SELF_MODIFIER, 0, 0, 1, 1, 1, 0, EnumRarity.rare);
-		new Card("Haste", Type.SELF_MODIFIER, 0, 0, 3, 1, 0, 0, EnumRarity.rare);
+		new SpellCard("FireBolt", 0, 1, 0, 0, 0, 0, EnumRarity.common);
+		new SpellCard("FireBall", 0, 3, 0, 0, 0, 0, EnumRarity.rare);
+		new SpellCard("WaterStream", 0, 0, 0, 1, 0, 0, EnumRarity.common);
+		new SpellCard("Tsunami", 0, 0, 0, 3, 0, 0, EnumRarity.rare);
 
-		new Card("Haste", Type.CARD_MODIFIER, 0, 0, 3, 1, 0, 0, EnumRarity.rare);
+		new SelfModifierCard("Heal", 0, 0, 1, 1, 1, 0, EnumRarity.rare);
+		new SelfModifierCard("Haste", 0, 0, 3, 1, 0, 0, EnumRarity.rare);
 
-		new SummonCard("SnowGolem", Type.SUMMON, 0, 0, 2, 2, 2, 0, EnumRarity.rare, EntitySnowman.class);
-		new SummonCard("IronGolem", Type.SUMMON, 2, 2, 0, 0, 2, 0, EnumRarity.epic, EntityIronGolem.class);
-		new SummonCard("Villager", Type.SUMMON,  2, 2, 0, 0, 2, 0, EnumRarity.rare, EntityVillager.class);
+		new CardModifierCard("Haste", 0, 0, 3, 1, 0, 0, EnumRarity.rare);
+
+		new SummonCard("SnowGolem", 0, 0, 2, 2, 2, 0, EnumRarity.rare, EntitySnowman.class);
+		new SummonCard("IronGolem", 2, 2, 0, 0, 2, 0, EnumRarity.epic, EntityIronGolem.class);
+		new SummonCard("Villager", 2, 2, 0, 0, 2, 0, EnumRarity.rare, EntityVillager.class);
 	}
 
 	private final String name;
@@ -70,7 +70,7 @@ public class Card extends WeightedRandomItem {
 
 	public Card(String name, Type t, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
 			int entropyCost, EnumRarity rarity) {
-		super(rarity.ordinal()*5);
+		super(rarity.ordinal() * 5);
 		this.name = name;
 		this.type = t;
 		this.rarity = rarity;
@@ -114,7 +114,7 @@ public class Card extends WeightedRandomItem {
 	}
 
 	public static Card getRandomCard(Random r) {
-		return (Card)WeightedRandom.getRandomItem(r,allCards.values());
+		return (Card) WeightedRandom.getRandomItem(r, allCards.values());
 	}
 
 	public static Map<String, Card> getManaCards() {
@@ -122,7 +122,7 @@ public class Card extends WeightedRandomItem {
 	}
 
 	public static Card getRandomManaCard(Random r) {
-		return (Card)WeightedRandom.getRandomItem(r,manaCards.values());
+		return (Card) WeightedRandom.getRandomItem(r, manaCards.values());
 	}
 
 	public static Map<String, Card> getSpellCards() {
@@ -130,7 +130,7 @@ public class Card extends WeightedRandomItem {
 	}
 
 	public static Card getRandomSpellCard(Random r) {
-		return (Card)WeightedRandom.getRandomItem(r,spellCards.values());
+		return (Card) WeightedRandom.getRandomItem(r, spellCards.values());
 	}
 
 	public static Map<String, Card> getSelfModCards() {
@@ -138,7 +138,7 @@ public class Card extends WeightedRandomItem {
 	}
 
 	public static Card getRandomSelfModCard(Random r) {
-		return (Card)WeightedRandom.getRandomItem(r,selfModCards.values());
+		return (Card) WeightedRandom.getRandomItem(r, selfModCards.values());
 	}
 
 	public static Map<String, Card> getCardModCards() {
@@ -146,7 +146,7 @@ public class Card extends WeightedRandomItem {
 	}
 
 	public static Card getRandomCardModCard(Random r) {
-		return (Card)WeightedRandom.getRandomItem(r,cardModCards.values());
+		return (Card) WeightedRandom.getRandomItem(r, cardModCards.values());
 	}
 
 	public static Map<String, Card> getSummonCards() {
@@ -154,7 +154,11 @@ public class Card extends WeightedRandomItem {
 	}
 
 	public static Card getRandomSummonCard(Random r) {
-		return (Card)WeightedRandom.getRandomItem(r,summonCards.values());
+		return (Card) WeightedRandom.getRandomItem(r, summonCards.values());
+	}
+
+	public static Card getRandomCardByRarity(Random r, EnumRarity rarity) {
+		return (Card) WeightedRandom.getRandomItem(r, cardsByRarity.get(rarity));
 	}
 
 	public Type getType() {
@@ -188,7 +192,7 @@ public class Card extends WeightedRandomItem {
 	public EnumRarity getRarity() {
 		return rarity;
 	}
-	
+
 	public int getTotalCost() {
 		int tot = 0;
 		for (int i : cost) {
@@ -240,28 +244,40 @@ public class Card extends WeightedRandomItem {
 	public int[] getCost() {
 		return cost;
 	}
-	
-	public int getUseXPCost(){
+
+	public int getUseXPCost() {
 		int useXP = 10 * (rarity.ordinal() + 1);
 		return useXP;
 	}
 
-	public int getRestoreXPCost(){
-		int squaredRarity = (rarity.ordinal() + 1) * (rarity.ordinal() + 1); 
+	public int getRestoreXPCost() {
+		int squaredRarity = (rarity.ordinal() + 1) * (rarity.ordinal() + 1);
 		int restoreXP = 15 * squaredRarity;
 		return restoreXP;
 	}
-	
-	public void cast(EntityPlayer player, float x, float y, float z){
-		
+
+	public abstract void cast(EntityPlayer player, float x, float y, float z);
+
+	public static class ManaCard extends Card {
+
+		public ManaCard(String name, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
+				int entropyCost, EnumRarity rarity) {
+			super(name, Type.MANA, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
+		}
+
+		@Override
+		public void cast(EntityPlayer player, float x, float y, float z) {
+			// do nothing
+		}
+
 	}
-	
-	public static class SummonCard extends Card{
+
+	public static class SummonCard extends Card {
 		private Class<? extends EntityLiving> toSummon;
-		
-		public SummonCard(String name, Type t, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
+
+		public SummonCard(String name, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
 				int entropyCost, EnumRarity rarity, Class<? extends EntityLiving> toSummon) {
-			super(name, t, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
+			super(name, Type.SUMMON, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
 			this.toSummon = toSummon;
 		}
 
@@ -269,7 +285,7 @@ public class Card extends WeightedRandomItem {
 		public void cast(EntityPlayer player, float x, float y, float z) {
 			try {
 				EntityLiving ent = toSummon.getConstructor(World.class).newInstance(player.worldObj);
-				ent.setPosition(x, y+1, z);
+				ent.setPosition(x, y + 1, z);
 				player.worldObj.spawnEntityInWorld(ent);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -277,6 +293,48 @@ public class Card extends WeightedRandomItem {
 			}
 		}
 	}
+
+	public static class SpellCard extends Card{
+		public SpellCard(String name, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
+				int entropyCost, EnumRarity rarity) {
+			super(name, Type.SPELL, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
+		}
+
+		@Override
+		public void cast(EntityPlayer player, float x, float y, float z) {
+		}
+	}
+
+	public static class SelfModifierCard extends Card{
+
+		public SelfModifierCard(String name, int earthCost, int fireCost, int airCost, int waterCost,
+				int orderCost, int entropyCost, EnumRarity rarity) {
+			super(name, Type.SELF_MODIFIER, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public void cast(EntityPlayer player, float x, float y, float z) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
 	
-	
+	public static class CardModifierCard extends Card{
+
+		public CardModifierCard(String name, int earthCost, int fireCost, int airCost, int waterCost,
+				int orderCost, int entropyCost, EnumRarity rarity) {
+			super(name, Type.CARD_MODIFIER, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
+			// TODO Auto-generated constructor stub
+		}
+
+		@Override
+		public void cast(EntityPlayer player, float x, float y, float z) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+	}
+
 }
