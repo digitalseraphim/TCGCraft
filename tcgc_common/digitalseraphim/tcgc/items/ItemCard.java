@@ -43,6 +43,28 @@ public class ItemCard extends ItemMap {
 
 			if (cardSel.isActivated()) {
 				// do nothing, this handled in onItemUse()
+			} else if(cardSel.isUsed()){
+				int restoreXP = cardSel.getBaseCard().getRestoreXPCost();
+				int playerXP = player.experienceTotal;
+				boolean changed = false;
+				
+				if(player.capabilities.isCreativeMode){
+					System.out.println("creative card unlock");
+					cardSel.setUsed(false);
+					changed = true;
+				}else if(playerXP > restoreXP && !cardSel.isLocked()){
+					XPUtils.subtractXP(player, restoreXP);
+					cardSel.setUsed(false);
+					changed = true;
+				}
+				if(changed){
+					ItemStack tmpItemStack = ItemCard.createItemStack(TCGCraft.proxy.cardItem, cards);
+					ItemCard.setSelected(tmpItemStack, ItemCard.getSelectedCardIndex(itemStack));
+					ItemCard.setCollapsed(tmpItemStack, ItemCard.getCollapsed(itemStack));
+					return tmpItemStack;
+				}else{
+					return itemStack;
+				}
 			} else {
 				int toModIdx = -1;
 				CardInstance toMod = null;
