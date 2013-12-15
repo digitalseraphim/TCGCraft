@@ -343,9 +343,13 @@ public abstract class Card extends WeightedRandomItem {
 			try {
 				con = projectileClass.getConstructor(World.class, EntityLivingBase.class, double.class, double.class, double.class);
 				EntityFireball proj = con.newInstance(player.worldObj, player, velocity*v.xCoord, velocity*v.yCoord, velocity*v.zCoord);
+				proj.posX = player.posX + v.xCoord * 1;
+				proj.posY = player.posY + (double)(player.height / 2.0F) + 0.5D;
+				proj.posZ = player.posZ + v.zCoord * 1;
 				if(proj instanceof EntityLargeFireball && this.explosionStrenth > 0){
 					((EntityLargeFireball)proj).field_92057_e = this.explosionStrenth;
 				}
+				player.worldObj.spawnEntityInWorld(proj);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
