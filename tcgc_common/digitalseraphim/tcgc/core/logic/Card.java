@@ -388,14 +388,14 @@ public abstract class Card extends WeightedRandomItem {
 					}
 					int md = Math.abs(i) + Math.abs(j);
 					if(md > 4){
-						continue;
+						//continue;
 					}
-					int bid = player.worldObj.getBlockId((int)px + i, (int)py, (int)pz+i);
+					int bid = player.worldObj.getBlockId((int)px + i, (int)py, (int)pz+j);
 					System.out.println("bid = " + bid);
 					Block b = Block.blocksList[bid];
 					
-					if(b==null || b.isBlockReplaceable(player.worldObj, (int)px + i, (int)py, (int)pz+i)){
-						player.worldObj.setBlock((int)px + i, (int)py, (int)pz+i, Block.waterMoving.blockID, md, 7);
+					if(b==null || b.isBlockReplaceable(player.worldObj, (int)px + i, (int)py, (int)pz+j)){
+						player.worldObj.setBlock((int)px + i, (int)py, (int)pz+j, Block.waterMoving.blockID, md, 7);
 					}
 				}
 			}
