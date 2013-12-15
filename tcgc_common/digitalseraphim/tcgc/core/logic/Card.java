@@ -1,13 +1,18 @@
 package digitalseraphim.tcgc.core.logic;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.monster.EntityIronGolem;
+import net.minecraft.entity.monster.EntitySnowman;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
+import net.minecraft.world.World;
 
 public class Card {
 	private final static HashMap<String, Card> allCards = new HashMap<>();
@@ -42,9 +47,9 @@ public class Card {
 
 		new Card("Haste", Type.CARD_MODIFIER, 0, 0, 3, 1, 0, 0, EnumRarity.rare);
 
-		new Card("SnowGolem", Type.SUMMON, 0, 0, 2, 2, 2, 0, EnumRarity.rare);
-		new Card("IronGolem", Type.SUMMON, 2, 2, 0, 0, 2, 0, EnumRarity.epic);
-		new Card("Villager", Type.SUMMON,  2, 2, 0, 0, 2, 0, EnumRarity.rare);
+		new SummonCard("SnowGolem", Type.SUMMON, 0, 0, 2, 2, 2, 0, EnumRarity.rare, EntitySnowman.class);
+		new SummonCard("IronGolem", Type.SUMMON, 2, 2, 0, 0, 2, 0, EnumRarity.epic, EntityIronGolem.class);
+		new SummonCard("Villager", Type.SUMMON,  2, 2, 0, 0, 2, 0, EnumRarity.rare, EntityVillager.class);
 	}
 
 	private final String name;
@@ -241,19 +246,24 @@ public class Card {
 	}
 	
 	public static class SummonCard extends Card{
-		private EntityLiving toSummon;
+		private Class<? extends EntityLiving> toSummon;
 		
 		public SummonCard(String name, Type t, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
-				int entropyCost, EnumRarity rarity, EntityLiving toSummon) {
+				int entropyCost, EnumRarity rarity, Class<? extends EntityLiving> toSummon) {
 			super(name, t, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
 			this.toSummon = toSummon;
 		}
 
 		@Override
-		public void cast(EntityPlayer player) {
-			super.cast(player);
+		public void cast(EntityPlayer player, float x, float y, float z) {
+			try {
+				EntityLiving ent = toSummon.getConstructor(World.class).newInstance(player.worldObj);
+				player.worldObj.spawnEntityInWorld(ent);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		
 	}
 	
 	
