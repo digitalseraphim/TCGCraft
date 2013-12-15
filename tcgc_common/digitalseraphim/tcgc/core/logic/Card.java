@@ -52,8 +52,14 @@ public abstract class Card extends WeightedRandomItem {
 		new SpellCard("WaterStream", 0, 0, 0, 1, 0, 0, EnumRarity.common);
 		new SpellCard("Tsunami", 0, 0, 0, 3, 0, 0, EnumRarity.rare);
 
-		new SelfModifierCard("Heal", 0, 0, 1, 1, 1, 0, EnumRarity.rare);
-		new SelfModifierCard("Haste", 0, 0, 3, 1, 0, 0, EnumRarity.rare);
+		new SelfModifierCard("Heal", 0, 0, 1, 1, 1, 0, EnumRarity.uncommon, new PotionEffect(6,1));
+		new SelfModifierCard("Haste", 0, 0, 3, 1, 0, 0, EnumRarity.rare, new PotionEffect(3,10*20));
+		new SelfModifierCard("Speed", 0, 0, 3, 1, 0, 0, EnumRarity.rare, new PotionEffect(1,10*20));
+		new SelfModifierCard("Jump", 0, 0, 3, 1, 0, 0, EnumRarity.rare, new PotionEffect(8,10*20));
+		new SelfModifierCard("Strength", 0, 0, 3, 1, 0, 0, EnumRarity.rare, new PotionEffect(5,10*20));
+		new SelfModifierCard("Heal", 0, 0, 1, 1, 1, 0, EnumRarity.rare, new PotionEffect(10,5*20));
+		new SelfModifierCard("Resistence", 0, 0, 1, 1, 1, 0, EnumRarity.rare, new PotionEffect(11,10*20));
+		new SelfModifierCard("Fire Resistence", 0, 0, 1, 1, 1, 0, EnumRarity.rare, new PotionEffect(12,10*20));
 
 		new CardModifierCard("Haste", 0, 0, 3, 1, 0, 0, EnumRarity.rare);
 
@@ -307,17 +313,17 @@ public abstract class Card extends WeightedRandomItem {
 	}
 
 	public static class SelfModifierCard extends Card{
-
+		private PotionEffect eff;
+		
 		public SelfModifierCard(String name, int earthCost, int fireCost, int airCost, int waterCost,
-				int orderCost, int entropyCost, EnumRarity rarity) {
+				int orderCost, int entropyCost, EnumRarity rarity, PotionEffect eff) {
 			super(name, Type.SELF_MODIFIER, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
-			// TODO Auto-generated constructor stub
+			this.eff = eff;
 		}
 
 		@Override
 		public void cast(EntityPlayer player, float x, float y, float z) {
-			// TODO Auto-generated method stub
-			
+			player.addPotionEffect(eff);
 		}
 		
 	}
