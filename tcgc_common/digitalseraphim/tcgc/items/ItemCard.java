@@ -44,7 +44,7 @@ public class ItemCard extends ItemMap {
 				// do nothing, this handled in onItemUse()
 			} else {
 				int toModIdx = -1;
-				Card toMod = null;
+				CardInstance toMod = null;
 				Type t = cardSel.getBaseCard().getType();
 				int[] totalMana = new int[] { 0, 0, 0, 0, 0, 0 };
 				int[] castCost = cardSel.getBaseCard().getCost();
@@ -60,6 +60,22 @@ public class ItemCard extends ItemMap {
 					// look for card to modify
 					System.out.println("activated item is card mod");
 
+					for (int i = 0; i < cards.length; i++) {
+						CardInstance c = cards[i];
+						Type ct = c.getBaseCard().getType();
+						if(i == sel || ct == Type.MANA){
+							continue;
+						}
+						if(ct == Type.SUMMON && c.isActivated()){
+							if(toMod != null){
+								System.out.println("too many activated summon cards");
+								return super.onItemRightClick(itemStack, world, player);
+							}
+							toModIdx = i;
+							toMod = c;
+						}
+					}
+					
 				}
 
 				xpCost = cardSel.getBaseCard().getUseXPCost();
