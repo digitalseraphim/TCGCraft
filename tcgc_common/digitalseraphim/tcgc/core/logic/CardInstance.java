@@ -73,6 +73,10 @@ public class CardInstance {
 	}
 	
 	public void cast(EntityPlayer player, float x, float y, float z){
+		if(player.worldObj.isRemote){
+			System.out.println("skipping cast on client");
+			return;
+		}
 		System.out.println("calling cast!");
 		getBaseCard().cast(player, x, y, z);
 	}

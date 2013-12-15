@@ -327,11 +327,12 @@ public abstract class Card extends WeightedRandomItem {
 
 		@Override
 		public void cast(EntityPlayer player, float x, float y, float z) {
+			System.out.println("casting effect on player");
 			cast(player);
 		}
 		
 		public void cast(EntityLivingBase el){
-			el.addPotionEffect(eff);
+			el.addPotionEffect(new PotionEffect(eff));
 		}
 		
 	}

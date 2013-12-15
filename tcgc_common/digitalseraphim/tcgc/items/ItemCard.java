@@ -165,7 +165,11 @@ public class ItemCard extends ItemMap {
 							card.setUsed(true);
 							card.setLocked(true);
 						} else if (t == Type.MODIFIER && card == cardSel){
-							//skipit
+							System.out.println("selected modifier");
+							if(!card.isUsed()){
+								System.out.println("not marked used, marking active");
+								card.setActivated(true);
+							}
 						} else {
 							card.setActivated(true);
 							card.setLocked(true);
