@@ -21,12 +21,12 @@ import net.minecraft.util.WeightedRandomItem;
 import net.minecraft.world.World;
 
 public abstract class Card extends WeightedRandomItem {
-	private final static HashMap<String, Card> allCards = new HashMap<>();
-	private final static HashMap<String, Card> manaCards = new HashMap<>();
-	private final static HashMap<String, Card> spellCards = new HashMap<>();
-	private final static HashMap<String, Card> modCards = new HashMap<>();
-	private final static HashMap<String, Card> summonCards = new HashMap<>();
-	private final static HashMap<EnumRarity, List<Card>> cardsByRarity = new HashMap<>();
+	private final static HashMap<String, Card> allCards = new HashMap<String, Card>();
+	private final static HashMap<String, Card> manaCards = new HashMap<String, Card>();
+	private final static HashMap<String, Card> spellCards = new HashMap<String, Card>();
+	private final static HashMap<String, Card> modCards = new HashMap<String, Card>();
+	private final static HashMap<String, Card> summonCards = new HashMap<String, Card>();
+	private final static HashMap<EnumRarity, List<Card>> cardsByRarity = new HashMap<EnumRarity, List<Card>>();
 
 	static {
 		cardsByRarity.put(EnumRarity.common, new ArrayList<Card>());
