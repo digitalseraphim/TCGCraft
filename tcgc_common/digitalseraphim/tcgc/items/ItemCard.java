@@ -11,7 +11,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import digitalseraphim.tcgc.TCGCraft;
 import digitalseraphim.tcgc.core.helpers.XPUtils;
-import digitalseraphim.tcgc.core.logic.Card;
 import digitalseraphim.tcgc.core.logic.Card.Type;
 import digitalseraphim.tcgc.core.logic.CardInstance;
 
@@ -73,9 +72,14 @@ public class ItemCard extends ItemMap {
 							}
 							toModIdx = i;
 							toMod = c;
+						}else if(ct == Type.SPELL){
+							//no spells in here!
+							return super.onItemRightClick(itemStack, world, player);
+						}else if(ct==Type.MODIFIER && !c.isActivated()){
+							//more than one un-activated modifier
+							return super.onItemRightClick(itemStack, world, player);
 						}
 					}
-					
 				}
 
 				xpCost = cardSel.getBaseCard().getUseXPCost();

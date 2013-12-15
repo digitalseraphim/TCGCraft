@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+import java.util.Vector;
 
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.monster.EntityIronGolem;
@@ -271,6 +272,8 @@ public abstract class Card extends WeightedRandomItem {
 	public static class SummonCard extends Card {
 		private Class<? extends EntityLiving> toSummon;
 
+		private Vector<ModifierCard> modCards = new Vector<>();
+		
 		public SummonCard(String name, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
 				int entropyCost, EnumRarity rarity, Class<? extends EntityLiving> toSummon) {
 			super(name, Type.SUMMON, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
@@ -283,10 +286,19 @@ public abstract class Card extends WeightedRandomItem {
 				EntityLiving ent = toSummon.getConstructor(World.class).newInstance(player.worldObj);
 				ent.setPosition(x, y + 1, z);
 				player.worldObj.spawnEntityInWorld(ent);
+				
+				for(ModifierCard modCard: modCards){
+					modCard.cast(ent, 0, 0, 0)
+				}
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+		
+		public void addModCard(ModifierCard modCard){
+			modCards.add(modCard);
 		}
 	}
 
@@ -312,7 +324,11 @@ public abstract class Card extends WeightedRandomItem {
 
 		@Override
 		public void cast(EntityPlayer player, float x, float y, float z) {
-			player.addPotionEffect(eff);
+			cast(player);
+		}
+		
+		public void cast(EntityLiving el){
+			el.addPotionEffect(eff);
 		}
 		
 	}
