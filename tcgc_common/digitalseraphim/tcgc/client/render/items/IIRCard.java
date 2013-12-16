@@ -1,7 +1,5 @@
 package digitalseraphim.tcgc.client.render.items;
 
-import java.lang.reflect.InvocationTargetException;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
@@ -15,7 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
-import net.minecraftforge.common.ForgeHooks;
 
 import org.lwjgl.opengl.GL11;
 
@@ -101,7 +98,7 @@ public class IIRCard implements IItemRenderer {
 		} else {
 			for (int i = 0; i < cards.length; i++) {
 				GL11.glPushMatrix();
-				GL11.glTranslatef(-5f * (cards.length-1) + (i * 10f), (i == sel && cards.length != 1) ? -10f : 0f, -1 + .05f * Math.abs(i - sel)
+				GL11.glTranslatef(-5f * (cards.length-1) + (i * 10f)+16, (i == sel && cards.length != 1) ? -10f : 0f, -1 + .05f * Math.abs(i - sel)
 						+ ((i > sel) ? .025f : 0));
 				renderCardFront(texMan, cards[i]);
 				GL11.glPopMatrix();
