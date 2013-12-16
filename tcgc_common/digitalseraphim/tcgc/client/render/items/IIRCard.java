@@ -5,6 +5,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
@@ -12,6 +13,8 @@ import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
 
+import digitalseraphim.tcgc.core.logic.Card.SummonCard;
+import digitalseraphim.tcgc.core.logic.Card.Type;
 import digitalseraphim.tcgc.core.logic.CardInstance;
 import digitalseraphim.tcgc.items.ItemCard;
 
@@ -212,13 +215,25 @@ public class IIRCard implements IItemRenderer {
 			}
 		}
 
+		if(card.getBaseCard().getType() == Type.SUMMON){
+			SummonCard sCard = (SummonCard)card.getBaseCard();
+			Class<? extends EntityLiving> clazz = sCard.getEntityClassToSummon();
+			
+
+		}
+		
+		
 		EnumRarity cardRarity = card.getBaseCard().getRarity();
 		FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
 		fr.drawString("\u00a7" + Integer.toHexString(cardRarity.rarityColor) + card.getBaseCard().getName(), 0, 0, 0);
 
+		GL11.glPushMatrix();
 		String type = card.getBaseCard().getType().getName();
-		fr.drawString( type, 0, 68, 0);
+		GL11.glScaled(.75, .75, 1);
+		fr.drawString( type, (int)(4*1.3), (int)(70*1.3), 0);
 		
+		
+		GL11.glPopMatrix();
 		int useXP = card.getBaseCard().getUseXPCost();
 		int restoreXP = card.getBaseCard().getRestoreXPCost();
 

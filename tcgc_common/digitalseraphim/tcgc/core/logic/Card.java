@@ -315,6 +315,12 @@ public abstract class Card extends WeightedRandomItem {
 		public void addModCard(ModifierCard modCard) {
 			modCards.add(modCard);
 		}
+
+		
+		public Class<? extends EntityLiving> getEntityClassToSummon() {
+			return toSummon;
+		}
+		
 	}
 
 	public static class BoltAttackCard extends Card {
