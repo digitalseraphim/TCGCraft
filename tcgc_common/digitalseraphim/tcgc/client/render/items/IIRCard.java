@@ -1,15 +1,21 @@
 package digitalseraphim.tcgc.client.render.items;
 
+import java.lang.reflect.InvocationTargetException;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderBlocks;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.client.IItemRenderer;
+import net.minecraftforge.common.ForgeHooks;
 
 import org.lwjgl.opengl.GL11;
 
@@ -215,18 +221,36 @@ public class IIRCard implements IItemRenderer {
 			}
 		}
 
-		if(card.getBaseCard().getType() == Type.SUMMON){
+		if(card.getBaseCard().getType() == Type.SUMMON &&  RenderManager.instance != null && RenderManager.instance.renderEngine != null){
 			SummonCard sCard = (SummonCard)card.getBaseCard();
 			Class<? extends EntityLiving> clazz = sCard.getEntityClassToSummon();
-			
+			Render r = RenderManager.instance.getEntityClassRenderObject(clazz);
 
+			GL11.glPushMatrix();
+			GL11.glTranslatef(48, 64, 0);
+			GL11.glScaled(18, -18, -.1);
+			EntityLiving entity;
+			try {
+				entity = clazz.getConstructor(World.class).newInstance(Minecraft.getMinecraft().theWorld);
+				entity.setPositionAndRotation(0, 0, 0, 90, 0);
+				r.doRender(entity, 0, 0, 0, 0f,0f);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			GL11.glPopMatrix();
+			
 		}
 		
-		
+		GL11.glPushMatrix();
+		GL11.glScaled(.9, .9, 1);
+		GL11.glTranslatef(0,1,0);
 		EnumRarity cardRarity = card.getBaseCard().getRarity();
 		FontRenderer fr = Minecraft.getMinecraft().fontRenderer;
 		fr.drawString("\u00a7" + Integer.toHexString(cardRarity.rarityColor) + card.getBaseCard().getName(), 0, 0, 0);
-
+		GL11.glPopMatrix();
+		
 		GL11.glPushMatrix();
 		String type = card.getBaseCard().getType().getName();
 		GL11.glScaled(.75, .75, 1);
