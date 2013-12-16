@@ -295,6 +295,11 @@ public class ItemCard extends ItemMap {
 		for (int i = 0; i < count; i++) {
 			NBTTagCompound card = root.getCompoundTag(NBT_CARD_BASE + i);
 			cards[i] = CardInstance.fromNBT(card);
+			if(cards[i] == null){
+				i--;
+				count--;
+				root.setInteger(NBT_COUNT, count);
+			}
 		}
 
 		return cards;
@@ -316,7 +321,8 @@ public class ItemCard extends ItemMap {
 	public static CardInstance getCard(ItemStack is, int i) {
 		NBTTagCompound tag = is.getTagCompound();
 		NBTTagCompound cardNBT = tag.getCompoundTag(NBT_CARD_BASE + i);
-		return CardInstance.fromNBT(cardNBT);
+		CardInstance ci = CardInstance.fromNBT(cardNBT);
+		return ci.getBaseCard()==null?null:ci;
 	}
 
 	public static CardInstance getSelectedCard(ItemStack is) {

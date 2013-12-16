@@ -60,9 +60,9 @@ public abstract class Card extends WeightedRandomItem {
 		new BoltAttackCard("FireBolt", 0, 1, 0, 0, 0, 0, EnumRarity.common, EntitySmallFireball.class, 5);
 		new BoltAttackCard("FireBall", 0, 3, 0, 0, 0, 0, EnumRarity.rare, EntityLargeFireball.class, 5, 5);
 		new BoltAttackCard("WitherBall", 0, 3, 0, 0, 0, 0, EnumRarity.rare, EntityWitherSkull.class, 5);
-		//these need to be fixed
-		new BeamAttackCard("WaterStream", 0, 0, 0, 1, 0, 0, EnumRarity.common );
 		new TsunamiCard(0, 0, 0, 3, 0, 0, EnumRarity.rare);
+		//these need to be fixed
+		//new BeamAttackCard("WaterStream", 0, 0, 0, 1, 0, 0, EnumRarity.common );
 
 		new ModifierCard("Heal", 0, 0, 1, 1, 1, 0, EnumRarity.uncommon, new PotionEffect(6,1));
 		new ModifierCard("Haste", 1, 0, 3, 0, 0, 0, EnumRarity.rare, new PotionEffect(3,10*20));

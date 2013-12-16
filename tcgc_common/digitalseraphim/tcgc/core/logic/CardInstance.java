@@ -31,7 +31,11 @@ public class CardInstance {
 	}
 	
 	public static CardInstance fromNBT(NBTTagCompound cardNBT){
-		return new CardInstance(cardNBT);
+		CardInstance ci = new CardInstance(cardNBT);
+		if(ci.baseCard == null){
+			return null;
+		}
+		return ci;
 	}
 
 	public Card getBaseCard() {
