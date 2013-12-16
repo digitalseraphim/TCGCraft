@@ -45,7 +45,7 @@ public class ItemStarterDeck extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		deckIcon = iconRegister.registerIcon("starter_deck"); 
+		deckIcon = iconRegister.registerIcon("tcgc:starter_deck"); 
 	}
 	
 	@Override
@@ -56,4 +56,10 @@ public class ItemStarterDeck extends Item {
 	public static ItemStack createItemStack(){
 		return new ItemStack(TCGCraft.proxy.starterDeck, 1);
 	}
+	
+	@Override
+	public String getItemDisplayName(ItemStack par1ItemStack) {
+		return "Starter Deck";
+	}
+	
 }

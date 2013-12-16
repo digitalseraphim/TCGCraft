@@ -61,11 +61,23 @@ public class ItemCardBooster extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		packIcon = iconRegister.registerIcon("card_pack"); 
+		packIcon = iconRegister.registerIcon("tcgc:card_pack"); 
 	}
 	
 	@Override
 	public Icon getIcon(ItemStack stack, int pass) {
 		return packIcon;
 	}
+	
+	@Override
+	@SideOnly(Side.CLIENT)
+	protected String getIconString() {
+		return "card_pack";
+	}
+	
+	@Override
+	public String getItemDisplayName(ItemStack par1ItemStack) {
+		return "Booster Pack";
+	}
+	
 }

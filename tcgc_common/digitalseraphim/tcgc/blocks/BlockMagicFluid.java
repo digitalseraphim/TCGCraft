@@ -12,7 +12,7 @@ public class BlockMagicFluid extends BlockFluidClassic {
 
 	public BlockMagicFluid(int id, Fluid fluid, Material material) {
 		super(id, fluid, material);
-		setTextureName("water");
+		setTextureName("water_flow");
 	}
 
 	@Override
