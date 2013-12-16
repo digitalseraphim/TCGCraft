@@ -108,26 +108,24 @@ public class IIRCard implements IItemRenderer {
 		tess.startDrawingQuads();
 		tess.setColorOpaque_I(0xffffff);
 		tess.addVertexWithUV((double) (0 - b0), (double) (0 - b0), 0.0D, 0.0D, 0.0D);
-		tess.addVertexWithUV((double) (128 + b0), (double) (0 - b0), 0.0D, 1.0D, 0.0D);
-		tess.addVertexWithUV((double) (128 + b0), (double) (128 + b0), 0.0D, 1.0D, 1.0D);
+		tess.addVertexWithUV((double) (96 + b0), (double) (0 - b0), 0.0D, 1.0D, 0.0D);
+		tess.addVertexWithUV((double) (96 + b0), (double) (128 + b0), 0.0D, 1.0D, 1.0D);
 		tess.addVertexWithUV((double) (0 - b0), (double) (128 + b0), 0.0D, 0.0D, 1.0D);
 		tess.draw();
 	}
 
 	public void renderCardFront(TextureManager texMan, CardInstance card) {
-		texMan.bindTexture(new ResourceLocation("tcgc:textures/items/card_front_base.png"));
+		texMan.bindTexture(new ResourceLocation("tcgc:textures/items/cards2.png"));
 		Tessellator tess = Tessellator.instance;
 		byte b0 = 7;
 
 		tess.startDrawingQuads();
 		tess.setColorOpaque_I(0xffffff);
-		tess.addVertexWithUV((double) (0 - b0), (double) (128 + b0), 0.0D, 0.0D, 1.0D);
-		tess.addVertexWithUV((double) (128 + b0), (double) (128 + b0), 0.0D, 1.0D, 1.0D);
-		tess.addVertexWithUV((double) (128 + b0), (double) (0 - b0), 0.0D, 1.0D, 0.0D);
-		tess.addVertexWithUV((double) (0 - b0), (double) (0 - b0), 0.0D, 0.0D, 0.0D);
+		tess.addVertexWithUV((double) (00 - b0), (double) (128 + b0), 0.0D, 0.00, 1.0);
+		tess.addVertexWithUV((double) (96 + b0), (double) (128 + b0), 0.0D, 0.75, 1.0);
+		tess.addVertexWithUV((double) (96 + b0), (double) (000 - b0), 0.0D, 0.75, 0.0);
+		tess.addVertexWithUV((double) (00 - b0), (double) (000 - b0), 0.0D, 0.00, 0.0);
 		tess.draw();
-
-		texMan.bindTexture(new ResourceLocation("tcgc:textures/items/manasymbols.png"));
 
 		float xx = 128 - 8 * card.getBaseCard().getTotalCost();
 		float yy = 4;
@@ -140,10 +138,10 @@ public class IIRCard implements IItemRenderer {
 			for (int jj = 0; jj < card.getBaseCard().getEarthCost(); jj++) {
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
-				tess.addVertexWithUV(xx, yy + 8, zz, 0.0D, 1D);
-				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.125D, 1D);
-				tess.addVertexWithUV(xx + 8, yy, zz, 0.125D, 0.0D);
-				tess.addVertexWithUV(xx, yy, zz, 0.0D, 0.0D);
+				tess.addVertexWithUV(xx + 0, yy + 8, zz, 0.750, 0.125);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.875, 0.125);
+				tess.addVertexWithUV(xx + 8, yy + 0, zz, 0.875, 0.000);
+				tess.addVertexWithUV(xx + 0, yy + 0, zz, 0.750, 0.000);
 				tess.draw();
 				xx += 8;
 			}
@@ -153,10 +151,10 @@ public class IIRCard implements IItemRenderer {
 			for (int jj = 0; jj < card.getBaseCard().getFireCost(); jj++) {
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
-				tess.addVertexWithUV(xx, yy + 8, zz, .125D, 1.0D);
-				tess.addVertexWithUV(xx + 8, yy + 8, zz, .25D, 1.0D);
-				tess.addVertexWithUV(xx + 8, yy, zz, .25D, 0.D);
-				tess.addVertexWithUV(xx, yy, zz, .125D, 0.D);
+				tess.addVertexWithUV(xx + 0, yy + 8, zz, 0.875, 0.125);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 1.000, 0.125);
+				tess.addVertexWithUV(xx + 8, yy + 0, zz, 1.000, 0.000);
+				tess.addVertexWithUV(xx + 0, yy + 0, zz, 0.875, 0.000);
 				tess.draw();
 				xx += 8;
 			}
