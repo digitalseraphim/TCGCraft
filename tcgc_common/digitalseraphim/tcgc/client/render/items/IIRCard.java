@@ -127,8 +127,8 @@ public class IIRCard implements IItemRenderer {
 		tess.addVertexWithUV((double) (00 - b0), (double) (000 - b0), 0.0D, 0.00, 0.0);
 		tess.draw();
 
-		float xx = 128 - 8 * card.getBaseCard().getTotalCost();
-		float yy = 4;
+		float xx = 96 - 8 * card.getBaseCard().getTotalCost();
+		float yy = 0;
 		float zz = -.01f;
 
 		GL11.glPushMatrix();
@@ -164,10 +164,10 @@ public class IIRCard implements IItemRenderer {
 			for (int jj = 0; jj < card.getBaseCard().getAirCost(); jj++) {
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
-				tess.addVertexWithUV(xx, yy + 8, zz, 0.25D, 1.0D);
-				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.375D, 1.0D);
-				tess.addVertexWithUV(xx + 8, yy, zz, 0.375D, 0.0D);
-				tess.addVertexWithUV(xx, yy, zz, 0.25D, 0.0D);
+				tess.addVertexWithUV(xx + 0, yy + 8, zz, 0.750, 0.250);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.875, 0.250);
+				tess.addVertexWithUV(xx + 8, yy + 0, zz, 0.875, 0.125);
+				tess.addVertexWithUV(xx + 0, yy + 0, zz, 0.750, 0.125);
 				tess.draw();
 				xx += 8;
 			}
@@ -177,10 +177,10 @@ public class IIRCard implements IItemRenderer {
 			for (int jj = 0; jj < card.getBaseCard().getWaterCost(); jj++) {
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
-				tess.addVertexWithUV(xx, yy + 8, zz, 0.375D, 1D);
-				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.5D, 1D);
-				tess.addVertexWithUV(xx + 8, yy, zz, 0.5D, 0D);
-				tess.addVertexWithUV(xx, yy, zz, 0.375D, 0D);
+				tess.addVertexWithUV(xx + 0, yy + 8, zz, 0.875, 0.250);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 1.000, 0.250);
+				tess.addVertexWithUV(xx + 8, yy + 0, zz, 1.000, 0.125);
+				tess.addVertexWithUV(xx + 0, yy + 0, zz, 0.875, 0.125);
 				tess.draw();
 				xx += 8;
 			}
@@ -190,10 +190,10 @@ public class IIRCard implements IItemRenderer {
 			for (int jj = 0; jj < card.getBaseCard().getOrderCost(); jj++) {
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
-				tess.addVertexWithUV(xx, yy + 8, zz, 0.5D, 1D);
-				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.625D, 1D);
-				tess.addVertexWithUV(xx + 8, yy, zz, 0.625D, 0D);
-				tess.addVertexWithUV(xx, yy, zz, 0.5D, 0D);
+				tess.addVertexWithUV(xx + 0, yy + 8, zz, 0.750, 0.375);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.875, 0.375);
+				tess.addVertexWithUV(xx + 8, yy + 0, zz, 0.875, 0.250);
+				tess.addVertexWithUV(xx + 0, yy + 0, zz, 0.750, 0.250);
 				tess.draw();
 				xx += 8;
 			}
@@ -203,10 +203,10 @@ public class IIRCard implements IItemRenderer {
 			for (int jj = 0; jj < card.getBaseCard().getEntropyCost(); jj++) {
 				tess.startDrawingQuads();
 				tess.setColorOpaque_I(0xffffff);
-				tess.addVertexWithUV(xx, yy + 8, zz, 0.625D, 1D);
-				tess.addVertexWithUV(xx + 8, yy + 8, zz, 0.75D, 1D);
-				tess.addVertexWithUV(xx + 8, yy, zz, 0.75D, 0D);
-				tess.addVertexWithUV(xx, yy, zz, 0.625D, 0D);
+				tess.addVertexWithUV(xx + 0, yy + 8, zz, 0.875, 0.375);
+				tess.addVertexWithUV(xx + 8, yy + 8, zz, 1.000, 0.375);
+				tess.addVertexWithUV(xx + 8, yy + 0, zz, 1.000, 0.250);
+				tess.addVertexWithUV(xx + 0, yy + 0, zz, 0.875, 0.250);
 				tess.draw();
 				xx += 8;
 			}
@@ -221,12 +221,11 @@ public class IIRCard implements IItemRenderer {
 
 		String xpString =useXP + "/" + restoreXP;
 		int width = fr.getStringWidth(xpString);
-	
-		fr.drawString(xpString, 128-width, 121, 0);
+		GL11.glScaled(.625, .625, 1);
+		fr.drawString(xpString, (int)((107-width)*1.6), (int)(124*1.55), 0);
 		
 		zz = -0.02f;
 		if (card.isUsed()) {
-
 			tess.startDrawingQuads();
 			tess.setColorRGBA_I(0x0, 128);
 			tess.addVertex((double) (0 - b0), (double) (128 + b0), zz);
