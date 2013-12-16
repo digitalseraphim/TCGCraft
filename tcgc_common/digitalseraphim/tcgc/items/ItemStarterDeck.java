@@ -45,7 +45,7 @@ public class ItemStarterDeck extends Item {
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		deckIcon = iconRegister.registerIcon("tcgc:textures/items/starter_deck.png"); 
+		deckIcon = iconRegister.registerIcon("starter_deck"); 
 	}
 	
 	@Override
