@@ -8,12 +8,14 @@ import digitalseraphim.tcgc.core.recipes.CardStackRecipes;
 import digitalseraphim.tcgc.core.recipes.StorageBoxRecipes;
 import digitalseraphim.tcgc.items.ItemCard;
 import digitalseraphim.tcgc.items.ItemCardBooster;
+import digitalseraphim.tcgc.items.ItemStarterDeck;
 import digitalseraphim.tcgc.items.ItemStorageBox;
 
 public class CommonProxy {
 	public ItemCard cardItem = null;
 	public ItemCardBooster boosterItem = null;
 	public ItemStorageBox storageBoxItem = null;
+	public ItemStarterDeck starterDeck = null;
 	
 	public void initTileEntities() {
 		//GameRegistry.registerTileEntity(TECardTable.class, TECardTable.NAME);
@@ -35,6 +37,7 @@ public class CommonProxy {
 		GameRegistry.registerItem(cardItem = new ItemCard(ItemIds.CARD_ID), "Card");
 		GameRegistry.registerItem(boosterItem = new ItemCardBooster(ItemIds.BOOSTER_ID), "CardBooster");
 		GameRegistry.registerItem(storageBoxItem = new ItemStorageBox(ItemIds.STORAGE_BOX_ID), "StorageBox");
+		GameRegistry.registerItem(starterDeck = new ItemStarterDeck(ItemIds.STARTER_DECK_ID), "StarterDeck");
 	}
 	
 	public void initRecipes(){

@@ -37,19 +37,24 @@ public class ItemStarterDeck extends Item {
 	
 	@Override
 	public int getItemStackLimit(ItemStack stack) {
-		return 16;
+		return 1;
 	}
 
-	Icon packIcon;
+	Icon deckIcon;
 	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		packIcon = iconRegister.registerIcon("tcgc:textures/items/card_pack.png"); 
+		deckIcon = iconRegister.registerIcon("tcgc:textures/items/starter_deck.png"); 
 	}
 	
 	@Override
 	public Icon getIcon(ItemStack stack, int pass) {
-		return packIcon;
+		return deckIcon;
+	}
+	
+	public static ItemStack createItemStack(){
+		
+		return new ItemStack(TCGCraft.proxy.starterDeck)
 	}
 }
