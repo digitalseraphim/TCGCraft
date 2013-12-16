@@ -1,11 +1,8 @@
 package digitalseraphim.tcgc.items;
 
-import java.util.Random;
-
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
@@ -13,12 +10,8 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import digitalseraphim.tcgc.TCGCraft;
-import digitalseraphim.tcgc.core.logic.Card;
-import digitalseraphim.tcgc.core.logic.CardInstance;
 
 public class ItemStarterDeck extends Item {
-	private int totalNumCards = 15;
-	private int[] numCards = new int[]{8,4,2,1};
 	
 	public ItemStarterDeck(int id) {
 		super(id);
@@ -33,19 +26,10 @@ public class ItemStarterDeck extends Item {
 			return itemStack;
 		}
 
-		CardInstance[] cards = new CardInstance[totalNumCards];
-		int k = 0;
-		Random r = new Random();
+		ItemStack is = new ItemStack(TCGCraft.proxy.boosterItem);
+		is.stackSize=3;
 		
-		for(int i = 0; i < 4; i++){
-			for(int j = 0; j < numCards[i]; j++){
-				cards[k++] = new CardInstance(Card.getRandomCardByRarity(r, EnumRarity.values()[i]));
-			}
-		}
-		
-		itemStack.stackSize--;
-		
-		EntityItem entityItem = player.dropPlayerItem(ItemCard.createItemStack(TCGCraft.proxy.cardItem, cards));
+		EntityItem entityItem = player.dropPlayerItem(is);
         entityItem.delayBeforeCanPickup = 0;
 
         return itemStack;
