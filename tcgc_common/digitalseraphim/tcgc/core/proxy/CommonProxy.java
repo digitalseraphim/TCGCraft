@@ -43,4 +43,5 @@ public class CommonProxy {
 		GameRegistry.addShapedRecipe(new ItemStack(storageBoxItem), "xxx","x x","xxx", 'x', Item.paper);
 	}
 
+	public void doItemRendererHack(){}
 }

@@ -83,6 +83,7 @@ public class TCGCItemRenderer extends ItemRenderer {
 	
 	@Override
 	public void renderItemInFirstPerson(float par1) {
+		System.out.println("I MADE THIS!");
 		EntityClientPlayerMP player = Minecraft.getMinecraft().thePlayer;
 		ItemStack item = player.getCurrentEquippedItem();
 		if(item.getItem() instanceof ItemCard){
