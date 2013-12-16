@@ -59,22 +59,23 @@ public abstract class Card extends WeightedRandomItem {
 
 		new BoltAttackCard("FireBolt", 0, 1, 0, 0, 0, 0, EnumRarity.common, EntitySmallFireball.class, 5);
 		new BoltAttackCard("FireBall", 0, 3, 0, 0, 0, 0, EnumRarity.rare, EntityLargeFireball.class, 5, 5);
-		new BoltAttackCard("WitherBall", 0, 3, 0, 0, 0, 0, EnumRarity.rare, EntityWitherSkull.class, 5);
+		new BoltAttackCard("WitherBall", 0, 0, 0, 0, 0, 3, EnumRarity.rare, EntityWitherSkull.class, 5);
 		new TsunamiCard(0, 0, 0, 3, 0, 0, EnumRarity.rare);
-		//these need to be fixed
-		//new BeamAttackCard("WaterStream", 0, 0, 0, 1, 0, 0, EnumRarity.common );
+		// these need to be fixed
+		// new BeamAttackCard("WaterStream", 0, 0, 0, 1, 0, 0, EnumRarity.common
+		// );
 
-		new ModifierCard("Heal", 0, 0, 1, 1, 1, 0, EnumRarity.uncommon, new PotionEffect(6,1));
-		new ModifierCard("Haste", 1, 0, 3, 0, 0, 0, EnumRarity.rare, new PotionEffect(3,10*20));
-		new ModifierCard("Speed", 0, 0, 3, 1, 0, 0, EnumRarity.rare, new PotionEffect(1,10*20));
-		new ModifierCard("Jump", 1, 0, 3, 0, 0, 0, EnumRarity.rare, new PotionEffect(8,10*20));
-		new ModifierCard("Strength", 0, 0, 3, 1, 0, 0, EnumRarity.rare, new PotionEffect(5,10*20));
-		new ModifierCard("Heal", 0, 0, 1, 1, 1, 0, EnumRarity.rare, new PotionEffect(10,5*20));
-		new ModifierCard("Resistence", 2, 0, 0, 0, 2, 0, EnumRarity.rare, new PotionEffect(11,10*20));
-		new ModifierCard("Fire Resistence", 0, 3, 0, 3, 0, 0, EnumRarity.rare, new PotionEffect(12,10*20));
-		new ModifierCard("Water Breathing", 0, 0, 3, 3, 0, 0, EnumRarity.rare, new PotionEffect(13,10*20));
-		new ModifierCard("Invisibility", 0, 0, 3, 3, 0, 0, EnumRarity.rare, new PotionEffect(14,10*20));
-		new ModifierCard("Night Vision", 0, 0, 3, 3, 0, 0, EnumRarity.rare, new PotionEffect(16,10*20));
+		new ModifierCard("Heal", 0, 0, 1, 1, 1, 0, EnumRarity.uncommon, new PotionEffect(6, 1));
+		new ModifierCard("Haste", 1, 0, 3, 0, 0, 0, EnumRarity.rare, new PotionEffect(3, 10 * 20));
+		new ModifierCard("Speed", 0, 0, 3, 1, 0, 0, EnumRarity.rare, new PotionEffect(1, 10 * 20));
+		new ModifierCard("Jump", 1, 0, 3, 0, 0, 0, EnumRarity.rare, new PotionEffect(8, 10 * 20));
+		new ModifierCard("Strength", 0, 0, 3, 1, 0, 0, EnumRarity.rare, new PotionEffect(5, 10 * 20));
+		new ModifierCard("Heal", 0, 0, 1, 1, 1, 0, EnumRarity.rare, new PotionEffect(10, 5 * 20));
+		new ModifierCard("Resistence", 2, 0, 0, 0, 2, 0, EnumRarity.rare, new PotionEffect(11, 10 * 20));
+		new ModifierCard("Fire Resistence", 0, 3, 0, 3, 0, 0, EnumRarity.rare, new PotionEffect(12, 10 * 20));
+		new ModifierCard("Water Breathing", 0, 0, 3, 3, 0, 0, EnumRarity.rare, new PotionEffect(13, 10 * 20));
+		new ModifierCard("Invisibility", 0, 0, 3, 3, 0, 0, EnumRarity.rare, new PotionEffect(14, 10 * 20));
+		new ModifierCard("Night Vision", 0, 0, 3, 3, 0, 0, EnumRarity.rare, new PotionEffect(16, 10 * 20));
 
 		new SummonCard("SnowGolem", 0, 0, 2, 2, 2, 0, EnumRarity.rare, EntitySnowman.class);
 		new SummonCard("IronGolem", 2, 2, 0, 0, 2, 0, EnumRarity.epic, EntityIronGolem.class);
@@ -90,7 +91,7 @@ public abstract class Card extends WeightedRandomItem {
 
 	public Card(String name, Type t, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
 			int entropyCost, EnumRarity rarity) {
-		super((rarity.ordinal()+1) * 5);
+		super((rarity.ordinal() + 1) * 5);
 		this.name = name;
 		this.type = t;
 		this.rarity = rarity;
@@ -285,7 +286,7 @@ public abstract class Card extends WeightedRandomItem {
 		private Class<? extends EntityLiving> toSummon;
 
 		private Vector<ModifierCard> modCards = new Vector<ModifierCard>();
-		
+
 		public SummonCard(String name, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
 				int entropyCost, EnumRarity rarity, Class<? extends EntityLiving> toSummon) {
 			super(name, Type.SUMMON, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
@@ -294,15 +295,15 @@ public abstract class Card extends WeightedRandomItem {
 
 		@Override
 		public void cast(EntityPlayer player, float x, float y, float z) {
-			if(player.worldObj.isRemote){
+			if (player.worldObj.isRemote) {
 				return;
 			}
 			try {
 				EntityLiving ent = toSummon.getConstructor(World.class).newInstance(player.worldObj);
 				ent.setPosition(x, y + 1, z);
 				player.worldObj.spawnEntityInWorld(ent);
-				
-				for(ModifierCard modCard: modCards){
+
+				for (ModifierCard modCard : modCards) {
 					modCard.cast(ent);
 				}
 			} catch (Exception e) {
@@ -310,19 +311,20 @@ public abstract class Card extends WeightedRandomItem {
 				e.printStackTrace();
 			}
 		}
-		
-		public void addModCard(ModifierCard modCard){
+
+		public void addModCard(ModifierCard modCard) {
 			modCards.add(modCard);
 		}
 	}
 
-	public static class BoltAttackCard extends Card{
+	public static class BoltAttackCard extends Card {
 		Class<? extends EntityFireball> projectileClass;
 		private double velocity;
 		private int explosionStrenth = -1;
-		
+
 		public BoltAttackCard(String name, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
-				int entropyCost, EnumRarity rarity, Class<? extends EntityFireball> projectileClass, double velocity, int explosionStrength) {
+				int entropyCost, EnumRarity rarity, Class<? extends EntityFireball> projectileClass, double velocity,
+				int explosionStrength) {
 			super(name, Type.SPELL, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
 			this.projectileClass = projectileClass;
 			this.velocity = velocity;
@@ -341,13 +343,15 @@ public abstract class Card extends WeightedRandomItem {
 			Vec3 v = player.getLookVec();
 			Constructor<? extends EntityFireball> con;
 			try {
-				con = projectileClass.getConstructor(World.class, EntityLivingBase.class, double.class, double.class, double.class);
-				EntityFireball proj = con.newInstance(player.worldObj, player, velocity*v.xCoord, velocity*v.yCoord, velocity*v.zCoord);
+				con = projectileClass.getConstructor(World.class, EntityLivingBase.class, double.class, double.class,
+						double.class);
+				EntityFireball proj = con.newInstance(player.worldObj, player, velocity * v.xCoord,
+						velocity * v.yCoord, velocity * v.zCoord);
 				proj.posX = player.posX + v.xCoord * 1;
-				proj.posY = player.posY + (double)(player.height / 2.0F) + 0.5D;
+				proj.posY = player.posY + (double) (player.height / 2.0F) + 0.5D;
 				proj.posZ = player.posZ + v.zCoord * 1;
-				if(proj instanceof EntityLargeFireball && this.explosionStrenth > 0){
-					((EntityLargeFireball)proj).field_92057_e = this.explosionStrenth;
+				if (proj instanceof EntityLargeFireball && this.explosionStrenth > 0) {
+					((EntityLargeFireball) proj).field_92057_e = this.explosionStrenth;
 				}
 				player.worldObj.spawnEntityInWorld(proj);
 			} catch (Exception e) {
@@ -356,11 +360,11 @@ public abstract class Card extends WeightedRandomItem {
 			}
 		}
 	}
-	
-	public static class BeamAttackCard extends Card{
 
-		public BeamAttackCard(String name, int earthCost, int fireCost, int airCost, int waterCost,
-				int orderCost, int entropyCost, EnumRarity rarity) {
+	public static class BeamAttackCard extends Card {
+
+		public BeamAttackCard(String name, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
+				int entropyCost, EnumRarity rarity) {
 			super(name, Type.SPELL, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
 			// TODO Auto-generated constructor stub
 		}
@@ -368,52 +372,52 @@ public abstract class Card extends WeightedRandomItem {
 		@Override
 		public void cast(EntityPlayer player, float x, float y, float z) {
 			// TODO Auto-generated method stub
-			
-		}
-		
-	}
-	
-	public static class TsunamiCard extends Card{
 
-		public TsunamiCard(int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
-				int entropyCost, EnumRarity rarity) {
+		}
+
+	}
+
+	public static class TsunamiCard extends Card {
+
+		public TsunamiCard(int earthCost, int fireCost, int airCost, int waterCost, int orderCost, int entropyCost,
+				EnumRarity rarity) {
 			super("Tsunami", Type.SPELL, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
 			// TODO Auto-generated constructor stub
 		}
 
 		@Override
 		public void cast(EntityPlayer player, float x, float y, float z) {
-			int px = (int)(player.posX-.5);
-			int py = (int)(player.posY);
-			int pz = (int)(player.posZ-.5);
-			
-			for(int i = -5; i <= 5; i++){
-				for(int j = -5; j <= 5; j++){
-					if(i == 0 && j == 0){
+			int px = (int) (player.posX - .5);
+			int py = (int) (player.posY);
+			int pz = (int) (player.posZ - .5);
+
+			for (int i = -5; i <= 5; i++) {
+				for (int j = -5; j <= 5; j++) {
+					if (i == 0 && j == 0) {
 						continue;
 					}
 					int md = Math.abs(i) + Math.abs(j);
-					if(md > 5){
+					if (md > 5) {
 						continue;
 					}
-					int bid = player.worldObj.getBlockId((int)px + i, (int)py, (int)pz+j);
+					int bid = player.worldObj.getBlockId((int) px + i, (int) py, (int) pz + j);
 					System.out.println("bid = " + bid);
 					Block b = Block.blocksList[bid];
-					
-					if(b==null || b.isBlockReplaceable(player.worldObj, px + i, py, pz+j)){
-						player.worldObj.setBlock(px + i, py, pz+j, BlockIDs.MAGIC_FLOWING_WATER_ID, md, 7);
+
+					if (b == null || b.isBlockReplaceable(player.worldObj, px + i, py, pz + j)) {
+						player.worldObj.setBlock(px + i, py, pz + j, BlockIDs.MAGIC_FLOWING_WATER_ID, md, 7);
 					}
 				}
 			}
 		}
-		
+
 	}
 
-	public static class ModifierCard extends Card{
+	public static class ModifierCard extends Card {
 		private PotionEffect eff;
-		
-		public ModifierCard(String name, int earthCost, int fireCost, int airCost, int waterCost,
-				int orderCost, int entropyCost, EnumRarity rarity, PotionEffect eff) {
+
+		public ModifierCard(String name, int earthCost, int fireCost, int airCost, int waterCost, int orderCost,
+				int entropyCost, EnumRarity rarity, PotionEffect eff) {
 			super(name, Type.MODIFIER, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
 			this.eff = eff;
 		}
@@ -423,11 +427,11 @@ public abstract class Card extends WeightedRandomItem {
 			System.out.println("casting effect on player");
 			cast(player);
 		}
-		
-		public void cast(EntityLivingBase el){
+
+		public void cast(EntityLivingBase el) {
 			el.addPotionEffect(new PotionEffect(eff));
 		}
-		
+
 	}
 
 }
