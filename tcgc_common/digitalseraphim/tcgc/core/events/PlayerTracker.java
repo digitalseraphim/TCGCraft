@@ -26,25 +26,20 @@ public class PlayerTracker implements IPlayerTracker {
 			EntityItem ei = player.dropPlayerItem(ItemStarterDeck.createItemStack());
 			ei.delayBeforeCanPickup = 0;
 		}
-		
 	}
 
 	@Override
 	public void onPlayerLogout(EntityPlayer player) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onPlayerChangedDimension(EntityPlayer player) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void onPlayerRespawn(EntityPlayer player) {
-		// TODO Auto-generated method stub
 
 	}
-
 }

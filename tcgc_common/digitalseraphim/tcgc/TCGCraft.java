@@ -1,6 +1,7 @@
 package digitalseraphim.tcgc;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -9,8 +10,10 @@ import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.registry.GameRegistry;
 import digitalseraphim.tcgc.blocks.ModBlocks;
 import digitalseraphim.tcgc.core.commands.CardCommand;
+import digitalseraphim.tcgc.core.events.PlayerTracker;
 import digitalseraphim.tcgc.core.helpers.Strings;
 import digitalseraphim.tcgc.core.network.PacketHandler;
 import digitalseraphim.tcgc.core.proxy.CommonProxy;
@@ -28,9 +31,13 @@ public class TCGCraft {
 
 	public static CreativeTabs tabsTCGC = new CreativeTabTCGC();
 
+	private PlayerTracker playerTracker;
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
-
+		playerTracker = new PlayerTracker();
+		GameRegistry.registerPlayerTracker(playerTracker);
+		MinecraftForge.EVENT_BUS.register(playerTracker);
 	}
 
 	@EventHandler

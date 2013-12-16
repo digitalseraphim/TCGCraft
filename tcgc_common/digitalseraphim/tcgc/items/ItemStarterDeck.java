@@ -54,7 +54,6 @@ public class ItemStarterDeck extends Item {
 	}
 	
 	public static ItemStack createItemStack(){
-		
-		return new ItemStack(TCGCraft.proxy.starterDeck)
+		return new ItemStack(TCGCraft.proxy.starterDeck, 1);
 	}
 }
