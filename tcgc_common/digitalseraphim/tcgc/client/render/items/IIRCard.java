@@ -16,25 +16,15 @@ import net.minecraftforge.client.IItemRenderer;
 
 import org.lwjgl.opengl.GL11;
 
-import digitalseraphim.tcgc.TCGCraft;
-import digitalseraphim.tcgc.core.hacks.TCGCItemRenderer;
 import digitalseraphim.tcgc.core.logic.Card.SummonCard;
 import digitalseraphim.tcgc.core.logic.Card.Type;
 import digitalseraphim.tcgc.core.logic.CardInstance;
 import digitalseraphim.tcgc.items.ItemCard;
 
 public class IIRCard implements IItemRenderer {
-
-	boolean hasAppliedHack = false;
 	
 	@Override
 	public boolean handleRenderType(ItemStack item, ItemRenderType type) {
-		System.out.println("itemRenderer = " + RenderManager.instance.itemRenderer);
-		
-		if(!hasAppliedHack || RenderManager.instance.itemRenderer == null || !(RenderManager.instance.itemRenderer instanceof TCGCItemRenderer)){
-			TCGCraft.proxy.doItemRendererHack();
-			hasAppliedHack = true;
-		}
 		return item.getItem() instanceof ItemCard;
 	}
 
