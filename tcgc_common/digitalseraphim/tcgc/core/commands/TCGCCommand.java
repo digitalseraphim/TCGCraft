@@ -6,7 +6,7 @@ import java.util.Map;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatMessageComponent;
@@ -62,7 +62,7 @@ public class TCGCCommand extends CommandBase {
 
 	@Override
 	public String getCommandUsage(ICommandSender icommandsender) {
-		return "commands.tcgc.usage";
+		return "See /tcgc help";
 	}
 
 	enum Commands {
@@ -84,7 +84,7 @@ public class TCGCCommand extends CommandBase {
 		}
 	}
 	
-	private boolean isOP(ICommandSender ics){
+	private boolean isOp(ICommandSender ics){
 		return MinecraftServer.getServer().getConfigurationManager().getOps().contains(ics.getPlayerCoordinates());
 	}
 	
@@ -107,22 +107,53 @@ public class TCGCCommand extends CommandBase {
 					}
 				}
 			case Card:
-				ics.
-				
-				
+				if(!isOp(ics)){
+					sendMessage(ics, new String[]{"You must be OP to use this command"});
+				}else{
+					// args are -/1:[player] 1/2:cardname 2/3:[count]
+					EntityPlayer player;
+					int count;
+					String cardName;
+					try{
+						if(args.length == 3){
+							try{
+								count = Integer.parseInt(args[2]);
+								player = (EntityPlayer)ics;
+								cardName = args[1];
+							}catch(NumberFormatException nfe){
+								//this means its probably "player cardname"
+								player = getPlayer(ics, args[1]);
+								count = 1;
+								cardName = args[3];
+							}
+						}else if(args.length == 4){
+							//all the things
+							player = getPlayer(ics, args[1]);
+							cardName = args[2];
+							count = Integer.parseInt(args[3]);
+						}else{
+							sendMessage(ics, new String[]{"There was an error processing your command"});
+							return;
+						}
+						
+						Map<String, Card> cards = Card.getAllCards();
+						
+						if(!cards.containsKey(cardName)){
+							sendMessage(ics, new String[]{"No such card found"});
+							return;
+						}
+
+						ItemStack itemStack = ItemCard.createItemStack(TCGCraft.proxy.cardItem,
+								new CardInstance[] { new CardInstance(Card.getAllCards().get(cardName)) });
+						itemStack.stackSize = count;
+						
+						EntityItem entityItem = player.dropPlayerItem(itemStack);
+						entityItem.delayBeforeCanPickup = 0;
+					}catch(Exception e){
+						sendMessage(ics, new String[]{"There was an error processing your command"});
+					}
+				}
 			}
-
-		}
-
-		if (args.length >= 2) {
-			EntityPlayerMP entityplayermp = getPlayer(icommandsender, args[0]);
-
-			ItemStack itemStack = ItemCard.createItemStack(TCGCraft.proxy.cardItem,
-					new CardInstance[] { new CardInstance(Card.getAllCards().get(args[1])) });
-
-			EntityItem entityItem = entityplayermp.dropPlayerItem(itemStack);
-			entityItem.delayBeforeCanPickup = 0;
 		}
 	}
-
 }
