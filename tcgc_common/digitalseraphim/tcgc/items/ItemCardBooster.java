@@ -2,16 +2,12 @@ package digitalseraphim.tcgc.items;
 
 import java.util.Random;
 
-import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumRarity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import digitalseraphim.tcgc.TCGCraft;
 import digitalseraphim.tcgc.core.logic.Card;
 import digitalseraphim.tcgc.core.logic.CardInstance;
@@ -23,6 +19,7 @@ public class ItemCardBooster extends Item {
 	public ItemCardBooster(int id) {
 		super(id);
 		setCreativeTab(TCGCraft.tabsTCGC);
+		setTextureName("tcgc:card_pack");
 	}
 
 	@Override
@@ -56,27 +53,9 @@ public class ItemCardBooster extends Item {
 		return 16;
 	}
 
-	Icon packIcon;
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void registerIcons(IconRegister iconRegister) {
-		packIcon = iconRegister.registerIcon("tcgc:card_pack"); 
-	}
-	
-	@Override
-	public Icon getIcon(ItemStack stack, int pass) {
-		return packIcon;
-	}
-	
-	@Override
-	@SideOnly(Side.CLIENT)
-	protected String getIconString() {
-		return "card_pack";
-	}
-	
 	@Override
 	public String getItemDisplayName(ItemStack par1ItemStack) {
+		setTextureName("tcgc:card_pack");
 		return "Booster Pack (Right click to open)";
 	}
 	
