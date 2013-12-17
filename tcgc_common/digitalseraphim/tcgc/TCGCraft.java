@@ -1,8 +1,11 @@
 package digitalseraphim.tcgc;
 
+import java.io.File;
+
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.ChestGenHooks;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -16,6 +19,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import digitalseraphim.tcgc.blocks.ModBlocks;
 import digitalseraphim.tcgc.core.commands.TCGCCommand;
 import digitalseraphim.tcgc.core.events.PlayerTracker;
+import digitalseraphim.tcgc.core.helpers.BlockIDs;
+import digitalseraphim.tcgc.core.helpers.ItemIds;
 import digitalseraphim.tcgc.core.helpers.Strings;
 import digitalseraphim.tcgc.core.network.PacketHandler;
 import digitalseraphim.tcgc.core.proxy.CommonProxy;
@@ -35,8 +40,28 @@ public class TCGCraft {
 
 	private PlayerTracker playerTracker;
 	
+	public static Configuration config;
+	
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
+		
+		config = new Configuration(new File(event.getModConfigurationDirectory(), "tcgcraft.cfg"));
+		
+		try{
+			config.load();
+			BlockIDs.CARD_TABLE_ID = config.get("blocks", "card_table", BlockIDs.DEFAULT_CARD_TABLE_ID).getInt();
+			BlockIDs.MAGIC_FLOWING_WATER_ID = config.get("blocks", "magic_flowing_water", BlockIDs.DEFAULT_MAGIC_FLOWING_WATER_ID).getInt();
+		
+			ItemIds.BOOSTER_ID = config.get("items", "booster", ItemIds.DEFAULT_BOOSTER_ID).getInt();
+			ItemIds.CARD_ID = config.get("items", "card", ItemIds.DEFAULT_CARD_ID).getInt();
+			ItemIds.STARTER_DECK_ID = config.get("items", "starter_deck", ItemIds.DEFAULT_STARTER_DECK_ID).getInt();
+			ItemIds.STORAGE_BOX_ID = config.get("items", "storage_box", ItemIds.DEFAULT_STORAGE_BOX_ID).getInt();
+		}finally {
+			if (config.hasChanged()) {
+				config.save();
+			}
+		}
+		
 		playerTracker = new PlayerTracker();
 		GameRegistry.registerPlayerTracker(playerTracker);
 		MinecraftForge.EVENT_BUS.register(playerTracker);
