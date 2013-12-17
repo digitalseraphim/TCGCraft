@@ -28,7 +28,7 @@ public class XPUtils {
 		}
 
 		System.out.println(xp + " xp = level " + (level-2));
-		return level-1;
+		return level-2;
 	}
 	
 	public static int levelToXP(int level){
