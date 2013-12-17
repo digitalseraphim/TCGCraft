@@ -20,7 +20,7 @@ public class TCGCCommand extends CommandBase {
 
 	static {
 		helpOptions.put("", new String[] { "Help contents:", "  [Card] Types", "  [Hand] Management",
-				"  [Prep]aration", "  [Cast]ing", "[Modi]fiers", "[Rest]oring" });
+				"  [Prep]aration", "  [Cast]ing", "  [Modi]fiers", "  [Rest]oring" });
 
 		helpOptions
 				.put("CARD",
@@ -30,7 +30,7 @@ public class TCGCCommand extends CommandBase {
 								"  Summon: These summon various creatures.",
 								"  Modifiers: These can be applied to the player or to an activated summon card (See 'help mod' for more)",
 								"Each card has 2 XP costs, listed at the bottom of the card.  The first is the cost to 'use' the card (see " +
-								"'help prep', and the second is the 'restore' cost (see 'help rest')."});
+								"'help prep'), and the second is the 'restore' cost (see 'help rest')."});
 		helpOptions.put("HAND", new String[] {"Hand Management:", "Hands are a very important aspect of casting.  A hand contains a card to cast, " +
 				"as well as the mana to cast it. To remove a card from a hand, press your 'drop' key while the card is selected in the hand. " +
 				"To add a card, or multiple cards, to a hand, place all of them into a crafting table. (This will change in a later version)"});
@@ -101,11 +101,12 @@ public class TCGCCommand extends CommandBase {
 				}else{
 					String s = args[1].substring(0,4).toUpperCase();
 					if(helpOptions.containsKey(s)){
-						sendMessage(ics, helpOptions.get("s"));
+						sendMessage(ics, helpOptions.get(s));
 					}else{
 						sendMessage(ics, new String[]{"Unknown help topic '"+s+"'"});
 					}
 				}
+				break;
 			case Card:
 				if(!isOp(ics)){
 					sendMessage(ics, new String[]{"You must be OP to use this command"});
@@ -153,7 +154,10 @@ public class TCGCCommand extends CommandBase {
 						sendMessage(ics, new String[]{"There was an error processing your command"});
 					}
 				}
+				break;
 			}
+		}else{
+			sendMessage(ics, new String[]{"Subcommands: 'help' for help, and 'card [player] cardname [count]' to 'cheat' in cards"});
 		}
 	}
 }
