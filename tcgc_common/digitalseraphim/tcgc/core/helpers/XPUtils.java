@@ -16,16 +16,15 @@ public class XPUtils {
 		System.out.println(" total: " + player.experienceTotal);
 		System.out.println(" level: " + player.experienceLevel);
 		System.out.println(" xp   : " + player.experience);
-
 	}
 	
 	public static int xpToLevel(int xp){
 		int level = 0;
-		int toNext = levelToXP(level+1);
+		int toNext = levelToXP(level++);
 		
 		while(xp > toNext){
 			xp -= toNext;
-			toNext = levelToXP(level+1);
+			toNext = levelToXP(level++);
 		}
 		System.out.println(xp + " xp = level " + level);
 		return level;
@@ -38,7 +37,7 @@ public class XPUtils {
 		}else if(level > 15){
 			i =  (int)((1.5*level*level) - (29.5*level) + 360);
 		}else{
-			i =17 * level; 
+			i = 17 * level; 
 		}
 		System.out.println("to get to level " + level + " need " + i + " xp");
 		return i;
