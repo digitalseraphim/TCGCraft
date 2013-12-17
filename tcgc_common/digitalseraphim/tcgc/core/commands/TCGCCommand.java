@@ -10,16 +10,16 @@ import digitalseraphim.tcgc.core.logic.Card;
 import digitalseraphim.tcgc.core.logic.CardInstance;
 import digitalseraphim.tcgc.items.ItemCard;
 
-public class CardCommand extends CommandBase {
+public class TCGCCommand extends CommandBase {
 
 	@Override
 	public String getCommandName() {
-		return "card";
+		return "tcgc";
 	}
 
 	@Override
 	public String getCommandUsage(ICommandSender icommandsender) {
-		return "commands.card.usage";
+		return "commands.tcgc.usage";
 	}
 
 	@Override

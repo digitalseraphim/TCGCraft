@@ -14,7 +14,7 @@ import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameRegistry;
 import digitalseraphim.tcgc.blocks.ModBlocks;
-import digitalseraphim.tcgc.core.commands.CardCommand;
+import digitalseraphim.tcgc.core.commands.TCGCCommand;
 import digitalseraphim.tcgc.core.events.PlayerTracker;
 import digitalseraphim.tcgc.core.helpers.Strings;
 import digitalseraphim.tcgc.core.network.PacketHandler;
@@ -66,6 +66,6 @@ public class TCGCraft {
 	@EventHandler
 	public void serverStarting(FMLServerStartingEvent evt) {
 		System.out.println("REGISTERING COMMAND!!!!");
-		evt.registerServerCommand(new CardCommand());
+		evt.registerServerCommand(new TCGCCommand());
 	}
 }

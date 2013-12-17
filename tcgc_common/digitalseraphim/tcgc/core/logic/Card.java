@@ -316,11 +316,10 @@ public abstract class Card extends WeightedRandomItem {
 			modCards.add(modCard);
 		}
 
-		
 		public Class<? extends EntityLiving> getEntityClassToSummon() {
 			return toSummon;
 		}
-		
+
 	}
 
 	public static class BoltAttackCard extends Card {
@@ -438,26 +437,6 @@ public abstract class Card extends WeightedRandomItem {
 			el.addPotionEffect(new PotionEffect(eff));
 		}
 
-	}
-	
-	public static class InstructionCard extends Card {
-		String instructions = "To cast a spell, first you must prepare a 'hand'.  To prepare a hand, place the card you wish "+
-	"to cast, along with the mana cards necessary to pay for the spell's cost into a crafting table.  If necessary, this can be "+
-				"in multiple steps.  To remove a card from a hand, press your drop key while the card you want is selected.  To select " +
-				"a different card, press your sneak key while scrolling the mouse wheel."; 
-		
-		
-		public InstructionCard(String name, Type t, int earthCost, int fireCost, int airCost, int waterCost,
-				int orderCost, int entropyCost, EnumRarity rarity) {
-			super(name, t, earthCost, fireCost, airCost, waterCost, orderCost, entropyCost, rarity);
-			// TODO Auto-generated constructor stub
-		}
-
-		@Override
-		public void cast(EntityPlayer player, float x, float y, float z) {
-			//does nothing
-		}
-		
 	}
 
 }
