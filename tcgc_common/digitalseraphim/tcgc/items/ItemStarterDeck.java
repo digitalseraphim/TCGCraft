@@ -40,17 +40,11 @@ public class ItemStarterDeck extends Item {
 		return 1;
 	}
 
-	Icon deckIcon;
-	
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerIcons(IconRegister iconRegister) {
-		deckIcon = iconRegister.registerIcon("tcgc:starter_deck"); 
-	}
-	
-	@Override
-	public Icon getIcon(ItemStack stack, int pass) {
-		return deckIcon;
+		iconString = "tcgc:starter_deck";
+		itemIcon = iconRegister.registerIcon("tcgc:starter_deck");
 	}
 	
 	public static ItemStack createItemStack(){
@@ -59,7 +53,9 @@ public class ItemStarterDeck extends Item {
 	
 	@Override
 	public String getItemDisplayName(ItemStack par1ItemStack) {
-		return "Starter Deck";
+		iconString = "tcgc:starter_deck";
+		return "Starter Deck (Right click to open)";
 	}
+	
 	
 }

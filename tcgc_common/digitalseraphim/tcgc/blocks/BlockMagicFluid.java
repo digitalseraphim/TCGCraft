@@ -28,6 +28,4 @@ public class BlockMagicFluid extends BlockFluidClassic {
 			par6Vec3.zCoord=0;			
 		}
 	}
-	
-	
 }

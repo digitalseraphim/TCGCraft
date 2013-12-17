@@ -77,7 +77,9 @@ public class ItemCardBooster extends Item {
 	
 	@Override
 	public String getItemDisplayName(ItemStack par1ItemStack) {
-		return "Booster Pack";
+		return "Booster Pack (Right click to open)";
 	}
+	
+	
 	
 }

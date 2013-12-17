@@ -50,6 +50,7 @@ public class TCGCraft {
 		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CORRIDOR, new WeightedRandomChestContent(proxy.boosterItem.itemID, 1, 1, 2, 5));
 		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CROSSING, new WeightedRandomChestContent(proxy.boosterItem.itemID, 1, 1, 2, 5));
 		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(proxy.boosterItem.itemID, 1, 1, 2, 5));
+		ChestGenHooks.addItem(ChestGenHooks.VILLAGE_BLACKSMITH, new WeightedRandomChestContent(proxy.boosterItem.itemID, 1, 1, 2, 5));
 	}
 
 	@EventHandler
