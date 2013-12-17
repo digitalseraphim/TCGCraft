@@ -8,6 +8,7 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.ChatMessageComponent;
 import digitalseraphim.tcgc.TCGCraft;
 import digitalseraphim.tcgc.core.logic.Card;
@@ -83,6 +84,10 @@ public class TCGCCommand extends CommandBase {
 		}
 	}
 	
+	private boolean isOP(ICommandSender ics){
+		return MinecraftServer.getServer().getConfigurationManager().getOps().contains(ics.getPlayerCoordinates());
+	}
+	
 	@Override
 	public void processCommand(ICommandSender ics, String[] args) {
 
@@ -101,8 +106,10 @@ public class TCGCCommand extends CommandBase {
 						sendMessage(ics, new String[]{"Unknown help topic '"+s+"'"});
 					}
 				}
-				
 			case Card:
+				ics.
+				
+				
 			}
 
 		}
