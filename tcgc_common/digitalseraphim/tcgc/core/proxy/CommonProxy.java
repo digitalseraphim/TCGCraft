@@ -1,7 +1,9 @@
 package digitalseraphim.tcgc.core.proxy;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ChatMessageComponent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import digitalseraphim.tcgc.core.helpers.ItemIds;
 import digitalseraphim.tcgc.core.recipes.CardStackRecipes;
@@ -46,4 +48,12 @@ public class CommonProxy {
 		GameRegistry.addShapedRecipe(new ItemStack(storageBoxItem), "xxx","x x","xxx", 'x', Item.paper);
 	}
 
+
+	public static void sendPlayerMessage(String[] msg) {
+		for (String s : msg) {
+			Minecraft.getMinecraft().thePlayer.sendChatToPlayer(ChatMessageComponent.createFromText(s));
+		}
+	}
+
+	
 }

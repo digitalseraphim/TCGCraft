@@ -15,6 +15,7 @@ import digitalseraphim.tcgc.core.logic.Card.ModifierCard;
 import digitalseraphim.tcgc.core.logic.Card.SummonCard;
 import digitalseraphim.tcgc.core.logic.Card.Type;
 import digitalseraphim.tcgc.core.logic.CardInstance;
+import digitalseraphim.tcgc.core.proxy.CommonProxy;
 
 public class ItemCard extends ItemMap {
 	// can potentially represent a number of cards
@@ -28,6 +29,10 @@ public class ItemCard extends ItemMap {
 		super(id);
 	}
 
+	private static void sendMessage(String s){
+		CommonProxy.sendPlayerMessage(new String[]{s});
+	}
+	
 	@Override
 	public ItemStack onItemRightClick(ItemStack itemStack, World world, EntityPlayer player) {
 		System.out.println("onIRC");
@@ -92,7 +97,7 @@ public class ItemCard extends ItemMap {
 				int playerXP = player.experienceTotal;
 
 				if (t == Type.MANA) {
-					System.out.println("activated item is mana");
+					sendMessage("Cannot cast mana");
 					return super.onItemRightClick(itemStack, world, player);
 				}
 
@@ -108,16 +113,18 @@ public class ItemCard extends ItemMap {
 						}
 						if(ct == Type.SUMMON && c.isActivated()){
 							if(toMod != null){
-								System.out.println("too many activated summon cards");
+								sendMessage("too many activated summon cards");
 								return super.onItemRightClick(itemStack, world, player);
 							}
 							toModIdx = i;
 							toMod = c;
 						}else if(ct == Type.SPELL){
 							//no spells in here!
+							sendMessage("Found a spell in this hand");
 							return super.onItemRightClick(itemStack, world, player);
 						}else if(ct==Type.MODIFIER && !c.isActivated()){
 							//more than one un-activated modifier
+							sendMessage("Too many unactivated modifiers");
 							return super.onItemRightClick(itemStack, world, player);
 						}
 					}
@@ -125,9 +132,11 @@ public class ItemCard extends ItemMap {
 
 				xpCost = cardSel.getBaseCard().getUseXPCost();
 				System.out.println("xpCost = " + xpCost);
+				System.out.println("playerXP = " + playerXP);
 				
 				if (!player.capabilities.isCreativeMode && xpCost > playerXP) {
 					// player doesn't have enough xp
+					sendMessage("Not enough XP");
 					return super.onItemRightClick(itemStack, world, player);
 				}
 
@@ -139,6 +148,7 @@ public class ItemCard extends ItemMap {
 					CardInstance card = cards[i];
 
 					if (!card.isActivated() && card.getBaseCard().getType() != Type.MANA) {
+						sendMessage("???");
 						return super.onItemRightClick(itemStack, world, player);
 					}
 
@@ -149,11 +159,6 @@ public class ItemCard extends ItemMap {
 					}
 				}
 
-				if (!player.capabilities.isCreativeMode && xpCost > playerXP) {
-					// player doesn't have enough xp
-					return super.onItemRightClick(itemStack, world, player);
-				}
-
 				System.out.println("Total mana: " + Arrays.toString(totalMana));
 				System.out.println("cost      : " + Arrays.toString(castCost));
 
@@ -162,6 +167,7 @@ public class ItemCard extends ItemMap {
 				for (int i = 0; i < castCost.length; i++) {
 					if (totalMana[i] < castCost[i]) {
 						System.out.println("cant cast at " + i);
+						sendMessage("Not enough mana");
 						canCast = false;
 						break;
 					}

@@ -8,6 +8,7 @@ public class XPUtils {
 		System.out.println(" total: " + player.experienceTotal);
 		System.out.println(" level: " + player.experienceLevel);
 		System.out.println(" xp   : " + player.experience);
+
 		player.experienceTotal -= xp;
 		player.experienceLevel = xpToLevel(player.experienceTotal);
 		player.experience = player.experienceTotal - levelToXP(player.experienceLevel);
