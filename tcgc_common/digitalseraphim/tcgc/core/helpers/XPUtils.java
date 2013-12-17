@@ -11,7 +11,7 @@ public class XPUtils {
 
 		player.experienceTotal -= xp;
 		player.experienceLevel = xpToLevel(player.experienceTotal);
-		player.experience = player.experienceTotal - levelToXP(player.experienceLevel);
+		player.experience = (float)(player.experienceTotal - levelToXP(player.experienceLevel))/(float)player.xpBarCap();
 
 		System.out.println("after losing " + xp + " xp: ");
 		System.out.println(" total: " + player.experienceTotal);
@@ -20,15 +20,15 @@ public class XPUtils {
 	}
 	
 	public static int xpToLevel(int xp){
-		int level = 0;
+		int level = 1;
 		int toNext = levelToXP(level++);
-		
+		System.out.println("xp in " + xp);
 		while(xp > toNext){
-			xp -= toNext;
 			toNext = levelToXP(level++);
 		}
-		System.out.println(xp + " xp = level " + level);
-		return level;
+
+		System.out.println(xp + " xp = level " + (level-2));
+		return level-1;
 	}
 	
 	public static int levelToXP(int level){

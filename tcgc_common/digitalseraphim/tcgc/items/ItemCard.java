@@ -74,10 +74,16 @@ public class ItemCard extends ItemMap {
 					System.out.println("creative card unlock");
 					cardSel.setUsed(false);
 					changed = true;
-				}else if(playerXP > restoreXP && !cardSel.isLocked()){
+				}else if(playerXP >= restoreXP && !cardSel.isLocked()){
 					XPUtils.subtractXP(player, restoreXP);
 					cardSel.setUsed(false);
 					changed = true;
+				}else{
+					if(playerXP < restoreXP){
+						sendMessage("Not enough XP to restore");
+					}else{
+						sendMessage("Card is locked");
+					}
 				}
 				if(changed){
 					ItemStack tmpItemStack = ItemCard.createItemStack(TCGCraft.proxy.cardItem, cards);
@@ -131,14 +137,7 @@ public class ItemCard extends ItemMap {
 				}
 
 				xpCost = cardSel.getBaseCard().getUseXPCost();
-				System.out.println("xpCost = " + xpCost);
-				System.out.println("playerXP = " + playerXP);
 				
-				if (!player.capabilities.isCreativeMode && xpCost > playerXP) {
-					// player doesn't have enough xp
-					sendMessage("Not enough XP");
-					return super.onItemRightClick(itemStack, world, player);
-				}
 
 				for (int i = 0; i < cards.length; i++) {
 					if (i == sel || i == toModIdx) {
@@ -159,6 +158,13 @@ public class ItemCard extends ItemMap {
 					}
 				}
 
+				System.out.println("xpCost = " + xpCost);
+				System.out.println("playerXP = " + playerXP);
+				if (!player.capabilities.isCreativeMode && xpCost > playerXP) {
+					// player doesn't have enough xp
+					sendMessage("Not enough XP");
+					return super.onItemRightClick(itemStack, world, player);
+				}
 				System.out.println("Total mana: " + Arrays.toString(totalMana));
 				System.out.println("cost      : " + Arrays.toString(castCost));
 
