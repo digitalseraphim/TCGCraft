@@ -45,8 +45,13 @@ public class TCGCCommand extends CommandBase {
 				"in the 'used' state until restored (see 'help rest')."});
 		helpOptions.put("MODI", new String[] {"Modifiers:", "Modifier cards can be used in 2 ways, the first and simple way is to cast them like a " +
 				"normal, undirected spell. This will apply the modifier to the player casting the card. The second is to apply the modifier to an " +
-				"activated summon spell. This causes the summoned creature to have the modifier's effect. "});
-		helpOptions.put("REST", new String[] {});
+				"activated summon spell. This causes the summoned creature to have the modifier's effect. To apply a modifier to a summon spell, first " +
+				"activate the summon spell (see 'help prep').  Next, add the modifier and the mana needed to cast it to the hand containing the activated " +
+				"summon spell.  Now, prepare the modifier.  This will mark it and the mana as 'Used&Locked'.  The modifier has now been applied " +
+				"and will activate on summon."});
+		helpOptions.put("REST", new String[] {"Restoring Cards:", "Once you cast a spell, the spell and all of the mana used to cast it are 'Used' an " +
+				"cannot be re-used until they have been 'restored'.  To restore a card, simply right click with it selected in the hand.  If you have " +
+				"enough XP, the card will be unlocked and will be ready for reuse."});
 	}
 
 	@Override
@@ -72,8 +77,14 @@ public class TCGCCommand extends CommandBase {
 		}
 	}
 
+	private void sendMessage(ICommandSender ics, String[] msg){
+		for(String s: msg){
+			ics.sendChatToPlayer(ChatMessageComponent.createFromText(s));
+		}
+	}
+	
 	@Override
-	public void processCommand(ICommandSender icommandsender, String[] args) {
+	public void processCommand(ICommandSender ics, String[] args) {
 
 		if (args.length > 0) {
 			Commands c = Commands.fromString(args[0]);
@@ -81,9 +92,16 @@ public class TCGCCommand extends CommandBase {
 			switch (c) {
 			case Help:
 				if (args.length == 1) {
-
+					sendMessage(ics, helpOptions.get(""));
+				}else{
+					String s = args[1].substring(0,4).toUpperCase();
+					if(helpOptions.containsKey(s)){
+						sendMessage(ics, helpOptions.get("s"));
+					}else{
+						sendMessage(ics, new String[]{"Unknown help topic '"+s+"'"});
+					}
 				}
-				icommandsender.sendChatToPlayer(ChatMessageComponent.createFromText(""));
+				
 			case Card:
 			}
 
