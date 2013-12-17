@@ -1,6 +1,8 @@
 package digitalseraphim.tcgc;
 
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
@@ -38,6 +40,16 @@ public class TCGCraft {
 		playerTracker = new PlayerTracker();
 		GameRegistry.registerPlayerTracker(playerTracker);
 		MinecraftForge.EVENT_BUS.register(playerTracker);
+
+		proxy.initItems();
+		ChestGenHooks.addItem(ChestGenHooks.DUNGEON_CHEST, new WeightedRandomChestContent(proxy.boosterItem.itemID, 1, 1, 2, 5));
+		ChestGenHooks.addItem(ChestGenHooks.BONUS_CHEST, new WeightedRandomChestContent(proxy.boosterItem.itemID, 1, 1, 2, 5));
+		ChestGenHooks.addItem(ChestGenHooks.MINESHAFT_CORRIDOR, new WeightedRandomChestContent(proxy.boosterItem.itemID, 1, 1, 2, 5));
+		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_DESERT_CHEST, new WeightedRandomChestContent(proxy.boosterItem.itemID, 1, 1, 2, 5));
+		ChestGenHooks.addItem(ChestGenHooks.PYRAMID_JUNGLE_CHEST, new WeightedRandomChestContent(proxy.boosterItem.itemID, 1, 1, 2, 5));
+		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CORRIDOR, new WeightedRandomChestContent(proxy.boosterItem.itemID, 1, 1, 2, 5));
+		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_CROSSING, new WeightedRandomChestContent(proxy.boosterItem.itemID, 1, 1, 2, 5));
+		ChestGenHooks.addItem(ChestGenHooks.STRONGHOLD_LIBRARY, new WeightedRandomChestContent(proxy.boosterItem.itemID, 1, 1, 2, 5));
 	}
 
 	@EventHandler
@@ -47,7 +59,6 @@ public class TCGCraft {
 		proxy.initEventHandlers();
 		proxy.initRenderingAndTextures();
 		proxy.initEntities();
-		proxy.initItems();
 		proxy.initRecipes();
 	}
 
