@@ -8,6 +8,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemMap;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 import digitalseraphim.tcgc.TCGCraft;
 import digitalseraphim.tcgc.core.helpers.XPUtils;
@@ -29,8 +31,8 @@ public class ItemCard extends ItemMap {
 		super();
 	}
 
-	private static void sendMessage(String s){
-		CommonProxy.sendPlayerMessage(new String[]{s});
+	private static void sendMessage(EntityPlayer player, String s){
+		player.addChatMessage(new ChatComponentText(s));
 	}
 	
 	@Override
@@ -77,9 +79,9 @@ public class ItemCard extends ItemMap {
 					changed = true;
 				}else{
 					if(playerXP < restoreXP){
-						sendMessage("Not enough XP to restore");
+						sendMessage(player, "Not enough XP to restore");
 					}else{
-						sendMessage("Card is locked");
+						sendMessage(player, "Card is locked");
 					}
 				}
 				if(changed){
@@ -100,7 +102,7 @@ public class ItemCard extends ItemMap {
 				int playerXP = player.experienceTotal;
 
 				if (t == Type.MANA) {
-					sendMessage("Cannot cast mana");
+					sendMessage(player, "Cannot cast mana");
 					return super.onItemRightClick(itemStack, world, player);
 				}
 
@@ -115,18 +117,18 @@ public class ItemCard extends ItemMap {
 						}
 						if(ct == Type.SUMMON && c.isActivated()){
 							if(toMod != null){
-								sendMessage("too many activated summon cards");
+								sendMessage(player, "too many activated summon cards");
 								return super.onItemRightClick(itemStack, world, player);
 							}
 							toModIdx = i;
 							toMod = c;
 						}else if(ct == Type.SPELL){
 							//no spells in here!
-							sendMessage("Found a spell in this hand");
+							sendMessage(player, "Found a spell in this hand");
 							return super.onItemRightClick(itemStack, world, player);
 						}else if(ct==Type.MODIFIER && !c.isActivated()){
 							//more than one un-activated modifier
-							sendMessage("Too many unactivated modifiers");
+							sendMessage(player, "Too many unactivated modifiers");
 							return super.onItemRightClick(itemStack, world, player);
 						}
 					}
@@ -143,7 +145,7 @@ public class ItemCard extends ItemMap {
 					CardInstance card = cards[i];
 
 					if (!card.isActivated() && card.getBaseCard().getType() != Type.MANA) {
-						sendMessage("???");
+						sendMessage(player, "???");
 						return super.onItemRightClick(itemStack, world, player);
 					}
 
@@ -156,7 +158,7 @@ public class ItemCard extends ItemMap {
 
 				if (!player.capabilities.isCreativeMode && xpCost > playerXP) {
 					// player doesn't have enough xp
-					sendMessage("Not enough XP");
+					sendMessage(player, "Not enough XP");
 					return super.onItemRightClick(itemStack, world, player);
 				}
 
@@ -164,7 +166,7 @@ public class ItemCard extends ItemMap {
 				boolean canCast = true;
 				for (int i = 0; i < castCost.length; i++) {
 					if (totalMana[i] < castCost[i]) {
-						sendMessage("Not enough mana");
+						sendMessage(player, "Not enough mana");
 						canCast = false;
 						break;
 					}

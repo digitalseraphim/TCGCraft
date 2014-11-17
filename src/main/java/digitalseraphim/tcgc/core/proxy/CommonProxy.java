@@ -3,6 +3,7 @@ package digitalseraphim.tcgc.core.proxy;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -48,13 +49,6 @@ public class CommonProxy {
 		GameRegistry.addRecipe(new StorageBoxRecipes());
 		GameRegistry.addRecipe(new CardStackRecipes());
 		GameRegistry.addShapedRecipe(new ItemStack(storageBoxItem), "xxx","x x","xxx", 'x', Item.itemRegistry.getObject("paper"));
-	}
-
-
-	public static void sendPlayerMessage(String[] msg) {
-		for (String s : msg) {
-			Minecraft.getMinecraft().thePlayer.sendChatMessage(s);
-		}
 	}
 
 }
